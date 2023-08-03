@@ -1,0 +1,28 @@
+/* style cho phần footer */
+.footerContainer {
+  background-color: black;
+  color: white;
+  font-style: italic;
+  width: 100%;
+}
+
+.footer {
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 64px 0px;
+  gap: 280px;
+  display: flex;
+}
+.titleList {
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+.footer a {
+  color: rgb(122, 122, 122);
+  font-style: italic;
+  font-size: 14px;
+  letter-spacing: 0px;
+}
+.footer li {
+  padding: 2px 0px;
+}

@@ -1,0 +1,30 @@
+/*Style cho các section trong ShopPage */
+.title {
+  max-width: 1200px;
+  margin: 0px auto;
+  display: flex;
+  background-color: #f8f9fa;
+  align-items: center;
+  padding: 56px;
+  justify-content: space-between;
+  font-style: italic;
+  margin-bottom: 36px;
+}
+.title h2 {
+  font-weight: 500;
+  font-size: 28px;
+  letter-spacing: 1.5px;
+  margin: 0px;
+}
+.title h3 {
+  font-weight: 500;
+  color: #868686;
+  font-size: 14px;
+  margin: 0px;
+}
+.filterSection {
+  max-width: 1200px;
+  margin: 0px auto;
+  display: flex;
+  gap: 28px;
+}

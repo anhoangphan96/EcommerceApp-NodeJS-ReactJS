@@ -1,0 +1,128 @@
+/* Style cho các phần có trong popUp */
+
+.popupChatContainer {
+  position: fixed;
+  bottom: 5%;
+  right: 2%;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  align-items: flex-end;
+}
+.expandContainer {
+  width: 30%;
+}
+.popupChat {
+  width: 100%;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+  margin-right: 48px;
+  height: 55vh;
+}
+.popupChatContainer > i {
+  font-size: 32px;
+  color: white;
+  stroke: black;
+  border-radius: 50%;
+  background-color: black;
+  padding: 12px;
+  cursor: pointer;
+}
+.popupChatContainer > i:hover {
+  opacity: 0.7;
+}
+.popupChat svg {
+  font-size: 32px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+}
+.chatTitleBar {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #dee2e6;
+  height: 12%;
+  align-items: center;
+  padding: 16px;
+}
+.chatTitleBar > h4 {
+  font-size: 16px;
+  margin: 0px;
+  padding-left: 16px;
+  font-style: normal;
+}
+.chatTitleBar > button {
+  margin: 0px;
+  font-style: italic;
+  color: #868e96;
+  background-color: #e9ecef;
+  border: none;
+  padding: 4px 8px;
+  font-size: 12px;
+  transition: background 0.2s ease-in;
+}
+.chatTitleBar > button:hover {
+  color: #e9ecef;
+  background-color: #868e96;
+}
+.chatContent {
+  display: flex;
+  font-style: italic;
+  flex-direction: column;
+  gap: 16px;
+  height: 76%;
+  font-size: 14px;
+  padding: 8px 112px 8px 12px;
+  overflow: auto;
+}
+.chatContent span {
+  padding: 8px 8px;
+}
+
+.themChatSection {
+  display: flex;
+  gap: 16px;
+}
+
+.me {
+  align-self: flex-end;
+  border-radius: 2px;
+  background-color: #4dabf7;
+  color: #e9ecef;
+  max-width: 80%;
+}
+.them {
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  color: #868e96;
+  max-width: 80%;
+}
+.inputChatContainer {
+  display: flex;
+  background-color: #f8f9fa;
+  gap: 16px;
+  padding: 8px 112px 8px 12px;
+  height: 12%;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  width: 100%;
+  align-items: center;
+}
+.inputChat {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+.inputChat > input {
+  border: none;
+  font-style: normal;
+  width: 70%;
+  padding: 4px;
+}
+.inputChat i {
+  color: #bcbebf;
+  cursor: pointer;
+}
+.iconSend {
+  color: #4dabf7 !important;
+}

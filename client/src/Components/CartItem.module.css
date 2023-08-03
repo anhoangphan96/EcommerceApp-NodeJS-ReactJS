@@ -1,0 +1,35 @@
+/* Styles cho các phần có trong CartItem để hiển thị theo đúng yêu cầu đề bài */
+
+.imageProduct {
+  width: 15%;
+}
+.imageProduct img {
+  width: 100%;
+}
+.nameProduct {
+  font-size: 20px;
+  font-weight: 500;
+  width: 30%;
+  padding: 36px;
+}
+.priceProduct {
+  font-weight: 400;
+  color: #868e96;
+}
+.quantityProduct {
+  font-style: normal;
+  font-weight: 400;
+}
+.quantityProduct > i {
+  padding: 0px 12px;
+  cursor: pointer;
+}
+.removeProduct {
+  color: #868e96;
+  cursor: pointer;
+}
+.removeProduct > i:hover {
+  background-color: black;
+  color: white;
+  padding: 4px;
+}

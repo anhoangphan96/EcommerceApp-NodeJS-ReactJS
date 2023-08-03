@@ -1,0 +1,39 @@
+/* Style cho phần item list type */
+.container {
+  max-width: 1200px;
+  margin: 32px auto;
+}
+.header {
+  text-align: center;
+  font-style: italic;
+  padding: 18px 0px 14px 0px;
+}
+.header > h2 {
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 1.5px;
+  margin: 0px;
+}
+.header > h3 {
+  font-weight: 450;
+  color: #c8c8c8;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin: 0px;
+}
+.listItemType {
+  width: 100%;
+  display: flex;
+  padding: 14px 0px;
+  gap: 28px;
+}
+.listItemType > img {
+  width: 100%;
+  opacity: 1;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in;
+}
+
+.listItemType > img:hover {
+  opacity: 0.5;
+}

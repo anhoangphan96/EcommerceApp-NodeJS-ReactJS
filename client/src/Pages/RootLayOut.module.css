@@ -1,0 +1,13 @@
+/* Style khi chuyển giữa các trang trên navbar sẽ hiển thị ,,,isLoading cho user */
+
+.loadingMessage {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 500;
+  color: #6e6f71;
+  margin: 36px 0px;
+  width: 100%;
+}

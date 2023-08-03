@@ -1,0 +1,61 @@
+/* Style cho phần Cart total price */
+
+.container {
+  width: 30%;
+  background-color: #f8f9fa;
+  padding: 36px 44px;
+}
+.container > h3 {
+  margin: 0px 0px 24px 0px;
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+.container > h4 {
+  color: #495057;
+  letter-spacing: 1px;
+  font-weight: 500;
+  margin: 0px;
+  display: flex;
+  justify-content: space-between;
+}
+.container > h4 > span {
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+.subTotal {
+  border-bottom: 1.5px solid #ced4da;
+  padding-bottom: 8px;
+}
+.subTotal > span {
+  font-size: 14px;
+  color: #868e96;
+}
+.total {
+  padding: 8px 0px;
+}
+.container > input {
+  font-style: normal;
+  width: 100%;
+  display: block;
+  padding: 10px 16px;
+  border: 1.5px solid#ced4da;
+  margin-top: 20px;
+}
+.container > input::placeholder {
+  color: #adb5bd;
+}
+.container > button {
+  font-style: normal;
+  width: 100%;
+  display: block;
+  border: none;
+  font-size: 14px;
+  padding: 10px 24px;
+  color: #dee2e6;
+  background-color: rgb(49, 49, 49);
+  cursor: pointer;
+}
+.container > button > i {
+  padding-right: 8px;
+}

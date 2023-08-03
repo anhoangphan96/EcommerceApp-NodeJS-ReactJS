@@ -1,0 +1,18 @@
+/*Style cho phần Orderprice Item của user */
+.productPrice {
+  display: flex;
+  width: 100%;
+  border-bottom: 1.5px solid #ced4da;
+  padding: 12px 0px;
+  justify-content: space-between;
+}
+.productName {
+  width: 60%;
+  font-weight: 500;
+}
+.productTotalPrice {
+  width: 40%;
+  font-size: 14px;
+  color: #868e96;
+  text-align: right;
+}

@@ -1,0 +1,30 @@
+/* Styke cho phần Total Order information của user */
+.container {
+  width: 34%;
+  background-color: #f8f9fa;
+  padding: 36px 44px;
+}
+
+.container > h3 {
+  margin: 0px 0px 18px 0px;
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+.container > ul {
+  margin: 0px;
+}
+
+.finalPrice {
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin: 12px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+.totalprice {
+  font-weight: 400;
+  font-size: 18px;
+  color: #5c646d;
+  letter-spacing: 0px;
+}

@@ -1,0 +1,62 @@
+/*Style cho các thành phần có trong Product List */
+.productListContainer {
+  width: 80%;
+}
+.productList {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 28px 14px;
+}
+.addtionalFilter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 16px 0px;
+}
+.addtionalFilter > input {
+  padding: 8px 16px;
+  width: 30%;
+  color: #212529;
+  border: 2px solid #e9ecef;
+}
+.addtionalFilter > input::placeholder {
+  color: #868e96;
+}
+.addtionalFilter > select {
+  width: 15%;
+}
+/*Style cho thanh pagination điều hướng chuyển trang*/
+.pagination {
+  margin: 24px 0px;
+}
+.paginationButtons {
+  height: 32px;
+  display: flex;
+  justify-content: flex-end;
+}
+.paginationButtons i {
+  font-size: 8px;
+}
+.pageNumber {
+  border: none;
+  color: #e9ecef;
+  background-color: black;
+  border: 2px solid black;
+  padding: 0px 10px;
+  cursor: pointer;
+}
+.navigate {
+  border: none;
+  border: 2px solid #e9ecef;
+  background-color: white;
+  width: 32px;
+  cursor: pointer;
+}
+.pagination > p {
+  text-align: end;
+  margin: 6px 0px;
+  font-weight: 400;
+  color: rgb(160, 160, 160);
+  font-style: italic;
+  font-size: 14px;
+}

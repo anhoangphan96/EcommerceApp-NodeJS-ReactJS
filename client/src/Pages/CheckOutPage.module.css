@@ -1,0 +1,45 @@
+/* style cho các section có trong checkout page */
+.title {
+  max-width: 1200px;
+  margin: 0px auto;
+  display: flex;
+  background-color: #f8f9fa;
+  align-items: center;
+  padding: 56px;
+  justify-content: space-between;
+  font-style: italic;
+  margin-bottom: 36px;
+}
+.title h2 {
+  font-weight: 500;
+  font-size: 28px;
+  letter-spacing: 1.7px;
+  margin: 0px;
+}
+.title h4 {
+  font-weight: 500;
+  color: #afb0b2;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin: 0px;
+}
+.title h4 > span {
+  color: black;
+}
+.checkOutContainer {
+  max-width: 1200px;
+  margin: 0px auto;
+  font-style: italic;
+}
+.checkOutContainer h3 {
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+.checkOutInfor {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 48px;
+  align-items: flex-start;
+}

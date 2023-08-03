@@ -1,0 +1,40 @@
+/*Style cho phần navbar product trong trang Shop Page*/
+.container {
+  width: 20%;
+  font-style: italic;
+}
+.container > h2 {
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 1.5px;
+}
+.container > h3 {
+  background-color: black;
+  color: rgb(160, 160, 160);
+  font-weight: 500;
+  padding: 8px 16px;
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+.container > h4 {
+  background-color: #f8f9fa;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+}
+.container > h5 {
+  cursor: pointer;
+  padding: 8px 16px;
+  margin: 0;
+  font-weight: 400;
+  color: rgb(160, 160, 160);
+}
+.container > h5:hover {
+  color: #fcc419;
+}
+.container > .isActive {
+  color: #fcc419;
+}

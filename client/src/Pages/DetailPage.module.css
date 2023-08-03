@@ -1,0 +1,145 @@
+/*Style cho các phần có trong detail page */
+.container {
+  max-width: 1200px;
+  margin: 32px auto;
+}
+.displayProduct {
+  display: flex;
+  align-items: flex-start;
+}
+.productImages {
+  width: 10%;
+}
+.productImages > img {
+  cursor: pointer;
+  width: 90%;
+}
+.pictureZoomOut {
+  width: 40%;
+  padding-right: 48px;
+}
+.productImages > img:hover {
+  border: 2px solid #fcc419;
+}
+.productDetail {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-style: italic;
+}
+.productDetail h3 {
+  font-weight: 500;
+  font-size: 42px;
+  margin: 16px 0px;
+}
+.productDetail h4 {
+  font-size: 24px;
+  font-weight: normal;
+  color: #9ba3ac;
+  margin: 16px 0px;
+}
+.productDetail h5 {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin: 16px 0px;
+  font-size: 18px;
+}
+.productDetail > h5 > span {
+  font-size: 16px;
+  font-weight: 400;
+  color: #868e96;
+}
+.productDetail p {
+  line-height: 1.7;
+  font-size: 16px;
+  color: #868e96;
+}
+/* --------Xử lý section chọn số lượng và add to cart----------- */
+.addToCart {
+  display: flex;
+  margin: 6px 0px;
+}
+.quantity {
+  padding: 0px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 240px;
+  border: 1.5px solid #dee2e6;
+}
+.quantity span {
+  color: #adb5bd;
+  letter-spacing: 0.5px;
+}
+.chooseQuantity {
+  height: 100%;
+  align-self: center;
+}
+.chooseQuantity > input {
+  text-align: center;
+  height: 100%;
+  width: 32px;
+  font-size: 18px;
+  color: #212529;
+  border: none;
+  font-style: normal;
+}
+.chooseQuantity > i {
+  cursor: pointer;
+}
+.productDetail button {
+  font-style: italic;
+  font-size: 16px;
+  padding: 9px 24px;
+  border: none;
+  color: rgb(160, 160, 160);
+  background-color: rgb(49, 49, 49);
+  cursor: pointer;
+}
+.productDetail button:hover {
+  color: rgb(49, 49, 49);
+  background-color: rgb(160, 160, 160);
+}
+.alertMessage {
+  color: #37b24d !important;
+}
+/* ----- Style cho phần description ----- */
+.description {
+  margin: 48px 0px;
+}
+.description > button {
+  margin: 16px 0px;
+  padding: 16px 24px;
+  border: none;
+  color: #e9ecef;
+  background-color: rgb(49, 49, 49);
+}
+.description > h3 {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin: 8px 0px 32px 0px;
+  font-size: 18px;
+}
+.description > p {
+  margin: 6px 0px;
+  font-size: 16px;
+  color: #868e96;
+}
+
+/* ----- Style cho phần related product ----- */
+.relatedProduct {
+  margin: 64px 0px;
+}
+.relatedProduct > h3 {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  font-size: 18px;
+}
+
+.relatedList {
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  gap: 28px 28px;
+  margin: 24px 0px;
+}

@@ -1,0 +1,28 @@
+/* style cho các thành phần trong Item */
+.itemContainer {
+  text-align: center;
+  font-style: italic;
+  width: 100%;
+  cursor: pointer;
+}
+.itemContainer > img {
+  width: 100%;
+
+  opacity: 1;
+  transition: 0.3s ease-in;
+}
+.itemContainer > img:hover {
+  opacity: 0.5;
+}
+.itemContainer > h3 {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 16px 0 4px 0;
+}
+.itemContainer > h4 {
+  font-weight: 450;
+  color: #6f6f6f;
+  font-size: 16px;
+  margin: 0px;
+}

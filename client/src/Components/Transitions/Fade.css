@@ -1,0 +1,15 @@
+/*Style cho hiệu ứng fade qua 4 stage của CSS transition */
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-done {
+  opacity: 1;
+  transition: opacity 300ms ease-out;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}

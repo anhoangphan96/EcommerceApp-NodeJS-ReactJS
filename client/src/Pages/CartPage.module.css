@@ -1,0 +1,41 @@
+/*Style cho các phần có trong trang Cart page */
+.title {
+  max-width: 1200px;
+  margin: 0px auto;
+  display: flex;
+  background-color: #f8f9fa;
+  align-items: center;
+  padding: 56px;
+  justify-content: space-between;
+  font-style: italic;
+  margin-bottom: 36px;
+}
+.title h2 {
+  font-weight: 500;
+  font-size: 28px;
+  letter-spacing: 1.7px;
+  margin: 0px;
+}
+.title h4 {
+  font-weight: 500;
+  color: #868686;
+  font-size: 14px;
+  margin: 0px;
+}
+.cartContainer {
+  max-width: 1200px;
+  margin: 0px auto;
+  font-style: italic;
+}
+.cartContainer > h3 {
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 1px;
+  margin: 24px 0px;
+}
+.cartInfor {
+  display: flex;
+  gap: 28px;
+  width: 100%;
+  align-items: flex-start;
+}
