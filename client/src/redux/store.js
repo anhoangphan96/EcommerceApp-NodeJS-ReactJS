@@ -35,8 +35,8 @@ const selectCategorySlice = createSlice({
 // Lưu thông tin người dùng hiện tại bằng data lấy từ mảng currUser của localstorage
 const currUser = JSON.parse(localStorage.getItem("currUser")) ?? [];
 const initialStateLogin = {
-  isLogin: currUser.length > 0 ? true : false,
-  curUser: currUser,
+  isLogin: false,
+  curUser: null,
 };
 const loginSlice = createSlice({
   name: "login",
@@ -50,7 +50,7 @@ const loginSlice = createSlice({
     //Logout thì set mảng curUser thành mảng rỗng
     ON_LOGOUT: (state, action) => {
       state.isLogin = false;
-      state.curUser = [];
+      state.curUser = null;
     },
   },
 });

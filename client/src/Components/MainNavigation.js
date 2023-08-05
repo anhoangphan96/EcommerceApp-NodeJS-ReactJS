@@ -13,7 +13,7 @@ const MainNavigation = function (props) {
   //Khai báo biến có đang đăng nhập hay không lấy dữ liệu từ redux store
   const isLogin = useSelector((state) => state.login.isLogin);
   //Khai báo biến current user data từ redux store
-  const [curUserData] = useSelector((state) => state.login.curUser);
+  const curUserData = useSelector((state) => state.login.curUser);
   //Khai báo biến lưu Url hiện tại
   const [curUrl, setCurUrl] = useState(null);
   //Các function để điều hướng đến các trang tương ứng khi ấn vào link của từng route trên navbar
@@ -81,7 +81,7 @@ const MainNavigation = function (props) {
         )}
         {isLogin && (
           <li>
-            <i className="fa-solid fa-user-large"></i> {curUserData.name}{" "}
+            <i className="fa-solid fa-user-large"></i> {curUserData.fullName}{" "}
             <i className="fa-solid fa-caret-down"></i>
           </li>
         )}

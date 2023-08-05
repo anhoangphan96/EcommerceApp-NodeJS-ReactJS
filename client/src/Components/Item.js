@@ -7,7 +7,7 @@ const Item = (props) => {
   // Item component sẽ render ra hình ảnh sản phẩm, tên sản phẩm và giá tiền, được sử dụng hiệu ứng ZoomOut từ component animation Zoomout
   return (
     <ZoomOut>
-      <div className={styles.itemContainer} id={props.product._id.$oid}>
+      <div className={styles.itemContainer} id={props.product._id}>
         <img src={props.product.img1}></img>
         <h3>{props.product.name}</h3>
         <h4>{price} VND</h4>

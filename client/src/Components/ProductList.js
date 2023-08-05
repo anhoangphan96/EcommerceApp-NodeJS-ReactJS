@@ -18,8 +18,8 @@ const ProductList = (props) => {
       <div className={styles.productList}>
         {props.productList.map((product) => (
           <Link
-            to={`/detail/${product._id.$oid}`}
-            key={`${product._id.$oid}${category}`}
+            to={`/detail/${product._id}?category=${product.category}`}
+            key={`${product._id}${category}`}
           >
             <Item product={product}></Item>
           </Link>

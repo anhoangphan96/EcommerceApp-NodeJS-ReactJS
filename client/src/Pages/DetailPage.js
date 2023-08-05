@@ -1,5 +1,10 @@
 import React from "react";
-import { useParams, useRouteLoaderData, Link } from "react-router-dom";
+import {
+  useParams,
+  useRouteLoaderData,
+  Link,
+  useSearchParams,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "../redux/store";
@@ -10,10 +15,13 @@ const DetailPage = function () {
   // Khai báo biến từ các hook để sử dụng,
   const params = useParams();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
 
   //biến chứa id của Product lấy từ params
   const idProduct = params.id;
-
+  const category = searchParams.get("category");
+  const [productDetail, setProductDetail] = useState(null);
+  const [relatedProduct, setRelatedProduct] = useState([]);
   // set biến email của current user nếu có thì lấy email không thì trả là string rỗng
   const curUserEmail = useSelector((state) => {
     if (state.login.isLogin) {
@@ -29,14 +37,24 @@ const DetailPage = function () {
   const listCart = JSON.parse(localStorage.getItem("listCart")) ?? [];
   //Biến list product lấy từ local storage, sau đó sẽ đem filter ra 2 array 1 chứa product đang được display thông tin
   //và 1 array chứ list các sản phẩm gợi ý liên quan đến sản phẩm chính
-  const dataProducts = useRouteLoaderData("mainpage");
-  const productDetail = dataProducts.filter(
-    (arr) => arr._id.$oid === idProduct
-  )[0];
-  const relatedProduct = dataProducts.filter(
-    (arr) =>
-      arr._id.$oid !== idProduct && arr.category === productDetail.category
-  );
+  const getProdDetail = async () => {
+    const response = await fetch(
+      `http://localhost:5000/product/detail/${idProduct}`
+    );
+    const data = await response.json();
+    setProductDetail(data);
+  };
+  const getRelatedProds = async () => {
+    const response = await fetch(
+      `http://localhost:5000/product/relate?id=${idProduct}&category=${category}`
+    );
+    const data = await response.json();
+    setRelatedProduct(data);
+  };
+  useEffect(() => {
+    getProdDetail();
+    getRelatedProds();
+  }, []);
 
   //sử dụng custom hook useFormatPrice để format price đúng định dạng lưu vào biến price
   const price = useFormatPrice(productDetail.price);
@@ -211,10 +229,7 @@ const DetailPage = function () {
         <h3>RELATED PRODUCTS</h3>
         <div className={styles.relatedList}>
           {relatedProduct.map((product) => (
-            <Link
-              to={`/detail/${product._id.$oid}`}
-              key={product._id.$oid + idProduct}
-            >
+            <Link to={`/detail/${product._id}`} key={product._id + idProduct}>
               <Item product={product}></Item>
             </Link>
           ))}

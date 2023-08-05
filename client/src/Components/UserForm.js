@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import styles from "./UserForm.module.css";
-import { Link, useSearchParams, useActionData } from "react-router-dom";
-
+import {
+  Link,
+  useSearchParams,
+  useActionData,
+  useNavigate,
+} from "react-router-dom";
+import { loginActions } from "../redux/store";
+import { useDispatch } from "react-redux";
 const UserForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   //khai báo biến chứa các error, nếu ban đầu chưa có lỗi nào thì sẽ là object rỗng
   let dataError = useActionData() ?? {};
   //Khai báo hook để lấy param URL và lấy giá trị mode, nếu mode là login thì biến isLogin là true
@@ -96,7 +104,13 @@ const UserForm = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataToFetch),
       });
-      console.log(await response.json());
+      console.log(response);
+      if (response.ok) {
+        const userData = await response.json();
+        console.log(userData);
+        dispatch(loginActions.ON_LOGIN(userData));
+        navigate("/");
+      }
     };
     postUserAccessData();
     if (isLogin) {

@@ -6,6 +6,7 @@ import Popup from "./Popup";
 
 const ItemList = (props) => {
   const dispatch = useDispatch();
+
   //State quản lý showPopup được lấy ra từ redux store
   const showPopup = useSelector((state) => state.popUp.popUpShow);
   //State quản lý id của propduct được click vào lấy ra từ redux store
@@ -39,7 +40,7 @@ const ItemList = (props) => {
       {
         <Popup
           dataProduct={props.dataProduct.filter(
-            (product) => product._id.$oid === popupProductId
+            (product) => product._id === popupProductId
           )}
         ></Popup>
       }
