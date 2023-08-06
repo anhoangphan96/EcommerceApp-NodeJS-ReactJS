@@ -7,7 +7,7 @@ import DetailPage from "./Pages/DetailPage";
 import CartPage from "./Pages/CartPage";
 import CheckOutPage from "./Pages/CheckOutPage";
 import LoginPage, { action as UserAcess } from "./Pages/LoginPage";
-import RootLayout from "./Pages/RootLayout";
+import RootLayout, { loader as userInforLoader } from "./Pages/RootLayout";
 import store from "./redux/store";
 function App() {
   //Tạo ra biến router để quản lý router cho các thành phần con bên trong

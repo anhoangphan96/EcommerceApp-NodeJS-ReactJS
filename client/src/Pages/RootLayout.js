@@ -1,14 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate, useNavigation } from "react-router-dom";
 import MainNavigation from "../Components/MainNavigation";
 import Footer from "../Components/Footer";
 import PopupLiveChat from "../Components/PopupLiveChat";
-import { useNavigation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./RootLayOut.module.css";
-
+import { useDispatch } from "react-redux";
+import { loginActions } from "../redux/store";
 function RootLayout() {
   //Khai báo hook navigation
+  const navigate = useNavigate();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   //Khai báo biến để kiểm soát có đang click trên thanh Navbar không
   const [isClickOnNav, setIsClickOnNav] = useState(false);
   //Khi click vào navbar thì set biến trên thành true còn click vào phần main thì thành false
@@ -18,6 +20,20 @@ function RootLayout() {
   const clickOnMain = () => {
     setIsClickOnNav((prev) => false);
   };
+  const checkLogin = async () => {
+    const response = await fetch(`http://localhost:5000/user/infor`, {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    });
+    if (response.ok) {
+      const dataUser = await response.json();
+      dispatch(loginActions.ON_LOGIN(dataUser));
+    }
+  };
+  useEffect(() => {
+    checkLogin();
+  });
   //Component trả về layout gồm thanh navbar, footer, và main gồm các nội dung chính ở các router còn lại, ngoài ra còn có popup livechat ở gốc màn hinh
   return (
     <>

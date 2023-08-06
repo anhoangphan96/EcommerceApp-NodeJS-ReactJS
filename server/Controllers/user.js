@@ -22,11 +22,12 @@ exports.userAcessClient = (req, res, next) => {
       password: req.body.password,
     })
       .then((result) => {
-        console.log(result);
         if (result) {
-          req.session.username = result.username;
+          req.session.email = result.email;
           req.session.isLoggedIn = true;
-          res.status(200).json(result);
+          return req.session.save((err) => {
+            res.status(200).json(result);
+          });
         } else {
           res
             .status(401)
@@ -35,4 +36,55 @@ exports.userAcessClient = (req, res, next) => {
       })
       .catch((err) => console.log(err));
   }
+};
+
+exports.checkLogin = (req, res, next) => {
+  if (req.session.isLoggedIn) {
+    User.findOne({ email: req.session.email })
+      .then((user) => {
+        res.status(200).json({
+          email: user.email,
+          fullName: user.fullName,
+          phone: user.phoneNumber,
+        });
+      })
+      .catch((err) => console.log(err));
+  } else {
+    res.status(401).json({ message: "Unauthorized!" });
+  }
+};
+
+exports.postAddCart = (req, res, next) => {
+  const cartData = req.body;
+  User.findOne({ email: req.session.email })
+    .then((user) => {
+      if (user) {
+        return user.addToCart(cartData);
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getListCart = (req, res, next) => {
+  User.findOne({ email: req.session.email })
+    .populate("cart.productId")
+    .then((user) => {
+      if (user) {
+        res.status(200).json(user.cart);
+      }
+    });
+};
+
+exports.updateCart = (req, res, next) => {
+  User.findOne({ email: req.session.email }).then((user) => {
+    const itemUpdate = user.updateCart(req.body.action, req.body.productId);
+    res.status(200).json(itemUpdate);
+  });
+};
+
+exports.deleteCartItem = (req, res, next) => {
+  User.findOne({ email: req.session.email }).then((user) => {
+    const cartUpdate = user.deleteCartItem(req.body.productId);
+    res.status(200).json({ message: "Delete successfully!" });
+  });
 };

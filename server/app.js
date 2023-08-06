@@ -10,8 +10,11 @@ const productRoute = require("./Routes/product");
 app.use(
   cors({
     credentials: true,
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
   })
 );
+
 app.use(bodyParser.json());
 app.use(
   session({

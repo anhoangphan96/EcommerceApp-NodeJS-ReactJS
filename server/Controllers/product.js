@@ -9,7 +9,7 @@ exports.getAllProducts = (req, res, next) => {
 exports.getProdDetail = (req, res, next) => {
   const prodId = req.params.id;
   Product.findOne({ _id: prodId })
-    .then((result) => console.log(result))
+    .then((result) => res.status(200).json(result))
     .catch((err) => console.log(err));
 };
 exports.getRelatedProds = (req, res, next) => {

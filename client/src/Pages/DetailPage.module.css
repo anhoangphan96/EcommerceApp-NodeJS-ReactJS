@@ -3,6 +3,13 @@
   max-width: 1200px;
   margin: 32px auto;
 }
+.container > p {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  color: #6e6f71;
+  margin: 36px;
+}
 .displayProduct {
   display: flex;
   align-items: flex-start;

@@ -35,7 +35,9 @@ const Modal = (props) => {
   const navigatetoProductHandler = () => {
     dispatch(popupActions.showPopup());
     dispatch(popupActions.getDataPopup(""));
-    navigate(`/detail/${props.dataProduct._id.$oid}`);
+    navigate(
+      `/detail/${props.dataProduct._id}?category=${props.dataProduct.category}`
+    );
   };
 
   return (

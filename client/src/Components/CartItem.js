@@ -4,81 +4,53 @@ import styles from "./CartItem.module.css";
 import { cartActions } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { useFormatPrice } from "./customHooks/useFormatPrice";
-import { useSelector } from "react-redux";
+
 const CartItem = (props) => {
-  const dispatch = useDispatch();
-  //Khai báo listCart để hổ trợ các hành động trong phần cart Item
-  const listCart = useSelector((state) => state.cart.listCart);
-  //Khai báo Email của current user nếu không có ai đăng nhập thì trả ""
-  const emailCurUser = useSelector((state) => {
-    if (state.login.isLogin) {
-      return state.login.curUser[0].email;
-    } else {
-      return "";
-    }
-  });
   //Khai báo các biến thông tin
   const [quantity, setQuantity] = useState(props.productCart.quantity);
   //dùng custom hook để định dạng phần price cho price đơn và price tổng
-  const productPrice = useFormatPrice(props.productCart.price);
+  const productPrice = useFormatPrice(props.productCart.productId.price);
   const productQuantityxPrice = useFormatPrice(
-    props.productCart.price * quantity
+    props.productCart.productId.price * quantity
   );
-  //Xây dựng function để xóa sản phẩm, lọc listCart chỉ giữ lại những product có id khác với id sản phẩm bị click vào nút remove hoặc khác email đang đăng nhập
-  const removeProductHandler = (event) => {
-    const idRemove = event.target.closest(".cartRow").id;
-    dispatch(cartActions.DELETE_CART({ id: idRemove, email: emailCurUser }));
-    //Update total price
-    dispatch(cartActions.UPDATE_TOTALPRICE(emailCurUser));
-    //Update local storage
-    localStorage.setItem(
-      "listCart",
-      JSON.stringify(
-        listCart.filter(
-          (cart) => cart.id !== idRemove || cart.email !== emailCurUser
-        )
-      )
-    );
+
+  //Xây dựng function để fetch api  update cart ở database
+  const postUpdateCart = async (action) => {
+    const idUpdateCart = props.productCart.productId._id;
+    const response = await fetch(`http://localhost:5000/user/updatecart`, {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: action, productId: idUpdateCart }),
+    });
+    if (response.ok) {
+      props.getListCart();
+      const data = await response.json();
+      setQuantity(data.quantity);
+    }
   };
   //Xây dưng function tăng số lượng ý tưởng cũng giống remove nhưng với action giảm số lượng, không cho bé hơn 1
-  const decreaseQuant = (event) => {
-    const idUpdateCart = event.target.closest(".cartRow").id;
-    setQuantity((prev) => {
-      if (prev === 1 || prev === "") {
-        return 1;
-      }
-      dispatch(
-        cartActions.UPDATE_CART({ quantity: prev - 1, id: idUpdateCart })
-      );
-      const newListCart = [...listCart];
-      const index = listCart.findIndex(
-        (cart) => cart.id === idUpdateCart && cart.email === emailCurUser
-      );
-      newListCart[index] = { ...newListCart[index], quantity: prev - 1 };
-      localStorage.setItem("listCart", JSON.stringify(newListCart));
-      dispatch(cartActions.UPDATE_TOTALPRICE(emailCurUser));
-      return prev - 1;
-    });
+  const decreaseQuant = () => {
+    postUpdateCart("decrease");
   };
   //Xây dưng function tăng số lượng ý tưởng cũng giống remove nhưng với action tăng số lượng
-  const increaseQuant = (event) => {
-    const idUpdateCart = event.target.closest(".cartRow").id;
-    setQuantity((prev) => {
-      if (prev === "") {
-        return 1;
-      }
-      dispatch(
-        cartActions.UPDATE_CART({ quantity: prev + 1, id: idUpdateCart })
-      );
-      const newListCart = [...listCart];
-      const index = listCart.findIndex(
-        (cart) => cart.id === idUpdateCart && cart.email === emailCurUser
-      );
-      newListCart[index] = { ...newListCart[index], quantity: prev + 1 };
-      localStorage.setItem("listCart", JSON.stringify(newListCart));
-      dispatch(cartActions.UPDATE_TOTALPRICE(emailCurUser));
-      return prev + 1;
+  const increaseQuant = () => {
+    postUpdateCart("increase");
+  };
+  //Xây dựng function để xóa sản phẩm, lọc listCart chỉ giữ lại những product có id khác với id sản phẩm bị click vào nút remove hoặc khác email đang đăng nhập
+  const removeProductHandler = async () => {
+    const idCartDelete = props.productCart.productId._id;
+    const response = await fetch(`http://localhost:5000/user/deletecart`, {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId: idCartDelete }),
     });
+    if (response.ok) {
+      props.getListCart();
+    }
   };
   //JSX trả ra ra từng dòng trong table chứa các thông tin tương ứng về các sản phẩm được từng user thêm vào
   return (
@@ -88,9 +60,9 @@ const CartItem = (props) => {
       className="cartRow"
     >
       <td className={styles.imageProduct}>
-        <img src={props.productCart.image}></img>
+        <img src={props.productCart.productId.img1}></img>
       </td>
-      <td className={styles.nameProduct}>{props.productCart.name}</td>
+      <td className={styles.nameProduct}>{props.productCart.productId.name}</td>
       <td className={styles.priceProduct}>
         {productPrice} <br /> VND
       </td>

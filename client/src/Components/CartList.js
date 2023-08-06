@@ -1,22 +1,35 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./Cartlist.module.css";
-import { useSelector } from "react-redux";
-import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import CartItem from "./CartItem";
+import { cartActions } from "../redux/store";
 const Cartlist = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [listCart, setListCart] = useState([]);
   //Biến chứa email của current User nếu không đăng nhập thì là ""
   const emailCurUser = useSelector((state) => {
     if (state.login.isLogin) {
-      return state.login.curUser[0].email;
+      return state.login.curUser.email;
     } else {
       return "";
     }
   });
-  //Biến chứa listCart được fillter theo user
-  const listCart = useSelector((state) => state.cart.listCart).filter(
-    (cart) => cart.email === emailCurUser
-  );
+
+  const getListCart = async () => {
+    const response = await fetch(`http://localhost:5000/user/listcart`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const data = await response.json();
+    console.log(data);
+    dispatch(cartActions.UPDATECART(data));
+    setListCart(data);
+  };
+  useEffect(() => {
+    getListCart();
+  }, []);
   // Hai hàm quản lý navigate user tới các trang khác nhau khi click vào button
   const contShoppingHandler = () => {
     navigate("/shop");
@@ -41,7 +54,13 @@ const Cartlist = () => {
         </thead>
         <tbody>
           {listCart.map((productCart) => {
-            return <CartItem productCart={productCart} key={productCart.id} />;
+            return (
+              <CartItem
+                productCart={productCart}
+                key={productCart._id}
+                getListCart={getListCart}
+              />
+            );
           })}
         </tbody>
       </table>

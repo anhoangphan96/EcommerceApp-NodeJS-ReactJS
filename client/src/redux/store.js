@@ -33,10 +33,9 @@ const selectCategorySlice = createSlice({
 
 //Initial state và slice cho phần login và signup, nếu biến currUser lấy từ localstage là mảng rỗng thì là người dùng chưa đăng nhập
 // Lưu thông tin người dùng hiện tại bằng data lấy từ mảng currUser của localstorage
-const currUser = JSON.parse(localStorage.getItem("currUser")) ?? [];
 const initialStateLogin = {
   isLogin: false,
-  curUser: null,
+  curUser: {},
 };
 const loginSlice = createSlice({
   name: "login",
@@ -55,45 +54,21 @@ const loginSlice = createSlice({
   },
 });
 //Initial state và slice cho phần cart chứa 1 key lưu danh sách list sản phẩm có trong cart và 1 biến tính tổng giá tiền
-const listCart = JSON.parse(localStorage.getItem("listCart")) ?? [];
 const initialStateCart = {
-  listCart: listCart,
-  totalPrice: listCart
-    .filter((arr) => arr.email === currUser)
-    .map((arr) => arr.price * arr.quantity)
-    .reduce((acc, cum) => acc + cum, 0),
+  listCart: [],
+  totalPrice: 0,
 };
 const cartSlice = createSlice({
   name: "cart",
   initialState: initialStateCart,
   reducers: {
-    //Add sản phẩm mới hoàn toàn vào cart
-    ADD_CART: (state, action) => {
-      state.listCart.push(action.payload);
-    },
-    //Update số lượng cho sản phẩm đã có trong cart
-    UPDATE_CART: (state, action) => {
-      const index = state.listCart.findIndex(
-        (cart) => cart.id === action.payload.id
-      );
-      state.listCart[index] = {
-        ...state.listCart[index],
-        quantity: action.payload.quantity,
-      };
-    },
-    //Xóa 1 sản phẩm ra khỏi cart, lọc listCart giữ lại những sản phẩm khác id của sản phẩm bị xóa hoặc khác email đang đăng nhập
-    DELETE_CART: (state, action) => {
-      state.listCart = state.listCart.filter(
-        (cart) =>
-          cart.id !== action.payload.id || cart.email !== action.payload.email
-      );
-    },
     //Update lại giá tổng
-    UPDATE_TOTALPRICE: (state, action) => {
-      state.totalPrice = state.listCart
-        .filter((arr) => arr.email === action.payload)
-        .map((arr) => arr.price * arr.quantity)
-        .reduce((acc, cum) => acc + cum, 0);
+    UPDATECART: (state, action) => {
+      state.listCart = action.payload;
+      state.totalPrice = state.listCart.reduce(
+        (acc, cur) => acc + cur.quantity * cur.productId.price,
+        0
+      );
     },
   },
 });

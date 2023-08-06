@@ -5,21 +5,16 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../redux/store";
 const CartTotalPrice = (props) => {
-  const dispatch = useDispatch();
   //Khai báo email user hiện tại đang đăng nhập nếu không thì trả về ""
   const emailCurUser = useSelector((state) => {
     if (state.login.isLogin) {
-      return state.login.curUser[0].email;
+      return state.login.curUser.email;
     } else {
       return "";
     }
   });
   // khai biến chứa tổng price lấy từ redux store
   const totalPrice = useSelector((state) => state.cart.totalPrice);
-  //Sẽ update lại total price dựa trên email của người dùng
-  useEffect(() => {
-    dispatch(cartActions.UPDATE_TOTALPRICE(emailCurUser));
-  }, [emailCurUser]);
   //dùng custom hook để custom price
   let formatPrice = useFormatPrice(totalPrice);
   //JSX trả ra thông tin các thông tin về giá sản phẩm và giá tổng sau khi trừ thuế và coupon, input coupon và nút để apply
