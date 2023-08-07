@@ -43,6 +43,7 @@ exports.checkLogin = (req, res, next) => {
     User.findOne({ email: req.session.email })
       .then((user) => {
         res.status(200).json({
+          id: user._id,
           email: user.email,
           fullName: user.fullName,
           phone: user.phoneNumber,

@@ -1,0 +1,12 @@
+.detail > button {
+  background-color: transparent;
+  font-style: italic;
+  padding: 8px 16px;
+  color: #5c646d;
+  font-size: 16px;
+  cursor: pointer;
+}
+.detail > button > i {
+  color: black;
+  padding: 0px 6px;
+}

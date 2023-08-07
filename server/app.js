@@ -7,6 +7,8 @@ const app = express();
 
 const userRoute = require("./Routes/user");
 const productRoute = require("./Routes/product");
+const orderRoute = require("./Routes/order");
+
 app.use(
   cors({
     credentials: true,
@@ -29,6 +31,7 @@ app.use(
 );
 app.use("/user", userRoute);
 app.use("/product", productRoute);
+app.use("/order", orderRoute);
 
 mongoose
   .connect(

@@ -9,6 +9,7 @@ import CheckOutPage from "./Pages/CheckOutPage";
 import LoginPage, { action as UserAcess } from "./Pages/LoginPage";
 import RootLayout, { loader as userInforLoader } from "./Pages/RootLayout";
 import store from "./redux/store";
+import History from "./Pages/History";
 function App() {
   //Tạo ra biến router để quản lý router cho các thành phần con bên trong
   const router = createBrowserRouter([
@@ -37,6 +38,7 @@ function App() {
         { path: "/checkout", element: <CheckOutPage></CheckOutPage> },
         //Trang login page và accesspage tích hợp vào cùng 1 trang với action UserAccess để validate hành động đăng nhập hoặc đăng ký
         { path: "/login", element: <LoginPage></LoginPage>, action: UserAcess },
+        { path: "/history", element: <History></History> },
       ],
     },
   ]);

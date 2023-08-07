@@ -1,0 +1,26 @@
+/* Styles cho các phần có trong Carlist để hiển thị theo đúng yêu cầu đề bài */
+.container {
+  width: 100%;
+  margin: 48 px 0px;
+}
+.container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.hisListTitle {
+  height: 48px;
+  background-color: #f8f9fa;
+}
+
+.container th,
+td {
+  text-align: center;
+}
+.container th {
+  font-weight: 500;
+  color: #495057;
+  letter-spacing: 0.5px;
+}
+.container td {
+  color: #868e96;
+}

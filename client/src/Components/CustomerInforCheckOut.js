@@ -4,6 +4,8 @@ import { useState } from "react";
 const CustomerInforCheckOut = () => {
   //Component này xây dựng giao diện của 1 form để người dùng nhập thông tin vào khi check out
   const userInfor = useSelector((state) => state.login.curUser);
+  const listCart = useSelector((state) => state.cart.listCart);
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
   const [fullName, setFullName] = useState(userInfor.fullName);
   const [email, setEmail] = useState(userInfor.email);
   const [phoneNumber, setPhoneNumber] = useState(userInfor.phone);
@@ -20,9 +22,28 @@ const CustomerInforCheckOut = () => {
   const changeAddressHandler = (event) => {
     setAddress(event.target.value);
   };
-
+  const placeOrderHandler = async (event) => {
+    event.preventDefault();
+    const response = await fetch(`http://localhost:5000/order/create`, {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        fullName: fullName,
+        phone: phoneNumber,
+        address: address,
+        items: listCart,
+        totalPrice: totalPrice,
+        status: "Waiting for pay",
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+  };
   return (
-    <form className={styles.cusInforForm}>
+    <form className={styles.cusInforForm} onSubmit={placeOrderHandler}>
       <label htmlFor="fullName">FULL NAME:</label>
       <input
         id="fullName"
