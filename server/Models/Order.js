@@ -9,7 +9,11 @@ const orderSchema = new Schema(
     address: { type: String, required: true },
     items: [
       {
-        productId: { type: mongoose.SchemaTypes.ObjectId, required: true },
+        productId: {
+          type: mongoose.SchemaTypes.ObjectId,
+          required: true,
+          ref: "Product",
+        },
         quantity: { type: Number, required: true },
       },
     ],

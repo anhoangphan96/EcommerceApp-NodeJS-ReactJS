@@ -1,7 +1,7 @@
 /* Styles cho các phần có trong Carlist để hiển thị theo đúng yêu cầu đề bài */
 .container {
   width: 100%;
-  margin: 48 px 0px;
+  margin: 48px 0px;
 }
 .container table {
   border-collapse: collapse;
@@ -22,5 +22,33 @@ td {
   letter-spacing: 0.5px;
 }
 .container td {
+  font-weight: 400;
   color: #868e96;
+} /* ---- điều chỉnh độ rộng của các cột trong bảng */
+.hisId {
+  width: 120px;
+}
+.userId {
+  width: 120px;
+}
+.userName {
+  width: 100px;
+}
+.phone {
+  width: 80px;
+}
+.address {
+  width: 120px;
+}
+.total {
+  width: 100px;
+}
+.delivery {
+  width: 100px;
+}
+.status {
+  width: 100px;
+}
+.detail {
+  width: 100px;
 }

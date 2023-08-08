@@ -27,3 +27,15 @@ exports.getHistoryList = (req, res, next) => {
     })
     .catch((err) => console.log(err));
 };
+
+exports.getOrderDetail = (req, res, next) => {
+  const orderId = req.params.id;
+  Order.findOne({ _id: orderId })
+    .populate("items.productId")
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

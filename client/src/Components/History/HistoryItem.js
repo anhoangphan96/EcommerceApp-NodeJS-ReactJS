@@ -1,8 +1,13 @@
 import { useSelector } from "react-redux";
 import styles from "./HistoryItem.module.css";
+import { useNavigate } from "react-router-dom";
 const HistoryItem = (props) => {
+  const navigate = useNavigate();
   const userData = useSelector((state) => state.login.curUser);
-  console.log(userData);
+
+  const viewDetailHandler = () => {
+    navigate(`/history/${props.hisItem._id}`);
+  };
   return (
     <tr id={props.hisItem._id} className="cartRow">
       <td className={styles.hisId}>{props.hisItem._id}</td>
@@ -18,7 +23,7 @@ const HistoryItem = (props) => {
       <td className={styles.delivery}>Waiting for progressing</td>
       <td className={styles.status}>{props.hisItem.status}</td>
       <td className={styles.detail}>
-        <button>
+        <button onClick={viewDetailHandler}>
           View <i className="fa-sharp fa-solid fa-right-long"></i>
         </button>
       </td>
