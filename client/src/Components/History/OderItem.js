@@ -11,10 +11,7 @@ const OrderItem = (props) => {
         <img src={props.item.productId.img1}></img>
       </td>
       <td className={styles.nameProduct}>{props.item.productId.name}</td>
-      <td className={styles.priceProduct}>
-        {price} <br />
-        VND
-      </td>
+      <td className={styles.priceProduct}>{price} VND</td>
       <td className={styles.qtyProduct}>{props.item.quantity}</td>
     </tr>
   );

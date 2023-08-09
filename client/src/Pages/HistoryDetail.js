@@ -35,10 +35,10 @@ const HistoryDetail = () => {
         <p>Address: {orderInfor.address}</p>
         <p>Total: {price} VND</p>
       </div>
-      <div className={styles.cartContainer}>
+      <div className={styles.listItemContainer}>
         <table>
           <thead>
-            <tr className={styles.cartTitle}>
+            <tr className={styles.listItemTitle}>
               <th>ID Product</th>
               <th>IMAGE</th>
               <th>NAME</th>
