@@ -1,7 +1,9 @@
 import styles from "./CustomerInforCheckOut.module.css";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const CustomerInforCheckOut = () => {
+  const navigate = useNavigate();
   //Component này xây dựng giao diện của 1 form để người dùng nhập thông tin vào khi check out
   const userInfor = useSelector((state) => state.login.curUser);
   const listCart = useSelector((state) => state.cart.listCart);
@@ -39,8 +41,9 @@ const CustomerInforCheckOut = () => {
         status: "Waiting for pay",
       }),
     });
-    const data = await response.json();
-    console.log(data);
+    if (response.ok) {
+      navigate("/history");
+    }
   };
   return (
     <form className={styles.cusInforForm} onSubmit={placeOrderHandler}>

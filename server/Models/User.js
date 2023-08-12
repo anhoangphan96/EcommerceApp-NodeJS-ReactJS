@@ -18,9 +18,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  isAdmin: {
-    type: Boolean,
-    required: true,
+  role: {
+    type: String,
+    default: "client",
   },
   cart: [
     {

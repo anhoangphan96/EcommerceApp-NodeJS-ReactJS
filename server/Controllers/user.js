@@ -25,6 +25,7 @@ exports.userAcessClient = (req, res, next) => {
         if (result) {
           req.session.email = result.email;
           req.session.isLoggedIn = true;
+          req.session.role = result.role;
           return req.session.save((err) => {
             res.status(200).json(result);
           });
