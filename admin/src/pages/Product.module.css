@@ -1,0 +1,41 @@
+.prodPageContainer {
+  padding: 24px;
+}
+.prodPageContainer > h2 {
+  font-size: 16px;
+  margin: 0px;
+}
+.prodPageContainer > input {
+  margin: 16px 0px;
+  padding: 8px 12px;
+  background-color: transparent;
+  border: 1px solid #ced4da;
+  border-radius: 2px;
+  width: 360px;
+  color: #868e96;
+}
+.prodTable {
+  width: 100%;
+}
+.prodTable,
+.prodTable th,
+.prodTable td {
+  border: 1px solid #ced4da;
+  border-collapse: collapse;
+}
+
+.prodTable > tbody > tr:nth-child(odd) {
+  background-color: #f0f6fa;
+}
+.prodTable th,
+.prodTable td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+  font-size: 14px;
+
+  color: #868e96;
+}
+.prodTable td {
+  font-weight: 500;
+}

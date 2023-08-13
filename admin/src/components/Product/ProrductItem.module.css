@@ -1,0 +1,15 @@
+.updateBtn {
+  color: white;
+  border: none;
+  border-radius: 2px;
+  background-color: #12b886;
+  padding: 8px 12px;
+}
+.deleteBtn {
+  color: white;
+  border: none;
+  border-radius: 2px;
+  background-color: #fa5252;
+  padding: 8px 12px;
+  margin-left: 4px;
+}
