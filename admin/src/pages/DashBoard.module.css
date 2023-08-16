@@ -1,0 +1,7 @@
+.dashBoardContainer {
+  padding: 24px;
+}
+.dashBoardContainer > h2 {
+  font-size: 16px;
+  margin: 0px;
+}

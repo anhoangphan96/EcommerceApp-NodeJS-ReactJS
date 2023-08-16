@@ -13,3 +13,8 @@
   padding: 8px 12px;
   margin-left: 4px;
 }
+.updateBtn:hover,
+.deleteBtn:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}

@@ -32,6 +32,7 @@ const CustomerInforCheckOut = () => {
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        userId: userInfor.id,
         email: email,
         fullName: fullName,
         phone: phoneNumber,

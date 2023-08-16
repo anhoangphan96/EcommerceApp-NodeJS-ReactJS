@@ -53,7 +53,7 @@
   gap: 24px;
   padding-left: 24px;
 }
-span {
+.tableRow {
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -3,7 +3,12 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema(
   {
-    email: { type: String, ref: "User", required: true },
+    userId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      required: true,
+      ref: "User",
+    },
+    email: { type: String, required: true },
     fullName: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String, required: true },

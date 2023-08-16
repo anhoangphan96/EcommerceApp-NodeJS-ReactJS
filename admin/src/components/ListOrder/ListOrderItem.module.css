@@ -1,0 +1,10 @@
+.viewBtn {
+  color: white;
+  border: none;
+  border-radius: 2px;
+  background-color: #12b886;
+  padding: 8px 12px;
+}
+.viewBtn:hover {
+  opacity: 0.7;
+}

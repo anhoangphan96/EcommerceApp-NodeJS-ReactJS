@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import ProductItem from "../components/Product/ProductItem";
 import styles from "./Product.module.css";
+import { useNavigate } from "react-router-dom";
 const Product = () => {
+  const navigate = useNavigate();
   const [listProducts, setListProducts] = useState([]);
   const [listProdFilter, setListProdFilter] = useState(listProducts);
   const getListProducts = async () => {
@@ -17,12 +19,13 @@ const Product = () => {
   useEffect(() => {
     getListProducts();
   }, []);
-
+  const addProdNavigate = () => {
+    navigate("/products/form?mode=add");
+  };
   const searchKeywordHandler = (event) => {
     if (event.target.value.trim() !== "") {
       setListProdFilter(
         listProducts.filter((product) => {
-          console.log(product.name.trim());
           return product.name
             .toLowerCase()
             .replaceAll(" ", "")
@@ -35,7 +38,12 @@ const Product = () => {
   };
   return (
     <div className={styles.prodPageContainer}>
-      <h2>Products</h2>
+      <h2>
+        Products{" "}
+        <button className={styles.btnAdd} onClick={addProdNavigate}>
+          Add New
+        </button>
+      </h2>
       <input
         type="text"
         placeholder="Enter Search!"

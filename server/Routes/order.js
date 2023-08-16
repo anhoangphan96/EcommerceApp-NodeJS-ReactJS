@@ -18,4 +18,7 @@ router.get(
   authorControllers.clientRoleAuthor,
   orderControllers.getOrderDetail
 );
+
+router.get("/getall", orderControllers.getAll);
+router.get("/lastest8", orderControllers.getLatest8);
 module.exports = router;

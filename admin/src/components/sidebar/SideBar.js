@@ -113,7 +113,7 @@ const SideBar = () => {
                 <path d="M3 10h18"></path>
                 <path d="M10 3v18"></path>
               </svg>
-              <span onClick={showListTableHandler}>
+              <div onClick={showListTableHandler} className={styles.tableRow}>
                 Tables
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +130,7 @@ const SideBar = () => {
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                   <path d="M6 9l6 6l6 -6"></path>
                 </svg>
-              </span>
+              </div>
             </li>
             {showListTable && (
               <ul className={styles.listTables}>
@@ -192,7 +192,7 @@ const SideBar = () => {
                     <path d="M12 8l0 4l2 2"></path>
                     <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path>
                   </svg>
-                  <Link>History</Link>
+                  <Link to="/history">History</Link>
                 </li>
               </ul>
             )}

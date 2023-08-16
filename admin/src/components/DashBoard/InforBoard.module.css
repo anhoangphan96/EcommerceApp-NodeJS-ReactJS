@@ -1,0 +1,36 @@
+.infoBoard {
+  display: flex;
+  margin: 32px 0px;
+}
+.infor {
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #868e96;
+}
+.clients,
+.earning {
+  border-right: 1px solid #ced4da;
+}
+.inforDetail {
+  width: 100%;
+}
+.inforDetail > h3 {
+  margin: 0px;
+  color: black;
+  font-size: 24px;
+}
+.inforDetail > span {
+  font-size: 14px;
+  padding-top: 6px;
+}
+.money {
+  position: relative;
+}
+.money > span {
+  position: absolute;
+  top: 4px;
+  font-size: 14px;
+}

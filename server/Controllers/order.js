@@ -17,6 +17,7 @@ const mailTransporter = nodemailer.createTransport({
 exports.postCreateOrder = (req, res, next) => {
   const bodyData = req.body;
   const newOrder = new Order({
+    userId: bodyData.userId,
     email: bodyData.email,
     fullName: bodyData.fullName,
     phone: bodyData.phone,
@@ -107,4 +108,23 @@ exports.getOrderDetail = (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+exports.getLatest8 = (req, res, next) => {
+  Order.find()
+    .sort({ placedAt: -1 })
+    .limit(8)
+
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => console.log(err));
+};
+exports.getAll = (req, res, next) => {
+  Order.find()
+    .sort({ placedAt: -1 })
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => console.log(err));
 };
