@@ -19,3 +19,9 @@ exports.getRelatedProds = (req, res, next) => {
     .then((result) => res.status(200).json(result))
     .catch((err) => console.log(err));
 };
+
+exports.createProduct = (req, res, next) => {
+  const data = req.body;
+
+  console.log(data);
+};

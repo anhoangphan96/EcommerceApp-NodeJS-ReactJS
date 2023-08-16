@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./ProductForm.module.css";
+import { Form } from "react-router-dom";
 
 const ProductForm = () => {
   const [nameInput, setNameInput] = useState("");
@@ -20,25 +21,30 @@ const ProductForm = () => {
     setLongdescInput(event.target.value);
   };
   const picturesInputHandler = (event) => {
-    console.log(event.target.files);
-    setListPicture(event.target.value);
+    setListPicture(event.target.files);
   };
-  const submitHandler = async () => {
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    const dataText = {
+      name: nameInput,
+      category: categoryInput,
+      shortDesc: shortdescInput,
+      longDesc: longdescInput,
+    };
+    const pictureFiles = listPicture;
+    const formData = new FormData();
+    formData.append("dataText", dataText);
+    formData.append("pictures", pictureFiles);
     const response = await fetch(`http://localhost:5000/product/create`, {
       method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        name: nameInput,
-        category: categoryInput,
-        shortDesc: shortdescInput,
-        longDesc: longdescInput,
-      }),
+
+      body: formData,
     });
   };
 
   return (
     <div className={styles.container}>
-      <form className={styles.prodForm} onSubmit={submitHandler}>
+      <Form className={styles.prodForm} onSubmit={submitHandler} method="POST">
         <label htmlFor="name">Product Name</label>
         <input
           id="name"
@@ -81,11 +87,10 @@ const ProductForm = () => {
           type="file"
           className={styles.fileInput}
           multiple
-          value={listPicture}
           onChange={picturesInputHandler}
         />
         <button className={styles.submitBtn}>Submit</button>
-      </form>
+      </Form>
     </div>
   );
 };
