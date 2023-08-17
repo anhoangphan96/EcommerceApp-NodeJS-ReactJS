@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -14,13 +15,12 @@ app.use(
   cors({
     credentials: true,
     origin: ["http://localhost:3000", "http://localhost:3001"],
-    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
   })
 );
 
-app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-app.use(multer({ dest: "images" }).single("image"));
+app.use(bodyParser.json());
+app.use("/public/images", express.static(path.join("public", "images")));
 app.use(
   session({
     secret: "my-secret",

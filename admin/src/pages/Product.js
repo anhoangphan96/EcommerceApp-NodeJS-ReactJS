@@ -63,7 +63,11 @@ const Product = () => {
         <tbody>
           {listProdFilter.length > 0 &&
             listProdFilter.map((product) => (
-              <ProductItem key={product._id} product={product} />
+              <ProductItem
+                key={product._id}
+                product={product}
+                getListProducts={getListProducts}
+              />
             ))}
         </tbody>
       </table>

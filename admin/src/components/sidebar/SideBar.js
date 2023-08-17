@@ -73,7 +73,7 @@ const SideBar = () => {
                 <path d="M12 5l0 14"></path>
                 <path d="M5 12l14 0"></path>
               </svg>
-              <Link to="/user">New Product</Link>
+              <Link to="/products/form?mode=add">New Product</Link>
             </li>
             <li>
               <svg
