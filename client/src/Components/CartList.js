@@ -69,7 +69,7 @@ const Cartlist = () => {
           <i className="fa-sharp fa-solid fa-left-long"></i> Continue shopping
         </button>
         <button onClick={checkoutHandler}>
-          Proceed to checkout{" "}
+          Proceed to checkout
           <i className="fa-sharp fa-solid fa-right-long"></i>
         </button>
       </div>

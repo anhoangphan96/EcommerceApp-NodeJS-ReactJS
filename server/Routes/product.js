@@ -31,4 +31,6 @@ router.post(
 router.get("/formupdate/:id", productControllers.getOneProdFormData);
 router.post("/formupdate/:id", productControllers.updateOneProduct);
 router.delete("/delete", productControllers.deleteOneProduct);
+
+// router.get("/addcount", productControllers.setCountToAll); //just use one time to add count field to all product
 module.exports = router;

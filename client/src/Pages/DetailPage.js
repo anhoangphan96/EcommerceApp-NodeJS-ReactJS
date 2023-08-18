@@ -89,8 +89,9 @@ const DetailPage = function () {
   //Function set số lượng sản phẩm khi người dùng input số lượng, tăng giảm số lượng bằng nút tăng hoặc giảm, không cho bé hơn 1 và rổng
   const quantityHandler = (event) => {
     if (event.target.value < 1) {
-      console.log("asd");
       setQuantity(1);
+    } else if (event.target.value >= productDetail.count) {
+      setQuantity(productDetail.count);
     } else {
       setQuantity(event.target.value);
     }
@@ -108,6 +109,8 @@ const DetailPage = function () {
     setQuantity((prev) => {
       if (prev === "") {
         return 1;
+      } else if (prev >= productDetail.count) {
+        return productDetail.count;
       }
       return prev + 1;
     });
@@ -159,6 +162,7 @@ const DetailPage = function () {
               <h5>
                 CATEGORY: <span> {productDetail.category}</span>
               </h5>
+
               <div className={styles.addToCart}>
                 <div className={styles.quantity}>
                   <span>QUANTITY</span>
@@ -180,8 +184,24 @@ const DetailPage = function () {
                     ></i>
                   </div>
                 </div>
-                <button onClick={addToCartHandler}>Add to cart</button>
+                <button
+                  className={productDetail.count === 0 ? styles.cantadd : ""}
+                  onClick={addToCartHandler}
+                  disabled={productDetail.count === 0 ? true : false}
+                >
+                  Add to cart
+                </button>
               </div>
+              <h5>
+                STOCK:
+                <span
+                  className={productDetail.count === 0 ? styles.outstock : ""}
+                >
+                  {productDetail.count
+                    ? ` ${productDetail.count}`
+                    : " Out of stock"}
+                </span>
+              </h5>
               {displayMessage && (
                 <p className={styles.alertMessage}>
                   Your product is added to cart successfully!

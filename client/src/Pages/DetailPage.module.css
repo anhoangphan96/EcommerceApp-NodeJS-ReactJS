@@ -49,7 +49,7 @@
 .productDetail h5 {
   font-weight: 500;
   letter-spacing: 0.5px;
-  margin: 16px 0px;
+  margin: 8px 0px;
   font-size: 18px;
 }
 .productDetail > h5 > span {
@@ -107,6 +107,14 @@
 .productDetail button:hover {
   color: rgb(49, 49, 49);
   background-color: rgb(160, 160, 160);
+}
+.productDetail .cantadd {
+  cursor: not-allowed;
+  color: rgb(49, 49, 49);
+  background-color: rgb(160, 160, 160);
+}
+.outstock {
+  color: red !important;
 }
 .alertMessage {
   color: #37b24d !important;

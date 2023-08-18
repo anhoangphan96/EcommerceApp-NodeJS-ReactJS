@@ -77,3 +77,13 @@ exports.deleteOneProduct = (req, res, next) => {
     )
     .catch((err) => console.log(err));
 };
+//Add count field to all products, just use one time
+exports.setCountToAll = (req, res, next) => {
+  Product.updateMany({}, { $set: { count: 99 } }, { upsert: false })
+    .then((result) => {
+      res
+        .status(200)
+        .json({ message: "Count has been added to all Products!" });
+    })
+    .catch((err) => console.log(err));
+};

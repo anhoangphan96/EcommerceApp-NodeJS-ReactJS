@@ -1,4 +1,5 @@
 const Order = require("../Models/Order");
+const Product = require("../Models/Product");
 const nodemailer = require("nodemailer");
 const formatPrice = require("../helper/formatPrice");
 const mailTransporter = nodemailer.createTransport({
@@ -36,6 +37,16 @@ exports.postCreateOrder = (req, res, next) => {
         padding:8px;`;
       let cartItemData = "";
       result.items.forEach((cartItem) => {
+        console.log(cartItem);
+        Product.findByIdAndUpdate(
+          cartItem.productId._id,
+          {
+            count: cartItem.productId.count - cartItem.quantity,
+          },
+          { new: true }
+        )
+          .then()
+          .catch((err) => console.log(err));
         return (cartItemData += `<tr>
             <td style="${styleTableElement} font-size:16px;">${
           cartItem.productId.name
