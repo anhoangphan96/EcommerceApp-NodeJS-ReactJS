@@ -68,12 +68,34 @@ exports.postAddCart = (req, res, next) => {
 };
 
 exports.getListCart = (req, res, next) => {
+  let haveItemCount0 = false;
   User.findOne({ email: req.session.email })
     .populate("cart.productId")
     .then((user) => {
       if (user) {
-        res.status(200).json(user.cart);
+        for (let i = 0; i < user.cart.length; i++) {
+          if (!user.cart[i].productId.count) {
+            haveItemCount0 = true;
+            break;
+          }
+        }
+        console.log(haveItemCount0);
+        if (haveItemCount0) {
+          return user.deleteByCount0(user.cart);
+        } else {
+          return user.cart;
+        }
       }
+    })
+    .then((result) => {
+      res.status(200).json({
+        cart: result,
+        message: `${
+          haveItemCount0
+            ? "Some items are out of stock, your cart has been updated!"
+            : ""
+        }`,
+      });
     });
 };
 
@@ -85,8 +107,10 @@ exports.updateCart = (req, res, next) => {
 };
 
 exports.deleteCartItem = (req, res, next) => {
-  User.findOne({ email: req.session.email }).then((user) => {
-    const cartUpdate = user.deleteCartItem(req.body.productId);
-    res.status(200).json({ message: "Delete successfully!" });
-  });
+  User.findOne({ email: req.session.email })
+    .then((user) => {
+      return user.deleteCartItem(req.body.productId);
+    })
+    .then((result) => res.status(200).json({ message: "Delete successfully!" }))
+    .catch((err) => console.log(err));
 };

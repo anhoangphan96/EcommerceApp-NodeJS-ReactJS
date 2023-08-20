@@ -44,6 +44,10 @@ const CustomerInforCheckOut = () => {
     });
     if (response.ok) {
       navigate("/history");
+    } else {
+      if (response.status === 404) {
+        navigate("/cart");
+      }
     }
   };
   return (

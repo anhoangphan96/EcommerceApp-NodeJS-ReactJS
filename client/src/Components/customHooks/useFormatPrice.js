@@ -7,6 +7,7 @@ export const useFormatPrice = (originalPrice) => {
   // chuyển từng char trong chuổi price vào string nếu đó là ký tự thứ 3 thì sẽ thêm dấu phẩy để đúng format
   useEffect(() => {
     let priceTemp = "";
+    console.log(originalPrice);
     let priceString = originalPrice.toString();
     for (let i = priceString.length - 1; i >= 0; i--) {
       priceTemp = priceString[i] + priceTemp;

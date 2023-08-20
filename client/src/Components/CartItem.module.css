@@ -33,3 +33,7 @@
   color: white;
   padding: 4px;
 }
+.rowDisable {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

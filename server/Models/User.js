@@ -54,7 +54,7 @@ userSchema.methods.updateCart = function (action, productId) {
   const updatedCart = [...this.cart];
   updatedCart[cartIndex].quantity += action === "increase" ? 1 : -1;
   this.cart = updatedCart;
-  this.save();
+  this.update();
   return this.cart[cartIndex];
 };
 
@@ -67,6 +67,15 @@ userSchema.methods.deleteCartItem = function (productId) {
   this.cart = updatedCart;
   this.save();
   return this.cart;
+};
+
+userSchema.methods.deleteByCount0 = function (listcart) {
+  const updatedCart = listcart.filter((cart) => cart.productId.count !== 0);
+  this.cart = updatedCart.map((cart) => {
+    return { productId: cart.productId._id, quantity: cart.quantity };
+  });
+  this.save();
+  return updatedCart;
 };
 
 module.exports = mongoose.model("User", userSchema);

@@ -8,6 +8,7 @@ const Cartlist = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [listCart, setListCart] = useState([]);
+  const [message, setMessage] = useState("");
   //Biến chứa email của current User nếu không đăng nhập thì là ""
   const emailCurUser = useSelector((state) => {
     if (state.login.isLogin) {
@@ -24,8 +25,9 @@ const Cartlist = () => {
     });
     const data = await response.json();
     console.log(data);
-    dispatch(cartActions.UPDATECART(data));
-    setListCart(data);
+    dispatch(cartActions.UPDATECART(data.cart));
+    setListCart(data.cart);
+    setMessage(data.message);
   };
   useEffect(() => {
     getListCart();
@@ -64,6 +66,7 @@ const Cartlist = () => {
           })}
         </tbody>
       </table>
+      {message && <p>{message}</p>}
       <div className={styles.navigate}>
         <button onClick={contShoppingHandler} className={styles.btnbackToShop}>
           <i className="fa-sharp fa-solid fa-left-long"></i> Continue shopping
