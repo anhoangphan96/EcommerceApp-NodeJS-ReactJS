@@ -11,7 +11,9 @@ import RootLayout, { loader as userInforLoader } from "./Pages/RootLayout";
 import store from "./redux/store";
 import History from "./Pages/History";
 import HistoryDetail from "./Pages/HistoryDetail";
+
 function App() {
+
   //Tạo ra biến router để quản lý router cho các thành phần con bên trong
   const router = createBrowserRouter([
     {

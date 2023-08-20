@@ -43,7 +43,7 @@
   border-bottom: 1px solid #dee2e6;
   height: 12%;
   align-items: center;
-  padding: 16px;
+  padding: 12px;
 }
 .chatTitleBar > h4 {
   font-size: 16px;
@@ -72,7 +72,7 @@
   gap: 16px;
   height: 76%;
   font-size: 14px;
-  padding: 8px 112px 8px 12px;
+  padding: 8px 12px 8px 12px;
   overflow: auto;
 }
 .chatContent span {
@@ -101,7 +101,7 @@
   display: flex;
   background-color: #f8f9fa;
   gap: 16px;
-  padding: 8px 112px 8px 12px;
+  padding: 8px 12px 8px 12px;
   height: 12%;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -109,14 +109,14 @@
   align-items: center;
 }
 .inputChat {
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
 }
 .inputChat > input {
   border: none;
   font-style: normal;
-  width: 70%;
+  width: 90%;
   padding: 4px;
 }
 .inputChat i {

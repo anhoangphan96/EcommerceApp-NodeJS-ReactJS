@@ -3,7 +3,11 @@ import styles from "./PopupLiveChat.module.css";
 import { FcManager } from "react-icons/fc";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Shake from "./Transitions/Shake";
-function PopupLiveChat() {
+import { useSelector } from "react-redux";
+function PopupLiveChat(props) {
+  const [messageInput, setMessageInput] = useState("");
+  const curUser = useSelector((state) => state.login.curUser);
+
   // state quản lý nội dung chat hiển thị mặc định
   const [state, setState] = useState({
     messageList: [
@@ -29,7 +33,23 @@ function PopupLiveChat() {
 
     isOpen: false,
   });
+  const messageChangeHandler = (event) => {
+    setMessageInput(event.target.value);
+  };
   //Function quản lý hành động click để mở hay đóng popup chat
+  const sendMessageHandler = async () => {
+    if (messageInput.trim()) {
+      const response = await fetch(`http://localhost:5000/chat/send`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: curUser.id,
+          message: messageInput,
+        }),
+      });
+    }
+  };
   function onClick() {
     setState((state) => ({
       ...state,
@@ -72,10 +92,13 @@ function PopupLiveChat() {
               <div className={styles.inputChatContainer}>
                 <FcManager />
                 <div className={styles.inputChat}>
-                  <input placeholder="Enter Message!"></input>
-                  <i className="fa-solid fa-file"></i>
-                  <i className="fa-solid fa-face-smile"></i>
+                  <input
+                    placeholder="Enter Message!"
+                    value={messageInput}
+                    onChange={messageChangeHandler}
+                  ></input>
                   <i
+                    onClick={sendMessageHandler}
                     className={`fa-solid fa-paper-plane ${styles.iconSend}`}
                   ></i>
                 </div>

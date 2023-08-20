@@ -10,6 +10,7 @@ const multer = require("multer");
 const userRoute = require("./Routes/user");
 const productRoute = require("./Routes/product");
 const orderRoute = require("./Routes/order");
+const chatRoute = require("./Routes/chat");
 
 app.use(
   cors({
@@ -35,6 +36,7 @@ app.use(
 app.use("/user", userRoute);
 app.use("/product", productRoute);
 app.use("/order", orderRoute);
+app.use("/chat", chatRoute);
 
 mongoose
   .connect(
@@ -42,6 +44,10 @@ mongoose
   )
   .then((result) => {
     console.log("Connected");
-    app.listen(5000);
+    const server = app.listen(5000);
+    const io = require("./socket").init(server);
+    io.on("connection", (socket) => {
+      console.log("Client connected", socket.id);
+    });
   })
   .catch((err) => console.log(err));
