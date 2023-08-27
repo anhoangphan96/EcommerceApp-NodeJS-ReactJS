@@ -11,9 +11,7 @@ const BoxChat = (props) => {
     const response = await fetch(
       `http://localhost:5000/chat/getmessages/${props.roomId}`
     );
-    console.log(response);
     const data = await response.json();
-    console.log(data);
     setListMessage(data);
   };
   const changeInputHandler = (event) => {
@@ -23,17 +21,17 @@ const BoxChat = (props) => {
     if (messageInput.trim() && socket) {
       const dataMessage = {
         roomId: props.roomId,
-        senderId: userId,
         sender: "counselor",
         message: messageInput,
       };
       socket.emit("sendMessage", dataMessage);
+      setMessageInput("");
     }
   };
   useEffect(() => {
     getListMessage();
     const socketconnect = openSocket("http://localhost:5000");
-    socketconnect.emit("setRoom", props.roomId);
+    socketconnect.emit("setRoom", { roomId: props.roomId });
     socketconnect.on("receiveMessage", (result) => {
       setListMessage(result.message);
     });

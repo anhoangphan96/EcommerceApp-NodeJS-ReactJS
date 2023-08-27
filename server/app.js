@@ -46,15 +46,17 @@ mongoose
     const server = app.listen(5000);
     const io = require("./socket").init(server);
     io.on("connection", (socket) => {
-      socket.on("setRoom", (room) => {
-        socket.join(room);
-        ChatMessage.findOne({ roomId: room, status: "open" })
+      socket.on("setRoom", (data) => {
+        socket.join(data.roomId);
+        ChatMessage.findOne({ roomId: data.roomId, status: "open" })
           .then((result) => {
             if (!result) {
-              return ChatMessage.create({ roomId: room });
-            } else return result;
+              return ChatMessage.create({
+                roomId: data.roomId,
+                clientId: data.clientId,
+              });
+            }
           })
-          .then((result) => console.log(result))
           .catch((err) => console.log(err));
       });
       socket.on("sendMessage", (data) => {
@@ -63,7 +65,6 @@ mongoose
           {
             $push: {
               message: {
-                senderId: data.senderId,
                 sender: data.sender,
                 text: data.message,
               },
@@ -72,8 +73,6 @@ mongoose
           { new: true }
         )
           .then((result) => {
-            console.log(data.roomId);
-            console.log(result);
             io.to(data.roomId).emit("receiveMessage", result);
           })
           .catch((err) => console.log(err));

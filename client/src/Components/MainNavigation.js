@@ -31,11 +31,16 @@ const MainNavigation = function (props) {
   };
 
   // Function để thực hiện hành động logout khi click vào nut logout
-  const logOutHandler = () => {
+  const logOutHandler = async () => {
     //Dispatch action logout, xóa currentUser khỏi localstorage và điều hướng về trang login
-    dispatch(loginActions.ON_LOGOUT());
-    localStorage.removeItem("currUser");
-    navigate("/login?mode=login");
+    const response = await fetch(`http://localhost:5000/user/userlogout`, {
+      credentials: "include",
+    });
+    console.log(response);
+    if (response.ok) {
+      dispatch(loginActions.ON_LOGOUT());
+      navigate("/login?mode=login");
+    }
   };
   //Function để thực hiện hành động click vào Narbar truyền từ rootlayout xuống
   const clickOnNavigationHandler = () => {

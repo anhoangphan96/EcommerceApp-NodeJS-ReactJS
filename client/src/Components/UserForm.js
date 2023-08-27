@@ -107,10 +107,14 @@ const UserForm = () => {
       });
       console.log(response);
       if (response.ok) {
-        const userData = await response.json();
-        console.log(userData);
-        dispatch(loginActions.ON_LOGIN(userData));
-        navigate("/");
+        if (isLogin) {
+          const userData = await response.json();
+          console.log(userData);
+          dispatch(loginActions.ON_LOGIN(userData));
+          navigate("/");
+        } else {
+          navigate("/login?mode=login");
+        }
       }
     };
     postUserAccessData();

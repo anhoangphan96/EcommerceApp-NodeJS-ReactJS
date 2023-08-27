@@ -1,7 +1,7 @@
 import SideBar from "../components/Sidebar/SideBar";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import styles from "./RootLayout.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginActions } from "../store/reduxstore";
 const RootLayout = () => {
@@ -14,13 +14,31 @@ const RootLayout = () => {
     navigate("/login");
   };
   const logoutHandler = async () => {
-    const response = await fetch(`http://localhost:5000/user/adminlogout`);
-    console.log(response);
+    const response = await fetch(`http://localhost:5000/user/adminlogout`, {
+      credentials: "include",
+    });
     if (response.ok) {
       dispatch(loginActions.ON_LOGOUT());
       navigate("/login");
     }
   };
+
+  const checkLogin = async () => {
+    const response = await fetch(`http://localhost:5000/user/infor`, {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    });
+    if (response.ok) {
+      const dataUser = await response.json();
+      dispatch(loginActions.ON_LOGIN(dataUser));
+    } else if (response.status === 401) {
+      navigate("/login");
+    }
+  };
+  useEffect(() => {
+    checkLogin();
+  }, []);
   return (
     <div className={styles.mainLayout}>
       <SideBar></SideBar>

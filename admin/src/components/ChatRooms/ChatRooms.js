@@ -26,14 +26,14 @@ const ChatRooms = () => {
         <ul>
           {listRoom.map((room) => (
             <li
-              key={room.roomId._id}
-              id={room.roomId._id}
+              key={room.roomId}
+              id={room.roomId}
               onClick={selectRoomHandler}
               className={`${styles.roomChatId} ${
-                selectRoom === room.roomId._id ? styles.selectedRoom : ""
+                selectRoom === room.roomId ? styles.selectedRoom : ""
               }`}
             >
-              {room.roomId._id + " - " + room.roomId.email}
+              {room.clientId._id + " - " + room.clientId.email}
             </li>
           ))}
         </ul>

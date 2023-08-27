@@ -1,15 +1,20 @@
 const User = require("../Models/User");
+const bcrypt = require("bcryptjs");
 
 exports.userAcessClient = (req, res, next) => {
   const mode = req.query.mode;
   if (mode === "signup") {
-    User.create({
-      email: req.body.email,
-      password: req.body.password,
-      fullName: req.body.name,
-      phoneNumber: req.body.phone,
-      isAdmin: false,
-    })
+    bcrypt
+      .hash(req.body.password, 12)
+      .then((enpassword) => {
+        return User.create({
+          email: req.body.email,
+          password: enpassword,
+          fullName: req.body.name,
+          phoneNumber: req.body.phone,
+          isAdmin: false,
+        });
+      })
       .then((result) => {
         res.status(201).json({ message: "User has created successfully!" });
       })
@@ -19,22 +24,27 @@ exports.userAcessClient = (req, res, next) => {
   } else if (mode === "login") {
     User.findOne({
       email: req.body.email,
-      password: req.body.password,
     })
       .then((result) => {
-        if (result) {
-          req.session.email = result.email;
-          req.session.isLoggedIn = true;
-          req.session.role = result.role;
-          return req.session.save((err) => {
-            res.status(200).json(result);
-          });
-        } else {
-          res
-            .status(401)
-            .json({ message: "Your username or password is incorrect" });
-        }
+        bcrypt
+          .compare(req.body.password, result.password)
+          .then((matchpassword) => {
+            if (matchpassword) {
+              req.session.email = result.email;
+              req.session.isLoggedIn = true;
+              req.session.role = result.role;
+              return req.session.save((err) => {
+                res.status(200).json(result);
+              });
+            } else {
+              res
+                .status(401)
+                .json({ message: "Your username or password is incorrect" });
+            }
+          })
+          .catch((err) => console.log(err));
       })
+
       .catch((err) => console.log(err));
   }
 };
@@ -115,7 +125,10 @@ exports.deleteCartItem = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 exports.userLogout = (req, res) => {
+  console.log(req.session);
   req.session.destroy((result) => {
+    console.log(result);
+    console.log(req.session);
     res.status(200).json({ message: "Log out succesfully" });
   });
 };
@@ -123,27 +136,33 @@ exports.userLogout = (req, res) => {
 exports.adminLogin = (req, res) => {
   User.findOne({
     email: req.body.email,
-    password: req.body.password,
   })
     .then((result) => {
-      if (result) {
-        if (["admin", "counselor"].includes(result.role)) {
-          req.session.email = result.email;
-          req.session.isLoggedIn = true;
-          req.session.role = result.role;
-          return req.session.save((err) => {
-            res.status(200).json(result);
-          });
-        } else {
-          res
-            .status(403)
-            .json({ message: "You dont have permission to access this page" });
-        }
-      } else {
-        res
-          .status(401)
-          .json({ message: "Your username or password is incorrect" });
-      }
+      bcrypt
+        .compare(req.body.password, result.password)
+        .then((matchpassword) => {
+          if (matchpassword) {
+            if (["admin", "counselor"].includes(result.role)) {
+              req.session.email = result.email;
+              req.session.isLoggedIn = true;
+              req.session.role = result.role;
+              return req.session.save((err) => {
+                res.status(200).json(result);
+              });
+            } else {
+              res
+                .status(403)
+                .json({
+                  message: "You dont have permission to access this page",
+                });
+            }
+          } else {
+            res
+              .status(401)
+              .json({ message: "Your username or password is incorrect" });
+          }
+        })
+        .catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));
 };

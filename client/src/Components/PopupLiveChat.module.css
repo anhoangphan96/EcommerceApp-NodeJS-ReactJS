@@ -84,14 +84,14 @@
   gap: 16px;
 }
 
-.me {
+.client {
   align-self: flex-end;
   border-radius: 2px;
   background-color: #4dabf7;
   color: #e9ecef;
   max-width: 80%;
 }
-.them {
+.counselor {
   border-radius: 4px;
   background-color: #f8f9fa;
   color: #868e96;
