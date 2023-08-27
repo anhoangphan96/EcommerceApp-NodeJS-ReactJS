@@ -6,18 +6,13 @@ import { useEffect, useState } from "react";
 import styles from "./RootLayOut.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { loginActions } from "../redux/store";
-import openSocket from "socket.io-client";
 function RootLayout() {
   //Khai báo hook navigation
-  const navigate = useNavigate();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   //Khai báo biến để kiểm soát có đang click trên thanh Navbar không
   const [isClickOnNav, setIsClickOnNav] = useState(false);
-  const [socket, setSocket] = useState(null);
-  const curUser = useSelector((state) => state.login.curUser);
-  const id = curUser?.id;
-  console.log(id);
+
   //Khi click vào navbar thì set biến trên thành true còn click vào phần main thì thành false
   const clickOnNavHandler = () => {
     setIsClickOnNav((prev) => true);
@@ -37,15 +32,6 @@ function RootLayout() {
       dispatch(loginActions.ON_LOGIN(dataUser));
     }
   };
-  useEffect(() => {
-    if (id) {
-      const socketconnect = openSocket("http://localhost:5000");
-      setSocket(socketconnect);
-      socketconnect.on("sendMessage", (message) => {
-        console.log(message);
-      });
-    }
-  }, [id]);
 
   useEffect(() => {
     checkLogin();
@@ -60,7 +46,7 @@ function RootLayout() {
         ) : (
           <>
             <Outlet />
-            <PopupLiveChat socket={socket} />
+            <PopupLiveChat />
           </>
         )}
       </main>

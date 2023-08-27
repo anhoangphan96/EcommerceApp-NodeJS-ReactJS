@@ -114,3 +114,42 @@ exports.deleteCartItem = (req, res, next) => {
     .then((result) => res.status(200).json({ message: "Delete successfully!" }))
     .catch((err) => console.log(err));
 };
+exports.userLogout = (req, res) => {
+  req.session.destroy((result) => {
+    res.status(200).json({ message: "Log out succesfully" });
+  });
+};
+
+exports.adminLogin = (req, res) => {
+  User.findOne({
+    email: req.body.email,
+    password: req.body.password,
+  })
+    .then((result) => {
+      if (result) {
+        if (["admin", "counselor"].includes(result.role)) {
+          req.session.email = result.email;
+          req.session.isLoggedIn = true;
+          req.session.role = result.role;
+          return req.session.save((err) => {
+            res.status(200).json(result);
+          });
+        } else {
+          res
+            .status(403)
+            .json({ message: "You dont have permission to access this page" });
+        }
+      } else {
+        res
+          .status(401)
+          .json({ message: "Your username or password is incorrect" });
+      }
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.adminLogout = (req, res) => {
+  req.session.destroy((result) => {
+    res.status(200).json({ message: "Log out succesfully" });
+  });
+};

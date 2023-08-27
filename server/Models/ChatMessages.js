@@ -3,9 +3,21 @@ const Schema = mongoose.Schema;
 
 const chatSchema = new Schema(
   {
-    chatId: { type: String, required: true },
-    senderId: { type: String, required: true },
-    message: { type: String, required: true },
+    roomId: { type: String, ref: "User", required: true }, //Sử dụng id của user để làm roomId để tiện theo dõi đang chat với user nào
+
+    message: {
+      type: [
+        {
+          senderId: { type: String },
+          sender: { type: String }, //Người gửi 1 là khách hàng (gửi từ trang client), 2 là admin-counseler(gửi từ trangadmin)
+          text: { type: String },
+        },
+      ],
+    },
+    status: {
+      type: String,
+      default: "open",
+    },
   },
   { timestamps: true }
 );

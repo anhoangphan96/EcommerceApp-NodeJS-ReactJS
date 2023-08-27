@@ -1,10 +1,14 @@
-exports.sendMessage = (req, res, next) => {
-  console.log(req.session.role);
-  bodyData = req.body;
-  console.log(bodyData);
-  const io = require("../socket").getIO();
-  io.emit("sendMessage", {
-    senderId: bodyData.userId,
-    message: bodyData.message,
-  });
+const ChatMessage = require("../Models/ChatMessages");
+exports.getListRooms = (req, res) => {
+  ChatMessage.find({ status: "open" })
+    .populate("roomId", "email")
+    .then((result) => res.status(200).json(result))
+    .catch((err) => console.log(err));
+};
+exports.getListMessages = (req, res) => {
+  const roomId = req.params.id;
+
+  ChatMessage.findOne({ status: "open", roomId: roomId })
+    .then((result) => res.status(200).json(result.message))
+    .catch((err) => console.log(err));
 };

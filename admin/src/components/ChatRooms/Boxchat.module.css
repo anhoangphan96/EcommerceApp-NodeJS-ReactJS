@@ -1,0 +1,42 @@
+.boxChatContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-left: 1px solid #ced4da;
+}
+.displayList {
+  height: 85%;
+  overflow-y: auto;
+}
+.listMessage {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.client {
+  align-self: flex-start;
+  border-radius: 2px;
+  background-color: #4dabf7;
+  color: #e9ecef;
+  max-width: 80%;
+}
+.counselor {
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  color: #868e96;
+  max-width: 80%;
+  align-self: flex-end;
+}
+.chatInput {
+  height: 15%;
+  overflow-y: auto;
+  display: flex;
+  width: 100%;
+  border-top: 1px solid #ced4da;
+}
+.chatInput input {
+  padding: 12px;
+  width: 100%;
+  border: none;
+}

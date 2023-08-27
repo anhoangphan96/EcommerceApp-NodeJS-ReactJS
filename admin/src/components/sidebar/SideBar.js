@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./SideBar.module.css";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const SideBar = () => {
   const [showListTable, setShowListTable] = useState(false);
-  const isLoggedIn = true;
+  const isLoggedIn = useSelector((state) => state.login.isLogin);
   const navigate = useNavigate();
   const clickToLogout = async () => {
     const response = await fetch(`http://localhost:5000/user/adminlogout`, {
@@ -26,7 +27,7 @@ const SideBar = () => {
 
   return (
     <div className={styles.sidebarContainer}>
-      <Link to="/">
+      <Link to={isLoggedIn ? "/" : "/login"}>
         <h2>Admin Page</h2>
       </Link>
       {/* Khi nào user login được check authorized admin thì mới thấy được các menu trong sidebar */}
@@ -40,7 +41,7 @@ const SideBar = () => {
                 width={18}
                 height={18}
                 viewBox="0 0 24 24"
-                stroke-width={2}
+                strokeWidth={2}
                 stroke="currentColor"
                 fill="none"
                 strokeLinecap="round"
@@ -63,7 +64,7 @@ const SideBar = () => {
                 width={18}
                 height={18}
                 viewBox="0 0 24 24"
-                stroke-width={2}
+                strokeWidth={2}
                 stroke="currentColor"
                 fill="none"
                 strokeLinecap="round"
@@ -82,7 +83,7 @@ const SideBar = () => {
                 width={18}
                 height={18}
                 viewBox="0 0 24 24"
-                stroke-width={2}
+                strokeWidth={2}
                 stroke="currentColor"
                 fill="none"
                 strokeLinecap="round"
@@ -93,7 +94,7 @@ const SideBar = () => {
                 <path d="M8 13h6"></path>
                 <path d="M9 18h-3a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-3l-3 3l-3 -3z"></path>
               </svg>
-              <Link to="/hotel">Customer</Link>
+              <Link to="/customerchat">Customer</Link>
             </li>
             <li>
               <svg
@@ -102,7 +103,7 @@ const SideBar = () => {
                 width={18}
                 height={18}
                 viewBox="0 0 24 24"
-                stroke-width={2}
+                strokeWidth={2}
                 stroke="currentColor"
                 fill="none"
                 strokeLinecap="round"
@@ -121,7 +122,7 @@ const SideBar = () => {
                   width={18}
                   height={18}
                   viewBox="0 0 24 24"
-                  stroke-width={2}
+                  strokeWidth={2}
                   stroke="currentColor"
                   fill="none"
                   strokeLinecap="round"
@@ -141,7 +142,7 @@ const SideBar = () => {
                     width={18}
                     height={18}
                     viewBox="0 0 24 24"
-                    stroke-width={2}
+                    strokeWidth={2}
                     stroke="currentColor"
                     fill="none"
                     strokeLinecap="round"
@@ -160,7 +161,7 @@ const SideBar = () => {
                     width={18}
                     height={18}
                     viewBox="0 0 24 24"
-                    stroke-width={2}
+                    strokeWidth={2}
                     stroke="currentColor"
                     fill="none"
                     strokeLinecap="round"
@@ -182,7 +183,7 @@ const SideBar = () => {
                     width={18}
                     height={18}
                     viewBox="0 0 24 24"
-                    stroke-width={2}
+                    strokeWidth={2}
                     stroke="currentColor"
                     fill="none"
                     strokeLinecap="round"

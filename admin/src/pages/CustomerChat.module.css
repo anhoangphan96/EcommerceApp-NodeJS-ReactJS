@@ -1,0 +1,10 @@
+.chatContainer {
+  padding: 24px;
+}
+.chatContainer > h2 {
+  font-size: 16px;
+  margin: 0px;
+}
+.chatContainer > p {
+  margin: 0px;
+}

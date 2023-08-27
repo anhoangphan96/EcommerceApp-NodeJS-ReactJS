@@ -1,52 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./PopupLiveChat.module.css";
 import { FcManager } from "react-icons/fc";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Shake from "./Transitions/Shake";
 import { useSelector } from "react-redux";
+import openSocket from "socket.io-client";
+
 function PopupLiveChat(props) {
   const [messageInput, setMessageInput] = useState("");
+  const [listMessage, setListMessage] = useState([]);
+  const [socket, setSocket] = useState(null);
   const curUser = useSelector((state) => state.login.curUser);
-
+  const id = curUser ? curUser._id : "";
+  let [roomId, setRoomId] = useState(
+    JSON.parse(localStorage.getItem("roomId")) ?? []
+  );
+  console.log(roomId[0].roomId);
   // state quản lý nội dung chat hiển thị mặc định
   const [state, setState] = useState({
-    messageList: [
-      {
-        author: "me",
-        data: "Xin Chào",
-      },
-
-      {
-        author: "me",
-        data: "Làm thế nào để xem các sản phẩm",
-      },
-
-      {
-        author: "them",
-        data: "ADMIN: Chào bạn",
-      },
-      {
-        author: "them",
-        data: "ADMIN: Bạn có thể vào mục shop để xem các sản phẩm",
-      },
-    ],
-
     isOpen: false,
   });
+
+  const getListMessage = async () => {
+    const response = await fetch(
+      `http://localhost:5000/chat/getmessages/${roomId[0].roomId}`
+    );
+    const data = await response.json();
+    console.log(data);
+    setListMessage(data);
+  };
   const messageChangeHandler = (event) => {
     setMessageInput(event.target.value);
   };
   //Function quản lý hành động click để mở hay đóng popup chat
   const sendMessageHandler = async () => {
-    if (messageInput.trim()) {
-      const response = await fetch(`http://localhost:5000/chat/send`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: curUser.id,
-          message: messageInput,
-        }),
+    if (messageInput.trim() && socket) {
+      socket.emit("sendMessage", {
+        roomId: id,
+        senderId: id,
+        sender: "client",
+        message: messageInput,
       });
     }
   };
@@ -56,6 +49,25 @@ function PopupLiveChat(props) {
       isOpen: !state.isOpen,
     }));
   }
+  useEffect(() => {
+    console.log(id);
+    //Sử dụng id của user để làm roomId để biết room đó đang nói chuyện với user nào và dễ cho search contact
+    if (id) {
+      const socketconnect = openSocket("http://localhost:5000");
+      socketconnect.on("receiveMessage", (data) => {
+        console.log(data);
+      });
+      if (!roomId.length) {
+        localStorage.setItem("roomId", JSON.stringify([{ roomId: id }]));
+        setRoomId(id);
+        socketconnect.emit("setRoom", id);
+      }
+      setSocket(socketconnect);
+    }
+  }, [id]);
+  useEffect(() => {
+    getListMessage();
+  }, []);
   //JSX trả ra các thành phần trong liveChat theo đề bài, có 1 số dynamic Class để quản lý xem người gửi là them hay me, kích thước của popUp
   return (
     <div
@@ -72,18 +84,18 @@ function PopupLiveChat(props) {
                 <button>Let's Chat App</button>
               </div>
               <div className={styles.chatContent}>
-                {state.messageList.map((message, i) => {
+                {listMessage.map((message, i) => {
                   let Objectchat =
-                    message.author === "them" ? (
+                    message.sender === "counselor" ? (
                       <div className={styles.themChatSection} key={i}>
                         <FcManager />
                         <span className={styles[message.author]}>
-                          {message.data}
+                          {message.text}
                         </span>
                       </div>
                     ) : (
                       <span key={i} className={styles[message.author]}>
-                        {message.data}
+                        {message.text}
                       </span>
                     );
                   return Objectchat;

@@ -6,7 +6,7 @@ const cors = require("cors");
 const session = require("express-session");
 const app = express();
 const multer = require("multer");
-
+const ChatMessage = require("./Models/ChatMessages");
 const userRoute = require("./Routes/user");
 const productRoute = require("./Routes/product");
 const orderRoute = require("./Routes/order");
@@ -37,7 +37,6 @@ app.use("/user", userRoute);
 app.use("/product", productRoute);
 app.use("/order", orderRoute);
 app.use("/chat", chatRoute);
-
 mongoose
   .connect(
     `mongodb+srv://anphfx21936:Hoangan512@cluster0.3v63j0d.mongodb.net/ecommerceApp`
@@ -47,6 +46,38 @@ mongoose
     const server = app.listen(5000);
     const io = require("./socket").init(server);
     io.on("connection", (socket) => {
+      socket.on("setRoom", (room) => {
+        socket.join(room);
+        ChatMessage.findOne({ roomId: room, status: "open" })
+          .then((result) => {
+            if (!result) {
+              return ChatMessage.create({ roomId: room });
+            } else return result;
+          })
+          .then((result) => console.log(result))
+          .catch((err) => console.log(err));
+      });
+      socket.on("sendMessage", (data) => {
+        ChatMessage.findOneAndUpdate(
+          { roomId: data.roomId },
+          {
+            $push: {
+              message: {
+                senderId: data.senderId,
+                sender: data.sender,
+                text: data.message,
+              },
+            },
+          },
+          { new: true }
+        )
+          .then((result) => {
+            console.log(data.roomId);
+            console.log(result);
+            io.to(data.roomId).emit("receiveMessage", result);
+          })
+          .catch((err) => console.log(err));
+      });
       console.log("Client connected", socket.id);
     });
   })
