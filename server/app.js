@@ -51,6 +51,7 @@ mongoose
         ChatMessage.findOne({ roomId: data.roomId, status: "open" })
           .then((result) => {
             if (!result) {
+              io.emit("haveNewRoom", data.roomId);
               return ChatMessage.create({
                 roomId: data.roomId,
                 clientId: data.clientId,
@@ -60,24 +61,37 @@ mongoose
           .catch((err) => console.log(err));
       });
       socket.on("sendMessage", (data) => {
-        ChatMessage.findOneAndUpdate(
-          { roomId: data.roomId },
-          {
-            $push: {
-              message: {
-                sender: data.sender,
-                text: data.message,
+        if (data.message === "/end") {
+          ChatMessage.findOneAndUpdate(
+            { roomId: data.roomId },
+            {
+              status: "close",
+            },
+            { new: true }
+          )
+            .then((result) => {
+              io.to(data.roomId).emit("endRoom", result);
+            })
+            .catch((err) => console.log(err));
+        } else {
+          ChatMessage.findOneAndUpdate(
+            { roomId: data.roomId },
+            {
+              $push: {
+                message: {
+                  sender: data.sender,
+                  text: data.message,
+                },
               },
             },
-          },
-          { new: true }
-        )
-          .then((result) => {
-            io.to(data.roomId).emit("receiveMessage", result);
-          })
-          .catch((err) => console.log(err));
+            { new: true }
+          )
+            .then((result) => {
+              io.to(data.roomId).emit("receiveMessage", result);
+            })
+            .catch((err) => console.log(err));
+        }
       });
-      console.log("Client connected", socket.id);
     });
   })
   .catch((err) => console.log(err));

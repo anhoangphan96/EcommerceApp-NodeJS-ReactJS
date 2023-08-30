@@ -6,69 +6,108 @@ import Shake from "./Transitions/Shake";
 import { useSelector } from "react-redux";
 import openSocket from "socket.io-client";
 import uuid4 from "uuid4";
-function PopupLiveChat(props) {
+import { useNavigate } from "react-router-dom";
+function PopupLiveChat() {
   const [messageInput, setMessageInput] = useState("");
   const [listMessage, setListMessage] = useState([]);
   const [socket, setSocket] = useState(null);
-  const curUser = useSelector((state) => state.login.curUser);
-  const userId = curUser ? curUser._id : "";
+  const [isConnectRoom, setIsConnectRoom] = useState(false);
+  const navigate = useNavigate();
+  const userId = useSelector((state) => state.login.curUser)?._id;
   const listRoomId = JSON.parse(localStorage.getItem("listRoom")) ?? [];
-  //Tìm số phòng hiện tại mà user đang tham gia chat còn đang open
-  let curRoomId = listRoomId.find((room) => room.clientId === userId)?.roomId;
-  console.log(curRoomId);
+  const [curRoomId, setCurRoomId] = useState("");
   // state quản lý nội dung chat hiển thị mặc định
   const [state, setState] = useState({
     isOpen: false,
   });
   const getListMessage = async () => {
     const response = await fetch(
-      `http://localhost:5000/chat/getmessages/${curRoomId}`
+      `http://localhost:5000/chat/getmessages/${userId}`
     );
-    const data = await response.json();
-    setListMessage(data);
+    if (response.status === 200) {
+      const data = await response.json();
+      setListMessage(data.message);
+      if (listRoomId.findIndex((room) => room.roomId === data.roomId) === -1) {
+        setCurRoomId(data.roomId);
+        localStorage.setItem(
+          "listRoom",
+          JSON.stringify([
+            ...listRoomId,
+            { roomId: data.roomId, clientId: userId },
+          ])
+        );
+      }
+    }
   };
   const messageChangeHandler = (event) => {
     setMessageInput(event.target.value);
   };
   //Function quản lý hành động click để mở hay đóng popup chat
   const sendMessageHandler = async () => {
-    if (messageInput.trim() && socket) {
-      socket.emit("sendMessage", {
-        roomId: curRoomId,
-        clientId: userId,
-        sender: "client",
-        message: messageInput,
+    //User phải đăng nhập mới được gửi tin nhắn
+    if (!userId) {
+      navigate("/login?mode=login");
+      setState({
+        isOpen: false,
       });
-      setMessageInput("");
+    } else {
+      if (messageInput.trim() && socket) {
+        socket.emit("sendMessage", {
+          roomId: curRoomId,
+          clientId: userId,
+          sender: "client",
+          message: messageInput,
+        });
+        setMessageInput("");
+      }
     }
   };
   function onClick() {
     setState((state) => ({
-      ...state,
       isOpen: !state.isOpen,
     }));
+    setIsConnectRoom(true);
   }
   useEffect(() => {
     if (userId) {
-      const socketconnect = openSocket("http://localhost:5000");
-      socketconnect.on("receiveMessage", (data) => {
-        setListMessage(data.message);
-      });
-      if (!curRoomId) {
-        curRoomId = uuid4();
-        localStorage.setItem(
-          "listRoom",
-          JSON.stringify([
-            ...listRoomId,
-            { roomId: curRoomId, clientId: userId },
-          ])
-        );
-      }
+      setCurRoomId(listRoomId.find((room) => room.clientId === userId)?.roomId);
       getListMessage();
-      socketconnect.emit("setRoom", { roomId: curRoomId, clientId: userId });
-      setSocket(socketconnect);
+      if (isConnectRoom) {
+        const socketconnect = openSocket("http://localhost:5000");
+        if (!curRoomId) {
+          const newCurRoomId = uuid4();
+          setCurRoomId(newCurRoomId);
+          localStorage.setItem(
+            "listRoom",
+            JSON.stringify([
+              ...listRoomId,
+              { roomId: newCurRoomId, clientId: userId },
+            ])
+          );
+        } else {
+          socketconnect.emit("setRoom", {
+            roomId: curRoomId,
+            clientId: userId,
+          });
+          socketconnect.on("receiveMessage", (data) => {
+            setListMessage(data.message);
+          });
+          socketconnect.on("endRoom", (data) => {
+            setListMessage([]);
+            const updateListRoom = listRoomId.filter(
+              (room) => room.roomId !== curRoomId
+            );
+            localStorage.setItem("listRoom", JSON.stringify(updateListRoom));
+            setState({
+              isOpen: false,
+            });
+            setIsConnectRoom(false);
+          });
+          setSocket(socketconnect);
+        }
+      }
     }
-  }, [userId]);
+  }, [userId, isConnectRoom, curRoomId]);
   //JSX trả ra các thành phần trong liveChat theo đề bài, có 1 số dynamic Class để quản lý xem người gửi là them hay me, kích thước của popUp
   return (
     <div
@@ -87,10 +126,16 @@ function PopupLiveChat(props) {
               <ul className={styles.chatContent}>
                 {listMessage.map((message) => {
                   return (
-                    <li key={message._id} className={styles[message.sender]}>
-                      {`${
-                        message.sender === "client" ? "You:" : "Tư vấn viên:"
-                      } ${message.text}`}
+                    <li
+                      key={message._id}
+                      className={`${styles.message} ${styles[message.sender]}`}
+                    >
+                      {message.sender === "counselor" && <FcManager />}
+                      <div>
+                        {`${
+                          message.sender === "client" ? "You:" : "Tư vấn viên:"
+                        } ${message.text}`}
+                      </div>
                     </li>
                   );
                 })}

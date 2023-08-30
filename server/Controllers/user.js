@@ -54,7 +54,7 @@ exports.checkLogin = (req, res, next) => {
     User.findOne({ email: req.session.email })
       .then((user) => {
         res.status(200).json({
-          id: user._id,
+          _id: user._id,
           email: user.email,
           fullName: user.fullName,
           phone: user.phoneNumber,
@@ -89,7 +89,7 @@ exports.getListCart = (req, res, next) => {
             break;
           }
         }
-        console.log(haveItemCount0);
+
         if (haveItemCount0) {
           return user.deleteByCount0(user.cart);
         } else {
@@ -125,7 +125,6 @@ exports.deleteCartItem = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 exports.userLogout = (req, res) => {
-  console.log(req.session);
   req.session.destroy((result) => {
     console.log(result);
     console.log(req.session);
@@ -150,11 +149,9 @@ exports.adminLogin = (req, res) => {
                 res.status(200).json(result);
               });
             } else {
-              res
-                .status(403)
-                .json({
-                  message: "You dont have permission to access this page",
-                });
+              res.status(403).json({
+                message: "You dont have permission to access this page",
+              });
             }
           } else {
             res

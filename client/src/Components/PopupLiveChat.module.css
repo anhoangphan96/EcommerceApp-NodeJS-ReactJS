@@ -69,33 +69,38 @@
   display: flex;
   font-style: italic;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
   height: 76%;
   font-size: 14px;
   padding: 8px 12px 8px 12px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
-.chatContent span {
-  padding: 8px 8px;
-}
-
-.themChatSection {
+.message {
   display: flex;
-  gap: 16px;
+  gap: 8px;
+  align-items: center;
 }
-
 .client {
   align-self: flex-end;
-  border-radius: 2px;
+  border-radius: 4px;
+  padding: 8px;
   background-color: #4dabf7;
   color: #e9ecef;
   max-width: 80%;
 }
-.counselor {
+.client > div {
+  width: 100%;
+  overflow-wrap: break-word;
+}
+
+.counselor > div {
   border-radius: 4px;
+  padding: 8px;
   background-color: #f8f9fa;
   color: #868e96;
   max-width: 80%;
+  overflow-wrap: break-word;
 }
 .inputChatContainer {
   display: flex;

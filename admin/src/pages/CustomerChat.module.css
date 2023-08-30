@@ -6,5 +6,8 @@
   margin: 0px;
 }
 .chatContainer > p {
-  margin: 0px;
+  margin-top: 0px;
+  font-size: 14px;
+  margin-bottom: 32px;
+  color: #868e96;
 }

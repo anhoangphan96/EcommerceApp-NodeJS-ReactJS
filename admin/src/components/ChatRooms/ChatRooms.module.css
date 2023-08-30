@@ -6,23 +6,53 @@
 .listRoom {
   width: 20%;
   height: 100%;
-  overflow-y: auto;
+
   display: flex;
   flex-direction: column;
 }
 .searchContact {
   padding: 12px;
   border-bottom: 1px solid #ced4da;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.searchContact > input {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #495057;
+  border: 1px solid #ced4da;
 }
 .listRoom > ul {
+  overflow-y: auto;
   padding: 0px;
+  margin: 0px;
 }
 .chatContent {
   width: 80%;
 }
-.roomChatId {
+.roomContact {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  color: #495057;
+  padding: 16px 8px;
+  font-size: 14px;
+  align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid #ced4da;
 }
+.roomContact:hover {
+  opacity: 0.8px;
+  background-color: #f8f9fa;
+}
+.roomContact > svg {
+  background-color: #e9ecef;
+  border-radius: 50%;
+  width: 25%;
+  height: 100%;
+}
 .selectedRoom {
-  background-color: #f1f3f5;
+  background-color: #e7f5ff;
 }

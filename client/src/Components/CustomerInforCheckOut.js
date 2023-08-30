@@ -66,6 +66,7 @@ const CustomerInforCheckOut = () => {
         type="email"
         placeholder="Enter Your Email Here!"
         value={email}
+        disabled
         onChange={changeEmailHandler}
       ></input>
       <label htmlFor="phoneNumber">PHONE NUMBER:</label>
