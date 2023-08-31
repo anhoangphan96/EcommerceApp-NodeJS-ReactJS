@@ -51,11 +51,15 @@ mongoose
         ChatMessage.findOne({ roomId: data.roomId, status: "open" })
           .then((result) => {
             if (!result) {
-              io.emit("haveNewRoom", data.roomId);
-              return ChatMessage.create({
+              ChatMessage.create({
                 roomId: data.roomId,
                 clientId: data.clientId,
-              });
+              })
+                //Sau khi tạo 1 room mới ở database thì emit event cho admin page biết để hiện room mới lên list room
+                .then((result) => {
+                  io.emit("haveNewRoom", data.roomId);
+                })
+                .catch((err) => console.log(err));
             }
           })
           .catch((err) => console.log(err));

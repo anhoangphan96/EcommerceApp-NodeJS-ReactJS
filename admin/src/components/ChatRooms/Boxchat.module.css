@@ -49,6 +49,7 @@
   display: flex;
   width: 100%;
   border-top: 1px solid #ced4da;
+  justify-content: center;
 }
 .chatInput input {
   padding: 24px;
@@ -70,4 +71,9 @@
   padding: 4px;
   background-color: #4dabf7;
   cursor: pointer;
+}
+.nofication {
+  font-size: 14px;
+  font-style: italic;
+  color: red;
 }
