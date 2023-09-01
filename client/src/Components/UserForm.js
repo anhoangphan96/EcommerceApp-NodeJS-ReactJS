@@ -12,7 +12,7 @@ const UserForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //khai báo biến chứa các error, nếu ban đầu chưa có lỗi nào thì sẽ là object rỗng
-  let dataError = useActionData() ?? {};
+  const [dataError, setDataError] = useState({});
   //Khai báo hook để lấy param URL và lấy giá trị mode, nếu mode là login thì biến isLogin là true
   const [searchParams] = useSearchParams();
   const isLogin = searchParams.get("mode") === "login";
@@ -27,39 +27,29 @@ const UserForm = () => {
   const [phoneIsError, setPhoneIsError] = useState(false);
   //Khai báo biến dùng state để quản lý có đang chuyển giữa 2 mode hay không
   const [isChangeMode, setIsChangeMode] = useState(false);
-
   // Các function để quản lý onChange của các input
   //Nếu như đang có lỗi mà user input lại thì biến quản lý lỗi của input đó sẽ thành true để biến mất các classstyle lỗi và xóa nội dung của lỗi trong dataError
   const passwordInputHandler = (event) => {
     setEnterPassword(event.target.value);
-    if (
-      (dataError.password === "Your password must be more than 8 characters" &&
-        event.target.value.length >= 8) ||
-      (dataError.password === "You must input password field" &&
-        event.target.value.length >= 1)
-    ) {
-      dataError.password = "";
+    if (event.target.value.length >= 8) {
       setpasswordIsError((prev) => false);
     }
   };
   const changeNameHandler = (event) => {
     setEnterName(event.target.value);
     if (event.target.value.length >= 1) {
-      dataError.name = "";
       setNameIsError((prev) => false);
     }
   };
   const changeEmailHandler = (event) => {
     setEnterEmail(event.target.value);
     if (event.target.value.length >= 1) {
-      dataError.email = "";
       setEmailIsError(false);
     }
   };
   const changePhoneHandler = (event) => {
     setEnterPhone(event.target.value);
     if (event.target.value.length >= 1) {
-      dataError.phone = "";
       setPhoneIsError(false);
     }
   };
@@ -77,14 +67,15 @@ const UserForm = () => {
     if (dataError.phone) {
       setPhoneIsError((prev) => true);
     }
-  }, [dataError.password, dataError.name, dataError.email, dataError.phone]);
+  }, [dataError]);
 
   // Khi submit form ở chế độ login thì sẽ xóa passWord
   const submitFormHandler = (event) => {
     event.preventDefault();
-    const urlToFetch = `http://localhost:5000/user/access?mode=${
+    const urlToFetch = `http://localhost:5000/user/${
       isLogin ? "login" : "signup"
     }`;
+    //function để post data đến backend đăng nhập hoặc đăng ký
     const postUserAccessData = async () => {
       let dataToFetch = {
         name: enterName,
@@ -105,7 +96,6 @@ const UserForm = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataToFetch),
       });
-      console.log(response);
       if (response.ok) {
         if (isLogin) {
           const userData = await response.json();
@@ -114,6 +104,18 @@ const UserForm = () => {
           navigate("/");
         } else {
           navigate("/login?mode=login");
+        }
+      } else {
+        if (response.status === 400) {
+          const errors = await response.json();
+          const msgError = {};
+          for (let property in errors) {
+            msgError[property] = errors[property].msg;
+          }
+          setDataError(msgError);
+        } else if (response.status === 401 && isLogin) {
+          const error = await response.json();
+          setDataError({ password: error.message });
         }
       }
     };
@@ -137,7 +139,6 @@ const UserForm = () => {
     setPhoneIsError((prev) => false);
     setIsChangeMode(false);
   }, [isLogin]);
-
   //Khi click change giữa mode login và signup sẽ hiễn thị message ...Loading
   //component return JSX xây dựng form data cho cả 2 chế độ login và signup render phụ thuộc vào mode lấy từ params
   return (

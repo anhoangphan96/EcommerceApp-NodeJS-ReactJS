@@ -1,9 +1,13 @@
 const User = require("../Models/User");
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
-exports.userAcessClient = (req, res, next) => {
-  const mode = req.query.mode;
-  if (mode === "signup") {
+exports.userSignup = (req, res, next) => {
+  const errors = validationResult(req);
+  //Nếu có error thì sẽ trả các phản hồi lỗi tương ứng tới frontend
+  if (!errors.isEmpty()) {
+    res.status(400).json(errors.mapped());
+  } else {
     bcrypt
       .hash(req.body.password, 12)
       .then((enpassword) => {
@@ -21,7 +25,13 @@ exports.userAcessClient = (req, res, next) => {
       .catch((err) => {
         console.log(err);
       });
-  } else if (mode === "login") {
+  }
+};
+exports.userLogin = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json(errors.mapped());
+  } else {
     User.findOne({
       email: req.body.email,
     })
@@ -44,11 +54,9 @@ exports.userAcessClient = (req, res, next) => {
           })
           .catch((err) => console.log(err));
       })
-
       .catch((err) => console.log(err));
   }
 };
-
 exports.checkLogin = (req, res, next) => {
   if (req.session.isLoggedIn) {
     User.findOne({ email: req.session.email })
