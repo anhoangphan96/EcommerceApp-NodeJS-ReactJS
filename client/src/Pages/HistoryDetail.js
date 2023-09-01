@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
 import styles from "./HistoryDetail.module.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useFormatPrice } from "../Components/customHooks/useFormatPrice";
 import OrderItem from "../Components/History/OderItem";
 const HistoryDetail = () => {
   const orderId = useParams().id;
+  const navigate = useNavigate();
   const [orderInfor, setOrderInfor] = useState({
     totalPrice: 0,
     items: [],
@@ -15,21 +16,29 @@ const HistoryDetail = () => {
   const price = useFormatPrice(orderInfor.totalPrice);
   const getOrderDetail = async () => {
     const response = await fetch(
-      `http://localhost:5000/order/detail/${orderId}`
+      `http://localhost:5000/order/detail/${orderId}`,
+      {
+        credentials: "include",
+      }
     );
-    const data = await response.json();
-    setOrderInfor(data);
+    if (response.ok) {
+      const data = await response.json();
+      setOrderInfor(data);
+    } else {
+      if (response.status === 401) {
+        navigate("http://localhost:3000/login?mode=login");
+      }
+    }
   };
   useEffect(() => {
     getOrderDetail();
   }, []);
-  const userData = useSelector((state) => state.login.curUser);
 
   return (
     <>
       <div className={styles.title}>
         <h2>INFORMATION ORDER</h2>
-        <p>ID User: {userId}</p>
+        <p>ID User: {orderInfor.userId}</p>
         <p>Full Name: {orderInfor.fullName}</p>
         <p>Phone: {orderInfor.phone}</p>
         <p>Address: {orderInfor.address}</p>

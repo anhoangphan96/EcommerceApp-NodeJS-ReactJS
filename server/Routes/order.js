@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 const orderControllers = require("../Controllers/order");
 const authorControllers = require("../Controllers/authorization");
+const validate = require("../Controllers/validation");
 
 router.post(
   "/create",
   authorControllers.clientRoleAuthor,
+  validate.orderForm(),
   orderControllers.postCreateOrder
 );
 router.get(

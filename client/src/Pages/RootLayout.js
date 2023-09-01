@@ -29,6 +29,7 @@ function RootLayout() {
     });
     if (response.ok) {
       const dataUser = await response.json();
+      console.log(dataUser);
       dispatch(loginActions.ON_LOGIN(dataUser));
     }
   };

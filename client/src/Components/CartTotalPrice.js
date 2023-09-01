@@ -1,18 +1,8 @@
 import styles from "./CartTotalPrice.module.css";
 import { useSelector } from "react-redux";
 import { useFormatPrice } from "./customHooks/useFormatPrice";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { cartActions } from "../redux/store";
+
 const CartTotalPrice = (props) => {
-  //Khai báo email user hiện tại đang đăng nhập nếu không thì trả về ""
-  const emailCurUser = useSelector((state) => {
-    if (state.login.isLogin) {
-      return state.login.curUser.email;
-    } else {
-      return "";
-    }
-  });
   // khai biến chứa tổng price lấy từ redux store
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   //dùng custom hook để custom price

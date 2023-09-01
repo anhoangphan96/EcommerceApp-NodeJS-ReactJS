@@ -2,22 +2,31 @@ import styles from "./TotalOrderInfor.module.css";
 import { useSelector } from "react-redux";
 import { useFormatPrice } from "./customHooks/useFormatPrice";
 import OrderPriceItem from "./OrderPriceItem";
-
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { cartActions } from "../redux/store";
 const TotalOrderInfor = () => {
-  //Khai báo email của current User nếu không có user đăng nhập thì trả về rỗng
-  const emailCurUser = useSelector((state) => {
-    if (state.login.isLogin) {
-      return state.login.curUser.email;
-    } else {
-      return "";
-    }
-  });
-  //Khai báo list cart được filter theo email của user đang đăng nhập
-  const listCart = useSelector((state) => state.cart.listCart);
-  //sử dụng custom hook để format lại giá tiền
+  const dispatch = useDispatch();
   const totalPrice = useFormatPrice(
     useSelector((state) => state.cart.totalPrice) ?? 0
   );
+  //Khai báo list cart được filter theo email của user đang đăng nhập
+  const listCart = useSelector((state) => state.cart.listCart);
+  const getListCart = async () => {
+    const response = await fetch(`http://localhost:5000/user/listcart`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const data = await response.json();
+    dispatch(cartActions.UPDATECART(data.cart));
+  };
+  //Nếu như lở f5 hay load lại trang checkout thì phải check coi đã fetch data cart chưa nếu chưa sẽ fetch lại
+  useEffect(() => {
+    if (!totalPrice) {
+      getListCart();
+    }
+  }, []);
+
   //component trả về JSX để hiển thị thông tin cuối cùng của đơn hàng, trong đó mỗi OrderpriceItem sẽ hiển thị mỗi dòng là 1 sản phẩm
   return (
     <div className={styles.container}>

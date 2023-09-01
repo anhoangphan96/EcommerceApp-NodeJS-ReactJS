@@ -35,3 +35,14 @@ exports.validateLogin = () => {
       .trim(),
   ];
 };
+
+exports.orderForm = () => {
+  return [
+    body("email").isEmail().withMessage("Email is not validated").trim(),
+    body("phone", "Your phone number must have 10 numeric digits")
+      .isNumeric()
+      .isLength({ min: 10, max: 10 }),
+    body("fullName").notEmpty().withMessage("Please input your name"),
+    body("address").notEmpty().withMessage("Please input your address"),
+  ];
+};

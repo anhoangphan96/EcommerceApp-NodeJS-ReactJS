@@ -33,49 +33,65 @@ const userSchema = new Schema({
     },
   ],
 });
-userSchema.methods.addToCart = function (newCart) {
-  const cartIndex = this.cart.findIndex(
-    (cartItem) => cartItem.productId.toString() === newCart.productId
-  );
-  if (cartIndex === -1) {
-    this.cart.push(newCart);
-    this.save();
-  } else {
-    const updatedCart = [...this.cart];
-    updatedCart[cartIndex].quantity += newCart.quantity;
-    this.cart = updatedCart;
-    this.save();
+userSchema.methods.addToCart = async function (newCart) {
+  try {
+    const cartIndex = this.cart.findIndex(
+      (cartItem) => cartItem.productId.toString() === newCart.productId
+    );
+    if (cartIndex === -1) {
+      this.cart.push(newCart);
+      await this.save();
+    } else {
+      const updatedCart = [...this.cart];
+      updatedCart[cartIndex].quantity += newCart.quantity;
+      this.cart = updatedCart;
+      await this.save();
+    }
+  } catch (err) {
+    throw err;
   }
 };
-userSchema.methods.updateCart = function (action, productId) {
-  const cartIndex = this.cart.findIndex(
-    (cartItem) => cartItem.productId.toString() === productId
-  );
-  const updatedCart = [...this.cart];
-  updatedCart[cartIndex].quantity += action === "increase" ? 1 : -1;
-  this.cart = updatedCart;
-  this.update();
-  return this.cart[cartIndex];
+userSchema.methods.updateCart = async function (action, productId) {
+  try {
+    const cartIndex = this.cart.findIndex(
+      (cartItem) => cartItem.productId.toString() === productId
+    );
+    const updatedCart = [...this.cart];
+    updatedCart[cartIndex].quantity += action === "increase" ? 1 : -1;
+    this.cart = updatedCart;
+    await this.save();
+    return this.cart[cartIndex];
+  } catch (err) {
+    throw err;
+  }
 };
 
-userSchema.methods.deleteCartItem = function (productId) {
-  const cartIndex = this.cart.findIndex(
-    (cartItem) => cartItem.productId.toString() === productId
-  );
-  const updatedCart = [...this.cart];
-  updatedCart.splice(cartIndex, 1);
-  this.cart = updatedCart;
-  this.save();
-  return this.cart;
+userSchema.methods.deleteCartItem = async function (productId) {
+  try {
+    const cartIndex = this.cart.findIndex(
+      (cartItem) => cartItem.productId.toString() === productId
+    );
+    const updatedCart = [...this.cart];
+    updatedCart.splice(cartIndex, 1);
+    this.cart = updatedCart;
+    await this.save();
+    return this.cart;
+  } catch (err) {
+    throw err;
+  }
 };
 
-userSchema.methods.deleteByCount0 = function (listcart) {
-  const updatedCart = listcart.filter((cart) => cart.productId.count !== 0);
-  this.cart = updatedCart.map((cart) => {
-    return { productId: cart.productId._id, quantity: cart.quantity };
-  });
-  this.save();
-  return updatedCart;
+userSchema.methods.deleteByCount0 = async function (listcart) {
+  try {
+    const updatedCart = listcart.filter((cart) => cart.productId.count !== 0);
+    this.cart = updatedCart.map((cart) => {
+      return { productId: cart.productId._id, quantity: cart.quantity };
+    });
+    await this.save();
+    return updatedCart;
+  } catch (err) {
+    throw err;
+  }
 };
 
 module.exports = mongoose.model("User", userSchema);

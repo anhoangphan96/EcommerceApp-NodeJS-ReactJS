@@ -9,14 +9,6 @@ const Cartlist = () => {
   const dispatch = useDispatch();
   const [listCart, setListCart] = useState([]);
   const [message, setMessage] = useState("");
-  //Biến chứa email của current User nếu không đăng nhập thì là ""
-  const emailCurUser = useSelector((state) => {
-    if (state.login.isLogin) {
-      return state.login.curUser.email;
-    } else {
-      return "";
-    }
-  });
 
   const getListCart = async () => {
     const response = await fetch(`http://localhost:5000/user/listcart`, {

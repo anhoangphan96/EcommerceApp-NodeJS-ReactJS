@@ -1,6 +1,7 @@
 import CustomerInforCheckOut from "../Components/CustomerInforCheckOut";
 import TotalOrderInfor from "../Components/TotalOrderInfor";
 import styles from "./CheckOutPage.module.css";
+
 const CheckOutPage = function () {
   //Component Page trả ra JSX để hiển thị thông tiêu đề, 1 form thông tin check out, và tổng thông tin đơn hàng cuối cùng của khách
   return (

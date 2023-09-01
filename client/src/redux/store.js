@@ -65,10 +65,9 @@ const cartSlice = createSlice({
     //Update lại giá tổng
     UPDATECART: (state, action) => {
       state.listCart = action.payload;
-      state.totalPrice = state.listCart.reduce(
-        (acc, cur) => acc + cur.quantity * cur.productId.price,
-        0
-      );
+      state.totalPrice = state.listCart.reduce((acc, cur) => {
+        return acc + cur.quantity * cur.productId.price;
+      }, 0);
     },
   },
 });

@@ -29,7 +29,9 @@ const MainNavigation = function (props) {
   const landToLoginHandler = () => {
     navigate("/login?mode=login");
   };
-
+  const landToHistoryHandler = () => {
+    navigate("/history");
+  };
   // Function để thực hiện hành động logout khi click vào nut logout
   const logOutHandler = async () => {
     //Dispatch action logout, xóa currentUser khỏi localstorage và điều hướng về trang login
@@ -85,7 +87,7 @@ const MainNavigation = function (props) {
           </li>
         )}
         {isLogin && (
-          <li>
+          <li onClick={landToHistoryHandler}>
             <i className="fa-solid fa-user-large"></i> {curUserData.fullName}{" "}
             <i className="fa-solid fa-caret-down"></i>
           </li>

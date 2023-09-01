@@ -11,7 +11,7 @@ const HistoryItem = (props) => {
   return (
     <tr id={props.hisItem._id} className="cartRow">
       <td className={styles.hisId}>{props.hisItem._id}</td>
-      <td className={styles.userId}>{userData.id}</td>
+      <td className={styles.userId}>{userData._id}</td>
       <td className={styles.userName}>{props.hisItem.fullName}</td>
       <td className={styles.phone}>{props.hisItem.phone}</td>
       <td className={styles.address}>{props.hisItem.address}</td>

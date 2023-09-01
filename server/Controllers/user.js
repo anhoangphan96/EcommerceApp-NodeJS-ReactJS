@@ -118,10 +118,14 @@ exports.getListCart = (req, res, next) => {
 };
 
 exports.updateCart = (req, res, next) => {
-  User.findOne({ email: req.session.email }).then((user) => {
-    const itemUpdate = user.updateCart(req.body.action, req.body.productId);
-    res.status(200).json(itemUpdate);
-  });
+  User.findOne({ email: req.session.email })
+    .then((user) => {
+      return user.updateCart(req.body.action, req.body.productId);
+    })
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => console.log(err));
 };
 
 exports.deleteCartItem = (req, res, next) => {
