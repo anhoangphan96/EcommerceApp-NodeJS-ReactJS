@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const productControllers = require("../Controllers/product");
-
+const validate = require("../Controllers/validation");
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/images");
@@ -26,10 +26,16 @@ router.get("/relate", productControllers.getRelatedProds);
 router.post(
   "/create",
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("pictures"),
+  productControllers.middlewareHandleBody,
+  validate.productForm(),
   productControllers.createProduct
 );
 router.get("/formupdate/:id", productControllers.getOneProdFormData);
-router.post("/formupdate/:id", productControllers.updateOneProduct);
+router.post(
+  "/formupdate/:id",
+  validate.productForm(),
+  productControllers.updateOneProduct
+);
 router.delete("/delete", productControllers.deleteOneProduct);
 
 // router.get("/addcount", productControllers.setCountToAll); //just use one time to add count field to all product

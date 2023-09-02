@@ -21,7 +21,6 @@ const ListOrder = () => {
   useEffect(() => {
     getListOrder();
   }, []);
-  console.log(listOrders);
   return (
     <div className={styles.orderContainer}>
       <h2>Products</h2>

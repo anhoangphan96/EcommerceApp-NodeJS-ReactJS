@@ -94,4 +94,13 @@ userSchema.methods.deleteByCount0 = async function (listcart) {
   }
 };
 
+userSchema.methods.clearCart = async function () {
+  try {
+    this.cart = [];
+    await this.save();
+    return this.cart;
+  } catch (err) {
+    throw err;
+  }
+};
 module.exports = mongoose.model("User", userSchema);

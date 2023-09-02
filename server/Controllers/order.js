@@ -1,5 +1,6 @@
 const Order = require("../Models/Order");
 const Product = require("../Models/Product");
+const User = require("../Models/User");
 const nodemailer = require("nodemailer");
 const formatPrice = require("../helper/formatPrice");
 const { validationResult } = require("express-validator");
@@ -25,7 +26,6 @@ exports.postCreateOrder = (req, res, next) => {
   } else {
     Product.find({ _id: { $in: listProdId }, count: 0 }).then((result) => {
       if (result.length > 0) {
-        console.log(result);
         res.status(404).json({
           message:
             "There are some products out of stock. Back to cart to check!",
@@ -107,6 +107,12 @@ exports.postCreateOrder = (req, res, next) => {
               subject: `Confirm your orders #${result._id}`,
               html: htmlTemplate,
             });
+            //Sau khi tạo order và gửi mail xong thì ta sẽ clear cart của user
+            return User.findById(result.userId);
+          })
+          //ClearCart xong thì gửi phản hồi thành công.
+          .then((user) => {
+            user.clearCart();
             res
               .status(200)
               .json({ message: "Your order has placed successfully!" });
@@ -153,6 +159,25 @@ exports.getAll = (req, res, next) => {
     .sort({ placedAt: -1 })
     .then((result) => {
       res.status(200).json(result);
+    })
+    .catch((err) => console.log(err));
+};
+
+//Controller để lấy số order và tính doanh thu theo tháng hiện tại (chỉ tính trong 1 tháng hiện tại không tính tổng)
+exports.getRevandOrder = (req, res) => {
+  Order.find()
+    .then((result) => {
+      const numOfOrder = result.length;
+      const curMonth = new Date().getMonth();
+      const totalRevPerMonth = result.reduce((total, order) => {
+        if (order?.placedAt.getMonth() === curMonth) {
+          return total + +order.totalPrice;
+        } else return total;
+      }, 0);
+
+      res
+        .status(200)
+        .json({ numOfOrder: numOfOrder, totalRevPerMonth: totalRevPerMonth });
     })
     .catch((err) => console.log(err));
 };

@@ -1,11 +1,41 @@
+import { useEffect, useState } from "react";
 import Card from "../CardContainer/Card";
 import styles from "./InforBoard.module.css";
+import formatPrice from "../../helper/formatPrice";
 const InforBoard = () => {
+  const [numofClient, setNumOfClient] = useState(0);
+  const [numofOrder, setNumOfOrder] = useState(0);
+  const [revPerMonth, setRevPerMonth] = useState(0);
+  //Lấy số client có trong hệ thống
+  const getNumOfClient = async () => {
+    const response = await fetch(`http://localhost:5000/user/numofclient`, {
+      credentials: "include",
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setNumOfClient(data.amount);
+    }
+  };
+  //Lấy số order và doanh thu tháng hiện tại không lấy tổng doanh thu năm
+  const getOrderRev = async () => {
+    const response = await fetch(`http://localhost:5000/order/revorder`, {
+      credentials: "include",
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setNumOfOrder(data.numOfOrder);
+      setRevPerMonth(data.totalRevPerMonth);
+    }
+  };
+  useEffect(() => {
+    getOrderRev();
+    getNumOfClient();
+  }, []);
   return (
     <Card className={styles.infoBoard}>
       <div className={`${styles.infor} ${styles.clients}`}>
         <div className={styles.inforDetail}>
-          <h3>2</h3>
+          <h3>{numofClient}</h3>
           <span>Clients</span>
         </div>
         <svg
@@ -30,7 +60,7 @@ const InforBoard = () => {
       <div className={`${styles.infor} ${styles.earning}`}>
         <div className={styles.inforDetail}>
           <h3 className={styles.money}>
-            44.779.000 <span>VND</span>
+            {formatPrice(revPerMonth)} <span>VND</span>
           </h3>
           <span> Earnings of Month</span>
         </div>
@@ -53,7 +83,7 @@ const InforBoard = () => {
       </div>
       <div className={styles.infor}>
         <div className={styles.inforDetail}>
-          <h3>2</h3>
+          <h3>{numofOrder}</h3>
           <span>New Order</span>
         </div>
         <svg

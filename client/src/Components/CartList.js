@@ -29,7 +29,12 @@ const Cartlist = () => {
     navigate("/shop");
   };
   const checkoutHandler = () => {
-    navigate("/checkout");
+    if (listCart.length > 0) {
+      setMessage("");
+      navigate("/checkout");
+    } else {
+      setMessage("Can't checkout without any cart item");
+    }
   };
 
   // JSX trả ra table chứa các sản phẩm theo email user chứa các thông tin sản phẩm

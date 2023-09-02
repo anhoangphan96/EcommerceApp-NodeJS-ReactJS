@@ -23,7 +23,6 @@
   align-items: center;
 }
 .formUser > input {
-  font-style: italic;
   font-style: normal;
   padding: 20px;
   width: 80%;
@@ -31,7 +30,6 @@
   margin-bottom: -1px;
 }
 .formUser > input::placeholder {
-  font-style: italic;
   color: #6e6f71;
 }
 .formUser > .invalidInput {

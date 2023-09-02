@@ -6,6 +6,7 @@ const CustomerInforCheckOut = () => {
   const navigate = useNavigate();
   //Component này xây dựng giao diện của 1 form để người dùng nhập thông tin vào khi check out
   const userInfor = useSelector((state) => state.login.curUser);
+  console.log(userInfor);
   const listCart = useSelector((state) => state.cart.listCart);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const [errorMessage, setErrorMessage] = useState({});
@@ -82,7 +83,7 @@ const CustomerInforCheckOut = () => {
     if (userInfor) {
       setFullName(userInfor.fullName);
       setEmail(userInfor.email);
-      setPhoneNumber(userInfor.phone);
+      setPhoneNumber(userInfor.phoneNumber);
     }
   }, [userInfor]);
   return (

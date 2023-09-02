@@ -17,5 +17,6 @@ router.post(
   validate.validateLogin(),
   userControllers.adminLogin
 );
+router.get("/numofclient", userControllers.numofclient);
 router.get("/adminlogout", userControllers.adminLogout);
 module.exports = router;

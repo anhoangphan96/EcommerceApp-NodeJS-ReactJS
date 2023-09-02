@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 import styles from "./HistoryItem.module.css";
 import { useNavigate } from "react-router-dom";
+import { useFormatPrice } from "../customHooks/useFormatPrice";
 const HistoryItem = (props) => {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.login.curUser);
-
+  const totalPrice = useFormatPrice(props.hisItem.totalPrice);
   const viewDetailHandler = () => {
     navigate(`/history/${props.hisItem._id}`);
   };
@@ -16,7 +17,7 @@ const HistoryItem = (props) => {
       <td className={styles.phone}>{props.hisItem.phone}</td>
       <td className={styles.address}>{props.hisItem.address}</td>
       <td className={styles.total}>
-        {props.hisItem.totalPrice}
+        {totalPrice}
         <br />
         VND
       </td>

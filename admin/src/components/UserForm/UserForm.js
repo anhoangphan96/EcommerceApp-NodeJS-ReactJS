@@ -28,8 +28,17 @@ const UserForm = () => {
       }),
     });
     if (!response.ok) {
-      const error = await response.json();
-      setErrorMessage(error.message);
+      if (response.status === 400) {
+        const error = await response.json();
+        const errMsg = {};
+        for (let property in error) {
+          errMsg[property] = error[property].msg;
+        }
+        setErrorMessage(errMsg);
+      } else if (response.status === 401 || response.status === 403) {
+        const error = await response.json();
+        setErrorMessage({ password: error.message });
+      }
     } else {
       const data = await response.json();
       console.log(data);
@@ -48,13 +57,18 @@ const UserForm = () => {
           onChange={emailInputHandler}
           value={email}
         ></input>
+        {errorMessage.email && (
+          <p className={styles.erroMessage}>{errorMessage.email}</p>
+        )}
         <input
           type="password"
           placeholder="Password"
           onChange={passwordInputHandler}
           value={password}
         ></input>
-        {errorMessage && <p className={styles.erroMessage}>{errorMessage}</p>}
+        {errorMessage.password && (
+          <p className={styles.erroMessage}>{errorMessage.password}</p>
+        )}
         <button type="submit">Login</button>
       </form>
     </div>

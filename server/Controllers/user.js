@@ -65,7 +65,7 @@ exports.checkLogin = (req, res, next) => {
           _id: user._id,
           email: user.email,
           fullName: user.fullName,
-          phone: user.phoneNumber,
+          phoneNumber: user.phoneNumber,
         });
       })
       .catch((err) => console.log(err));
@@ -145,39 +145,50 @@ exports.userLogout = (req, res) => {
 };
 
 exports.adminLogin = (req, res) => {
-  User.findOne({
-    email: req.body.email,
-  })
-    .then((result) => {
-      bcrypt
-        .compare(req.body.password, result.password)
-        .then((matchpassword) => {
-          if (matchpassword) {
-            if (["admin", "counselor"].includes(result.role)) {
-              req.session.email = result.email;
-              req.session.isLoggedIn = true;
-              req.session.role = result.role;
-              return req.session.save((err) => {
-                res.status(200).json(result);
-              });
-            } else {
-              res.status(403).json({
-                message: "You dont have permission to access this page",
-              });
-            }
-          } else {
-            res
-              .status(401)
-              .json({ message: "Your username or password is incorrect" });
-          }
-        })
-        .catch((err) => console.log(err));
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json(errors.mapped());
+  } else {
+    User.findOne({
+      email: req.body.email,
     })
-    .catch((err) => console.log(err));
+      .then((result) => {
+        bcrypt
+          .compare(req.body.password, result.password)
+          .then((matchpassword) => {
+            if (matchpassword) {
+              if (["admin", "counselor"].includes(result.role)) {
+                req.session.email = result.email;
+                req.session.isLoggedIn = true;
+                req.session.role = result.role;
+                return req.session.save((err) => {
+                  res.status(200).json(result);
+                });
+              } else {
+                res.status(403).json({
+                  message: "You dont have permission to access this page",
+                });
+              }
+            } else {
+              res
+                .status(401)
+                .json({ message: "Your username or password is incorrect" });
+            }
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  }
 };
 
 exports.adminLogout = (req, res) => {
   req.session.destroy((result) => {
     res.status(200).json({ message: "Log out succesfully" });
   });
+};
+
+exports.numofclient = (req, res) => {
+  User.countDocuments({ role: "client" })
+    .then((result) => res.status(200).json({ amount: result }))
+    .catch((err) => console.log(err));
 };

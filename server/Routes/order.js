@@ -23,4 +23,5 @@ router.get(
 
 router.get("/getall", orderControllers.getAll);
 router.get("/lastest8", orderControllers.getLatest8);
+router.get("/revorder", orderControllers.getRevandOrder);
 module.exports = router;

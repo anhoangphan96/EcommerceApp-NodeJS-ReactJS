@@ -6,10 +6,11 @@ const ProductForm = () => {
   const navigate = useNavigate();
   const [searchParms] = useSearchParams();
   const mode = searchParms.get("mode");
-
+  const [errorMessage, setErrorMessage] = useState({});
   const [nameInput, setNameInput] = useState("");
   const [categoryInput, setCategoryInput] = useState("");
   const [priceInput, setPriceInput] = useState("");
+  const [countInput, setCountInput] = useState("");
   const [shortdescInput, setShortdescInput] = useState("");
   const [longdescInput, setLongdescInput] = useState("");
   const [listPicture, setListPicture] = useState("");
@@ -21,6 +22,9 @@ const ProductForm = () => {
   };
   const priceInputHandler = (event) => {
     setPriceInput(event.target.value);
+  };
+  const countInputHandler = (event) => {
+    setCountInput(event.target.value);
   };
   const shortdescInputHandler = (event) => {
     setShortdescInput(event.target.value);
@@ -43,6 +47,7 @@ const ProductForm = () => {
       setNameInput(data.name);
       setCategoryInput(data.category);
       setPriceInput(data.price);
+      setCountInput(data.count);
       setShortdescInput(data.short_desc);
       setLongdescInput(data.long_desc);
     }
@@ -54,6 +59,7 @@ const ProductForm = () => {
       name: nameInput,
       category: categoryInput,
       price: priceInput,
+      count: countInput,
       shortDesc: shortdescInput,
       longDesc: longdescInput,
     };
@@ -68,6 +74,16 @@ const ProductForm = () => {
       });
       if (response.ok) {
         navigate("/products");
+      } else {
+        if (response.status === 400) {
+          const errors = await response.json();
+          console.log(errors);
+          const errMsg = {};
+          for (let property in errors) {
+            errMsg[property] = errors[property].msg;
+          }
+          setErrorMessage(errMsg);
+        }
       }
     } else if (mode === "update") {
       const response = await fetch(
@@ -80,6 +96,16 @@ const ProductForm = () => {
       );
       if (response.ok) {
         navigate("/products");
+      } else {
+        if (response.status === 400) {
+          const errors = await response.json();
+          console.log(errors);
+          const errMsg = {};
+          for (let property in errors) {
+            errMsg[property] = errors[property].msg;
+          }
+          setErrorMessage(errMsg);
+        }
       }
     }
   };
@@ -89,53 +115,92 @@ const ProductForm = () => {
   return (
     <div className={styles.container}>
       <Form className={styles.prodForm} onSubmit={submitHandler} method="POST">
-        <label htmlFor="name">Product Name</label>
-        <input
-          id="name"
-          type="text"
-          placeholder="Enter Product Name"
-          className={styles.nameInput}
-          value={nameInput}
-          onChange={nameInputHandler}
-        />
-        <label htmlFor="category">Category</label>
-        <input
-          id="category"
-          type="text"
-          placeholder="Enter Category"
-          className={styles.categoryInput}
-          value={categoryInput}
-          onChange={categoryInputHandler}
-        />{" "}
-        <label htmlFor="price">Price</label>
-        <input
-          id="price"
-          type="text"
-          placeholder="Enter Price"
-          className={styles.priceInput}
-          value={priceInput}
-          onChange={priceInputHandler}
-        />
-        <label htmlFor="short_desc">Short Description</label>
-        <textarea
-          id="short_desc"
-          placeholder="Enter Short Description"
-          className={styles.shortdesc}
-          value={shortdescInput}
-          rows={3}
-          onChange={shortdescInputHandler}
-        />
-        <label htmlFor="long_desc">Long description</label>
-        <textarea
-          id="long_desc"
-          placeholder="Enter Long Description"
-          className={styles.longdesc}
-          rows={6}
-          value={longdescInput}
-          onChange={longdescInputHandler}
-        />
+        <div>
+          <label htmlFor="name">Product Name</label>
+          <input
+            id="name"
+            type="text"
+            placeholder="Enter Product Name"
+            className={styles.nameInput}
+            value={nameInput}
+            onChange={nameInputHandler}
+          />
+          {errorMessage.name && (
+            <p className={styles.errorMsg}>{errorMessage.name}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="category">Category</label>
+          <input
+            id="category"
+            type="text"
+            placeholder="Enter Category"
+            className={styles.categoryInput}
+            value={categoryInput}
+            onChange={categoryInputHandler}
+          />
+          {errorMessage.category && (
+            <p className={styles.errorMsg}>{errorMessage.category}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="price">Price</label>
+          <input
+            id="price"
+            type="number"
+            placeholder="Enter Price"
+            className={styles.priceInput}
+            value={priceInput}
+            onChange={priceInputHandler}
+          />
+          {errorMessage.price && (
+            <p className={styles.errorMsg}>{errorMessage.price}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="count">Count(Inventory)</label>
+          <input
+            id="count"
+            type="number"
+            placeholder="Enter Count"
+            className={styles.countInput}
+            value={countInput}
+            onChange={countInputHandler}
+          />
+          {errorMessage.count && (
+            <p className={styles.errorMsg}>{errorMessage.count}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="short_desc">Short Description</label>
+          <textarea
+            id="short_desc"
+            placeholder="Enter Short Description"
+            className={styles.shortdesc}
+            value={shortdescInput}
+            rows={3}
+            onChange={shortdescInputHandler}
+          />
+          {errorMessage.shortDesc && (
+            <p className={styles.errorMsg}>{errorMessage.shortDesc}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="long_desc">Long description</label>
+          <textarea
+            id="long_desc"
+            placeholder="Enter Long Description"
+            className={styles.longdesc}
+            rows={6}
+            value={longdescInput}
+            onChange={longdescInputHandler}
+          />
+          {errorMessage.longDesc && (
+            <p className={styles.errorMsg}>{errorMessage.longDesc}</p>
+          )}
+        </div>
         {mode === "add" && (
-          <>
+          <div>
             <label htmlFor="images">Upload images (5 images)</label>
             <input
               id="images"
@@ -144,7 +209,7 @@ const ProductForm = () => {
               multiple
               onChange={picturesInputHandler}
             />
-          </>
+          </div>
         )}
         <button className={styles.submitBtn}>Submit</button>
       </Form>
