@@ -33,8 +33,8 @@ const ProductForm = () => {
     setLongdescInput(event.target.value);
   };
   const picturesInputHandler = (event) => {
-    console.log(event.target.files[0]);
-    setListPicture(event.target.files[0]);
+    console.log(event.target.files);
+    setListPicture(event.target.files);
   };
   const getDataProd = async () => {
     if (mode === "add") {
@@ -67,7 +67,10 @@ const ProductForm = () => {
     if (mode === "add") {
       const formData = new FormData();
       formData.append("dataText", JSON.stringify(dataText));
-      formData.append("pictures", pictureFiles);
+      for (let i = 0; i < pictureFiles.length; i++) {
+        formData.append("pictures", pictureFiles[i]);
+      }
+      console.log(formData);
       const response = await fetch(`http://localhost:5000/product/create`, {
         method: "POST",
         body: formData,

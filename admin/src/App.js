@@ -7,6 +7,7 @@ import OrderHistory from "./pages/OrderHistory";
 import ProductForm from "./pages/ProductForm";
 import CustomerChat from "./pages/CustomerChat";
 import Login from "./pages/Login";
+import UserList from "./pages/UserList";
 
 function App() {
   const router = createBrowserRouter([
@@ -29,6 +30,7 @@ function App() {
         },
         { path: "/history", element: <OrderHistory></OrderHistory> },
         { path: "/customerchat", element: <CustomerChat /> },
+        { path: "/userlist", element: <UserList /> },
       ],
     },
   ]);

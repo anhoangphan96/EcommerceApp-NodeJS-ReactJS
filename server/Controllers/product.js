@@ -22,21 +22,26 @@ exports.getRelatedProds = (req, res, next) => {
 
 exports.createProduct = (req, res, next) => {
   const errors = validationResult(req);
-  console.log(errors);
   if (!errors.isEmpty()) {
     res.status(400).json(errors.mapped());
   } else {
     const dataText = req.body;
-    const pictures = req.file;
-    console.log(pictures);
-    const newProduct = new Product({
+    const pictures = req.files;
+    console.log("asdasD", pictures);
+    const dataProduct = {
       category: dataText.category,
-      img1: "http://localhost:5000/" + pictures.path.replace(/\\/g, "/"),
       long_desc: dataText.longDesc,
       name: dataText.name,
       price: dataText.price,
       short_desc: dataText.shortDesc,
+    };
+    pictures.forEach((pic, i) => {
+      const picName = `img${i + 1}`;
+      dataProduct[picName] =
+        "http://localhost:5000/" + pic.path.replace(/\\/g, "/");
     });
+
+    const newProduct = new Product(dataProduct);
     newProduct
       .save()
       .then((result) => {
@@ -56,7 +61,6 @@ exports.getOneProdFormData = (req, res, next) => {
 
 exports.updateOneProduct = (req, res, next) => {
   const errors = validationResult(req);
-  console.log(errors);
   if (!errors.isEmpty()) {
     res.status(400).json(errors.mapped());
   } else {

@@ -192,3 +192,23 @@ exports.numofclient = (req, res) => {
     .then((result) => res.status(200).json({ amount: result }))
     .catch((err) => console.log(err));
 };
+
+//Lấy list user
+exports.getListUser = (req, res, next) => {
+  User.find()
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => console.log(err));
+};
+
+//Set role cho user
+exports.setRole = (req, res) => {
+  const userId = req.body.userId;
+  const setToRole = req.body.setToRole;
+  User.findByIdAndUpdate(userId, { role: setToRole }, { new: true })
+    .then((result) =>
+      res.status(200).json({ message: `Set to ${result.role} succesfully!` })
+    )
+    .catch((err) => console.log(err));
+};

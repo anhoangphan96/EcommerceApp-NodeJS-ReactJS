@@ -8,7 +8,6 @@ const fileStorage = multer.diskStorage({
     cb(null, "public/images");
   },
   filename: (req, file, cb) => {
-    console.log(file);
     cb(null, file.originalname);
   },
 });
@@ -25,7 +24,7 @@ router.get("/detail/:id", productControllers.getProdDetail);
 router.get("/relate", productControllers.getRelatedProds);
 router.post(
   "/create",
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("pictures"),
+  multer({ storage: fileStorage, fileFilter: fileFilter }).array("pictures", 5),
   productControllers.middlewareHandleBody,
   validate.productForm(),
   productControllers.createProduct

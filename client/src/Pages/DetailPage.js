@@ -149,10 +149,11 @@ const DetailPage = function () {
               className={styles.productImages}
               onClick={selectPictureHanlder}
             >
-              <img src={productDetail.img1}></img>
-              <img src={productDetail.img2}></img>
-              <img src={productDetail.img3}></img>
-              <img src={productDetail.img4}></img>
+              {productDetail.img1 && <img src={productDetail.img1}></img>}
+              {productDetail.img2 && <img src={productDetail.img2}></img>}
+              {productDetail.img3 && <img src={productDetail.img3}></img>}
+              {productDetail.img4 && <img src={productDetail.img4}></img>}
+              {productDetail.img5 && <img src={productDetail.img5}></img>}
             </div>
             <img src={curImage} className={styles.pictureZoomOut}></img>
             <div className={styles.productDetail}>

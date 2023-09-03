@@ -1,0 +1,29 @@
+.userListInfor {
+  margin: 16px;
+  padding: 16px;
+}
+
+.title h2 {
+  font-size: 16px;
+}
+
+.tabledata {
+  width: 100%;
+}
+.tabledata,
+.tabledata th,
+.tabledata td {
+  border: 1px solid #adb5bd;
+  border-collapse: collapse;
+}
+.tabledata > tbody > tr:nth-child(odd) {
+  background-color: #f0f6fa;
+}
+.tabledata th,
+.tabledata td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+  font-size: 14px;
+  color: #868e96;
+}

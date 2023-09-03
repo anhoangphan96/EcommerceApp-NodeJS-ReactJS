@@ -11,6 +11,7 @@ const productRoute = require("./Routes/product");
 const orderRoute = require("./Routes/order");
 const chatRoute = require("./Routes/chat");
 
+//Config cors (port 3000 chạy client app, 3001 chạy admin app)
 app.use(
   cors({
     credentials: true,
@@ -19,8 +20,13 @@ app.use(
   })
 );
 
+//Gọi bodyParser để parse các body truyền đến server dưới dạng json
 app.use(bodyParser.json());
+
+//middleware để các client-side có thể truy cập hình ảnh trong thư mục public của server
 app.use("/public/images", express.static(path.join("public", "images")));
+
+//config session
 app.use(
   session({
     secret: "my-secret",
@@ -32,10 +38,13 @@ app.use(
     },
   })
 );
+//Khai báo các middleware để connect app đến các route tương ứng
 app.use("/user", userRoute);
 app.use("/product", productRoute);
 app.use("/order", orderRoute);
 app.use("/chat", chatRoute);
+
+//Connect MongoDB bằng moongose
 mongoose
   .connect(
     `mongodb+srv://anphfx21936:Hoangan512@cluster0.3v63j0d.mongodb.net/ecommerceApp`
@@ -43,10 +52,14 @@ mongoose
   .then((result) => {
     console.log("Connected");
     const server = app.listen(5000);
+    //Kết nối socketio
     const io = require("./socket").init(server);
     io.on("connection", (socket) => {
+      //Khi có 1 client kết nối đến room thì sẽ emit sự kiện setRoom, server sẽ lắng nghe sự kiện và kết nối đến room cho người dùng
       socket.on("setRoom", (data) => {
         socket.join(data.roomId);
+        //Nếu đang có room đang mở tương ứng với roomId mà người dùng emit thì kết nối bth,
+        //Còn nếu không có thì tạo 1 roomChat mới và emit sự kiện có room mới để trang admin cập nhật có người dùng mới vào
         ChatMessage.findOne({ roomId: data.roomId, status: "open" })
           .then((result) => {
             if (!result) {
@@ -63,6 +76,9 @@ mongoose
           })
           .catch((err) => console.log(err));
       });
+
+      //Lắng nghe sự kiện gửi tin nhắn để cập nhật vào database,
+      // nếu đó là "/end" thì sẽ chuyển status thành close của room đó và emit sự kiện close room để frontend xử lý cloose.
       socket.on("sendMessage", (data) => {
         if (data.message === "/end") {
           ChatMessage.findOneAndUpdate(
