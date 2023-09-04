@@ -42,6 +42,12 @@ const MainNavigation = function (props) {
     if (response.ok) {
       dispatch(loginActions.ON_LOGOUT());
       navigate("/login?mode=login");
+    } else {
+      if (response.status === 401) {
+        navigate("/login?mode=login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
     }
   };
   //Function để thực hiện hành động click vào Narbar truyền từ rootlayout xuống

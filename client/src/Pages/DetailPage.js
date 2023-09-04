@@ -1,21 +1,20 @@
 import React from "react";
 import {
   useParams,
-  useRouteLoaderData,
   Link,
   useSearchParams,
-  useNavigation,
+  useNavigate,
 } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cartActions } from "../redux/store";
+
 import styles from "./DetailPage.module.css";
 import Item from "../Components/Item";
 import { useFormatPrice } from "../Components/customHooks/useFormatPrice";
 const DetailPage = function () {
   // Khai báo biến từ các hook để sử dụng,
   const params = useParams();
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
 
@@ -29,33 +28,22 @@ const DetailPage = function () {
     img2: "",
     img3: "",
     img4: "",
+    img5: "",
     category: "",
     long_desc: "",
   });
   const [relatedProduct, setRelatedProduct] = useState([]);
   //Biến curImage để xác định ảnh nào đang được lựa chọn" để phóng to cho người dùng dễ xem
   const [curImage, setCurImage] = useState("");
-  // set biến email của current user nếu có thì lấy email không thì trả là string rỗng
-  const curUserEmail = useSelector((state) => {
-    if (state.login.isLogin) {
-      return state.login.curUser.email;
-    } else {
-      return "";
-    }
-  });
 
   //Biến chứa số lượng do user lựa chọn
   const [quantity, setQuantity] = useState(1);
   //Biến chứa list sản phẩm có trong cart hiện tại, localstorage và redux store đồng bộ
-  const listCart = JSON.parse(localStorage.getItem("listCart")) ?? [];
-  //Biến list product lấy từ local storage, sau đó sẽ đem filter ra 2 array 1 chứa product đang được display thông tin
-  //và 1 array chứ list các sản phẩm gợi ý liên quan đến sản phẩm chính
   const getProdDetail = async () => {
     const response = await fetch(
       `http://localhost:5000/product/detail/${idProduct}`
     );
     const data = await response.json();
-    console.log(data);
     setProductDetail(data);
     setCurImage(data.img1);
   };
@@ -118,7 +106,6 @@ const DetailPage = function () {
 
   //Function truyền data xuống backend để tiến hành thêm sản phẩm vào giỏ hàng
   const addToCartHandler = () => {
-    setDisplayMessage(true);
     const postAddCart = async () => {
       const response = await fetch(`http://localhost:5000/user/addcart`, {
         method: "POST",
@@ -130,13 +117,22 @@ const DetailPage = function () {
           quantity: quantity,
         }),
       });
+      if (!response.ok) {
+        if (response.status === 401) {
+          navigate("/login?mode=login");
+        } else if (response.status === 500) {
+          navigate("/servererror");
+        }
+      } else {
+        setDisplayMessage(true);
+        setTimeout(() => {
+          setDisplayMessage(false);
+        }, 1000);
+      }
     };
+
     postAddCart();
-    setTimeout(() => {
-      setDisplayMessage(false);
-    }, 1000);
   };
-  console.log(isLoading);
   //Trả về các phần tử JSX cần thiết để render detailpage: list hình ảnh, hình ảnh phóng to, thông tin detail, description, related product
   return (
     <div className={styles.container}>

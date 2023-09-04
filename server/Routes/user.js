@@ -13,13 +13,11 @@ router.post(
   validate.validateLogin(),
   userControllers.adminLogin
 );
+//Router dùng chung cho admin và client app, để xem coi user đăng nhập chưa để lấy data của user display lên UI
+//Nếu chưa đăng nhập thì k có trả data và không có vấn đề gì vì có 1 số trang không cần đăng nhập vẫn xem được
+router.get("/infor", userControllers.checkLogin);
 
 //Các router cho trang client
-router.get(
-  "/infor",
-  authorControllers.clientRoleAuthor,
-  userControllers.checkLogin
-);
 router.post(
   "/addcart",
   authorControllers.clientRoleAuthor,
@@ -57,9 +55,10 @@ router.get(
   authorControllers.adminRoleAuthor,
   userControllers.numofclient
 );
+
 router.get(
   "/adminlogout",
-  authorControllers.adminRoleAuthor,
+  authorControllers.counselorRoleAuthor, //Ở trang admin có cả counselor và admin logout
   userControllers.adminLogout
 );
 router.put(

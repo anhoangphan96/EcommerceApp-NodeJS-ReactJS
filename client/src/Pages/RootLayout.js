@@ -31,6 +31,12 @@ function RootLayout() {
       const dataUser = await response.json();
       console.log(dataUser);
       dispatch(loginActions.ON_LOGIN(dataUser));
+    } else {
+      if (response.status === 401) {
+        console.log(
+          "User has not logged in! But no problem, they can observe homepage and shoppage, detailpage!"
+        );
+      }
     }
   };
 

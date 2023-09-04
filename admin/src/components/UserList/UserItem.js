@@ -1,10 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import PopupModal from "../Modal/PopupModal";
 import styles from "./UserItem.module.css";
 import { useState } from "react";
 const UserItem = (props) => {
-  console.log(props);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
   const postSetAdmin = async (role) => {
     const response = await fetch(`http://localhost:5000/user/setrole`, {
       method: "PUT",
@@ -13,8 +14,15 @@ const UserItem = (props) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId: props.user._id, setToRole: role }),
     });
-    const messageRes = await response.json();
-    setMessage(messageRes.message);
+    if (response.ok) {
+      const messageRes = await response.json();
+      setMessage(messageRes.message);
+    } else {
+      //Ta không cần check status 401 vì để set được role thì phải vào được page userlist (nơi đã check 401 rồi)
+      if (response.status === 500) {
+        navigate("/servererror");
+      }
+    }
   };
   const setRoleHandler = (event) => {
     setShowPopup(true);

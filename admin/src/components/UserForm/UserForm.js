@@ -41,9 +41,12 @@ const UserForm = () => {
       }
     } else {
       const data = await response.json();
-      console.log(data);
       dispatch(loginActions.ON_LOGIN(data));
-      navigate("/");
+      if (data.role === "counselor") {
+        navigate("/customerchat");
+      } else {
+        navigate("/");
+      }
     }
   };
 

@@ -15,11 +15,19 @@ const Cartlist = () => {
       method: "GET",
       credentials: "include",
     });
-    const data = await response.json();
-    console.log(data);
-    dispatch(cartActions.UPDATECART(data.cart));
-    setListCart(data.cart);
-    setMessage(data.message);
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(cartActions.UPDATECART(data.cart));
+      setListCart(data.cart);
+      setMessage(data.message);
+      //Nếu chưa đăng nhập không thể dùng chức năng cart phải đăng nhập trước
+    } else {
+      if (response.status === 401) {
+        navigate("/login?mode=login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
+    }
   };
   useEffect(() => {
     getListCart();

@@ -6,23 +6,10 @@ import { useSelector } from "react-redux";
 const SideBar = () => {
   const [showListTable, setShowListTable] = useState(false);
   const isLoggedIn = useSelector((state) => state.login.isLogin);
-  const navigate = useNavigate();
-  const clickToLogout = async () => {
-    const response = await fetch(`http://localhost:5000/user/adminlogout`, {
-      method: "POST",
-      credentials: "include",
-      mode: "cors",
-      headers: { "Content-Type": "application/json" },
-    });
-    if (response.ok) {
-      navigate("/login");
-    }
-  };
+  const curUser = useSelector((state) => state.login.curUser);
+
   const showListTableHandler = () => {
     setShowListTable((prev) => !prev);
-  };
-  const logoutHandler = () => {
-    clickToLogout();
   };
 
   return (
@@ -31,7 +18,7 @@ const SideBar = () => {
         <h2>Admin Page</h2>
       </Link>
       {/* Khi nào user login được check authorized admin thì mới thấy được các menu trong sidebar */}
-      {isLoggedIn && (
+      {isLoggedIn && curUser.role === "admin" && (
         <>
           <ul className={styles.listDasboard}>
             <li>
@@ -197,6 +184,34 @@ const SideBar = () => {
                 </li>
               </ul>
             )}
+          </ul>
+        </>
+      )}
+      {/* {Nếu là counseler chỉ thấy được Link tới room chat với client} */}
+      {isLoggedIn && curUser.role === "counselor" && (
+        <>
+          <ul className={styles.listComponents}>
+            <h4>COMPONENTS</h4>
+            <li>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-message-2"
+                width={18}
+                height={18}
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M8 9h8"></path>
+                <path d="M8 13h6"></path>
+                <path d="M9 18h-3a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-3l-3 3l-3 -3z"></path>
+              </svg>
+              <Link to="/customerchat">Customer</Link>
+            </li>
           </ul>
         </>
       )}

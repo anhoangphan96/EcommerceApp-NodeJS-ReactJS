@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+//User schema
 const userSchema = new Schema({
   email: {
     type: String,
@@ -33,6 +33,7 @@ const userSchema = new Schema({
     },
   ],
 });
+//Thêm các phương thức thao tác với giỏ hàng: thêm, cập nhật, xóa của user để sử dụng
 userSchema.methods.addToCart = async function (newCart) {
   try {
     const cartIndex = this.cart.findIndex(
@@ -65,7 +66,7 @@ userSchema.methods.updateCart = async function (action, productId) {
     throw err;
   }
 };
-
+//Xóa 1 item khi vào phần giỏ hàng
 userSchema.methods.deleteCartItem = async function (productId) {
   try {
     const cartIndex = this.cart.findIndex(
@@ -80,7 +81,7 @@ userSchema.methods.deleteCartItem = async function (productId) {
     throw err;
   }
 };
-
+//Xóa 1 item đang trong giỏ hàng nhưng khi count của item đó bằng 0
 userSchema.methods.deleteByCount0 = async function (listcart) {
   try {
     const updatedCart = listcart.filter((cart) => cart.productId.count !== 0);
@@ -94,6 +95,7 @@ userSchema.methods.deleteByCount0 = async function (listcart) {
   }
 };
 
+//Xóa hết các item có trong cart khi người dùng đặt hàng thành công
 userSchema.methods.clearCart = async function () {
   try {
     this.cart = [];

@@ -116,6 +116,8 @@ const UserForm = () => {
         } else if (response.status === 401 && isLogin) {
           const error = await response.json();
           setDataError({ password: error.message });
+        } else if (response.status === 500) {
+          navigate("/servererror");
         }
       }
     };

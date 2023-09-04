@@ -1,0 +1,12 @@
+.errorContainer {
+  margin: 64px auto;
+  max-width: 1200px;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.errorContainer h2,
+.errorContainer p {
+  text-align: center;
+}

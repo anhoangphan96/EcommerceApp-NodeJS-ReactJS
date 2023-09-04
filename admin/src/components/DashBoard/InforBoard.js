@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import Card from "../CardContainer/Card";
 import styles from "./InforBoard.module.css";
 import formatPrice from "../../helper/formatPrice";
+import { loginActions } from "../../store/reduxstore";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const InforBoard = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [numofClient, setNumOfClient] = useState(0);
   const [numofOrder, setNumOfOrder] = useState(0);
   const [revPerMonth, setRevPerMonth] = useState(0);
@@ -14,6 +19,13 @@ const InforBoard = () => {
     if (response.ok) {
       const data = await response.json();
       setNumOfClient(data.amount);
+    } else {
+      if (response.status === 401) {
+        dispatch(loginActions.ON_LOGOUT());
+        navigate("/login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
     }
   };
   //Lấy số order và doanh thu tháng hiện tại không lấy tổng doanh thu năm
@@ -25,6 +37,13 @@ const InforBoard = () => {
       const data = await response.json();
       setNumOfOrder(data.numOfOrder);
       setRevPerMonth(data.totalRevPerMonth);
+    } else {
+      if (response.status === 401) {
+        dispatch(loginActions.ON_LOGOUT());
+        navigate("/login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
     }
   };
   useEffect(() => {

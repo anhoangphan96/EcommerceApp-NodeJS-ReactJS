@@ -9,7 +9,6 @@ const RootLayout = () => {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.login.isLogin);
   const curUser = useSelector((state) => state.login.curUser);
-  console.log(curUser);
   const loginHandler = () => {
     navigate("/login");
   };
@@ -32,6 +31,9 @@ const RootLayout = () => {
     if (response.ok) {
       const dataUser = await response.json();
       dispatch(loginActions.ON_LOGIN(dataUser));
+      if (dataUser.role === "counselor") {
+        navigate("/customerchat");
+      }
     } else if (response.status === 401) {
       navigate("/login");
     }

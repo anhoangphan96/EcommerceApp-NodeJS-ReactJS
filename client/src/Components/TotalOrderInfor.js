@@ -5,8 +5,10 @@ import OrderPriceItem from "./OrderPriceItem";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { cartActions } from "../redux/store";
+import { useNavigate } from "react-router-dom";
 const TotalOrderInfor = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const totalPrice = useFormatPrice(
     useSelector((state) => state.cart.totalPrice) ?? 0
   );
@@ -17,8 +19,17 @@ const TotalOrderInfor = () => {
       method: "GET",
       credentials: "include",
     });
-    const data = await response.json();
-    dispatch(cartActions.UPDATECART(data.cart));
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(cartActions.UPDATECART(data.cart));
+      //Nếu chưa đăng nhập không thể dùng chức năng cart phải đăng nhập trước
+    } else {
+      if (response.status === 401) {
+        navigate("/login?mode=login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
+    }
   };
   //Nếu như lở f5 hay load lại trang checkout thì phải check coi đã fetch data cart chưa nếu chưa sẽ fetch lại
   useEffect(() => {

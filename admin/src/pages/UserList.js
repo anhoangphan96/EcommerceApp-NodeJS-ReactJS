@@ -3,21 +3,29 @@ import styles from "./UserList.module.css";
 import { useState, useEffect } from "react";
 import UserItem from "../components/UserList/UserItem";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { loginActions } from "../store/reduxstore";
 const UserList = () => {
   const [listUser, setListUser] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const getListUser = async () => {
     const response = await fetch(`http://localhost:5000/user/listuser`, {
       method: "GET",
       mode: "cors",
       credentials: "include",
     });
-    if (response.status === 401) {
-      navigate("/login");
+    if (response.ok) {
+      const data = await response.json();
+      setListUser(data);
+    } else {
+      if (response.status === 401) {
+        dispatch(loginActions.ON_LOGOUT());
+        navigate("/login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
     }
-    const data = await response.json();
-    setListUser(data);
   };
   useEffect(() => {
     getListUser();

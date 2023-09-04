@@ -4,10 +4,12 @@ import styles from "./CartItem.module.css";
 import { cartActions } from "../redux/store";
 import { useDispatch } from "react-redux";
 import { useFormatPrice } from "./customHooks/useFormatPrice";
+import { useNavigate } from "react-router-dom";
 
 const CartItem = (props) => {
   //Khai báo các biến thông tin
   const [quantity, setQuantity] = useState(props.productCart.quantity);
+  const navigate = useNavigate();
   //dùng custom hook để định dạng phần price cho price đơn và price tổng
   const productPrice = useFormatPrice(props.productCart.productId.price);
   const productQuantityxPrice = useFormatPrice(
@@ -28,6 +30,12 @@ const CartItem = (props) => {
       props.getListCart();
       const data = await response.json();
       setQuantity(data.quantity);
+    } else {
+      if (response.status === 401) {
+        navigate("/login?mode=login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
     }
   };
   //Xây dưng function tăng số lượng ý tưởng cũng giống remove nhưng với action giảm số lượng, không cho bé hơn 1
@@ -50,6 +58,12 @@ const CartItem = (props) => {
     });
     if (response.ok) {
       props.getListCart();
+    } else {
+      if (response.status === 401) {
+        navigate("/login?mode=login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
     }
   };
   //JSX trả ra ra từng dòng trong table chứa các thông tin tương ứng về các sản phẩm được từng user thêm vào

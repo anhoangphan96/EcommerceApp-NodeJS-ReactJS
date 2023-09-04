@@ -11,9 +11,9 @@ import RootLayout, { loader as userInforLoader } from "./Pages/RootLayout";
 import store from "./redux/store";
 import History from "./Pages/History";
 import HistoryDetail from "./Pages/HistoryDetail";
+import ServerError from "./Pages/ServerError";
 
 function App() {
-
   //Tạo ra biến router để quản lý router cho các thành phần con bên trong
   const router = createBrowserRouter([
     {
@@ -43,6 +43,7 @@ function App() {
         { path: "/login", element: <LoginPage></LoginPage>, action: UserAcess },
         { path: "/history", element: <History></History> },
         { path: "/history/:id", element: <HistoryDetail></HistoryDetail> },
+        { path: "/servererror", element: <ServerError /> },
       ],
     },
   ]);
