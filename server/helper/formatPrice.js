@@ -1,3 +1,5 @@
+//Function hổ trợ để format price theo định dạng nnn.nnn.nnn
+
 const formatPrice = (price) => {
   let priceTemp = "";
   let priceString = price.toString();

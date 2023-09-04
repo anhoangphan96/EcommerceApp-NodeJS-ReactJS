@@ -19,50 +19,48 @@ router.get("/infor", userControllers.checkLogin);
 
 //Các router cho trang client
 router.post(
-  "/addcart",
+  "/addcart", //Thêm sản phẩm vào cart
   authorControllers.clientRoleAuthor,
   userControllers.postAddCart
 );
 router.get(
-  "/listcart",
+  "/listcart", // Lấy list cart của user
   authorControllers.clientRoleAuthor,
   userControllers.getListCart
 );
 router.post(
-  "/updatecart",
+  "/updatecart", //Cập nhật cart
   authorControllers.clientRoleAuthor,
   userControllers.updateCart
 );
 router.post(
-  "/deletecart",
+  "/deletecart", //Xóa sản phẩm trong cart
   authorControllers.clientRoleAuthor,
   userControllers.deleteCartItem
 );
 router.get(
-  "/userlogout",
-  authorControllers.clientRoleAuthor,
+  "/userlogout", //user logout
   userControllers.userLogout
 );
 
 //Các router cho trang admin
 router.get(
-  "/listuser",
+  "/listuser", //Lấy list user
   authorControllers.adminRoleAuthor,
   userControllers.getListUser
 );
 router.get(
-  "/numofclient",
+  "/numofclient", //Lấy số lượt user role là client
   authorControllers.adminRoleAuthor,
   userControllers.numofclient
 );
 
 router.get(
-  "/adminlogout",
-  authorControllers.counselorRoleAuthor, //Ở trang admin có cả counselor và admin logout
+  "/adminlogout", //chức năng log out // Vì logout sẻ thoát hết chức năng nên không cần check authorize
   userControllers.adminLogout
 );
 router.put(
-  "/setrole",
+  "/setrole", //Set role cho user
   authorControllers.adminRoleAuthor,
   userControllers.setRole
 );

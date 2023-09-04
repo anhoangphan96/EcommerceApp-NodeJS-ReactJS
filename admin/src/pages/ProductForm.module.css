@@ -54,3 +54,23 @@
   text-align: right;
   color: red;
 }
+.popupbuttons {
+  border-top: 1px solid #5f76e8;
+  padding: 8px;
+  display: flex;
+  justify-content: end;
+  gap: 4px;
+}
+.closeBtn {
+  width: 50px;
+  color: #5f76e8;
+  background-color: white;
+  border: 1px solid #5f76e8;
+  border-radius: 4px;
+  padding: 6px 4px;
+}
+.closeBtn:hover {
+  background-color: #5f76e8;
+  color: white;
+  cursor: pointer;
+}

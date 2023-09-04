@@ -34,8 +34,14 @@ const RootLayout = () => {
       if (dataUser.role === "counselor") {
         navigate("/customerchat");
       }
-    } else if (response.status === 401) {
-      navigate("/login");
+    } else {
+      if (response.status === 401) {
+        dispatch(loginActions.ON_LOGOUT());
+        logoutHandler();
+        navigate("/login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
     }
   };
   useEffect(() => {
@@ -54,7 +60,7 @@ const RootLayout = () => {
             </>
           )}
         </div>
-        <Outlet />
+        <Outlet context={logoutHandler} />
       </main>
     </div>
   );

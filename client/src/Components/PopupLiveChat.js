@@ -22,7 +22,10 @@ function PopupLiveChat() {
   });
   const getListMessage = async () => {
     const response = await fetch(
-      `http://localhost:5000/chat/getmessages/${userId}`
+      `http://localhost:5000/chat/getmessages/${userId}`,
+      {
+        credentials: "include",
+      }
     );
     if (response.status === 200) {
       const data = await response.json();
@@ -36,6 +39,12 @@ function PopupLiveChat() {
             { roomId: data.roomId, clientId: userId },
           ])
         );
+      }
+    } else {
+      if (response.status === 401) {
+        navigate("/login?mode=login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
       }
     }
   };

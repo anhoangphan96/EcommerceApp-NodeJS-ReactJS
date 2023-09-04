@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react";
 import styles from "./HistoryList.module.css";
 import HistoryItem from "./HistoryItem";
+import { useNavigate } from "react-router-dom";
 const HistoryList = () => {
+  const navigate = useNavigate();
   const [hisList, setHisList] = useState([]);
   const getHistList = async () => {
     const response = await fetch(`http://localhost:5000/order/hislist`, {
-      method: "GET",
       mode: "cors",
       credentials: "include",
     });
     if (response.ok) {
       const data = await response.json();
       setHisList(data);
+    } else {
+      if (response.status === 401) {
+        navigate("/login?mode=login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
     }
   };
   useEffect(() => {

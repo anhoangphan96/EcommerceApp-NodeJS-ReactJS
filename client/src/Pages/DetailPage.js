@@ -43,18 +43,26 @@ const DetailPage = function () {
     const response = await fetch(
       `http://localhost:5000/product/detail/${idProduct}`
     );
-    const data = await response.json();
-    setProductDetail(data);
-    setCurImage(data.img1);
+    if (response.ok) {
+      const data = await response.json();
+      setProductDetail(data);
+      setCurImage(data.img1);
+    } else if (response.status === 500) {
+      navigate("/servererror");
+    }
   };
   const getRelatedProds = async () => {
     setIsLoading((prev) => true);
     const response = await fetch(
       `http://localhost:5000/product/relate?id=${idProduct}&category=${category}`
     );
-    const data = await response.json();
-    setRelatedProduct(data);
-    setIsLoading((prev) => false);
+    if (response.ok) {
+      const data = await response.json();
+      setRelatedProduct(data);
+      setIsLoading((prev) => false);
+    } else if (response.status === 500) {
+      navigate("/servererror");
+    }
   };
   useEffect(() => {
     getProdDetail();

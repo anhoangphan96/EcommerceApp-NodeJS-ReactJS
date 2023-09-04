@@ -6,9 +6,7 @@ exports.validateSignup = () => {
       .isEmail()
       .withMessage("This is not validated Email")
       .custom(async (value) => {
-        console.log(value);
         const user = await User.findOne({ email: value });
-        console.log(user);
         if (user) {
           throw new Error("This email has been used, please use the other");
         } else {

@@ -2,6 +2,9 @@ import BoxChat from "./BoxChat";
 import styles from "./ChatRooms.module.css";
 import { useEffect, useState } from "react";
 import { FcManager } from "react-icons/fc";
+import { useDispatch } from "react-redux";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { loginActions } from "../../store/reduxstore";
 import openSocket from "socket.io-client";
 const ChatRooms = () => {
   const [listRoom, setListRoom] = useState([]);
@@ -10,10 +13,25 @@ const ChatRooms = () => {
   const [selectRoom, setSelectRoom] = useState("");
   const [clientId, setClientId] = useState("");
   const [roomEndTemp, setRoomEndTemp] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logoutHandler = useOutletContext();
   const getListRooms = async () => {
-    const response = await fetch(`http://localhost:5000/chat/getlistroom`);
-    const data = await response.json();
-    setListRoom(data);
+    const response = await fetch(`http://localhost:5000/chat/getlistroom`, {
+      credentials: "include",
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setListRoom(data);
+    } else {
+      if (response.status === 401) {
+        dispatch(loginActions.ON_LOGOUT());
+        logoutHandler();
+        navigate("/login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
+    }
   };
   const selectRoomHandler = (event) => {
     const roomId = event.currentTarget.id;
@@ -31,15 +49,24 @@ const ChatRooms = () => {
   };
   const getListMessage = async (clientId) => {
     const response = await fetch(
-      `http://localhost:5000/chat/getmessages/${clientId}`
+      `http://localhost:5000/chat/getmessages/${clientId}`,
+      {
+        credentials: "include",
+      }
     );
-    const data = await response.json();
-    console.log(data.clientId);
-    console.log(clientId);
-    if (data.clientId === clientId) {
-      setListMessage(data.message);
+    if (response.ok) {
+      const data = await response.json();
+      if (data.clientId === clientId) {
+        setListMessage(data.message);
+      }
+    } else {
+      //K cần validate lỗi 401 vì để fetch message thì phải fetch listroom trước, api đó đã validate lỗi 401 unauthorized rồi
+      if (response.status === 500) {
+        navigate("/servererror");
+      }
     }
   };
+
   const updateListMessage = (data) => {
     console.log(clientId);
     if (data.clientId === clientId) {

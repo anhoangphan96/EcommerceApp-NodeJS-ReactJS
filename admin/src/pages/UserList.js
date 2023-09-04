@@ -2,13 +2,14 @@ import Card from "../components/CardContainer/Card";
 import styles from "./UserList.module.css";
 import { useState, useEffect } from "react";
 import UserItem from "../components/UserList/UserItem";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginActions } from "../store/reduxstore";
 const UserList = () => {
   const [listUser, setListUser] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const logoutHandler = useOutletContext();
   const getListUser = async () => {
     const response = await fetch(`http://localhost:5000/user/listuser`, {
       method: "GET",
@@ -21,6 +22,7 @@ const UserList = () => {
     } else {
       if (response.status === 401) {
         dispatch(loginActions.ON_LOGOUT());
+        logoutHandler();
         navigate("/login");
       } else if (response.status === 500) {
         navigate("/servererror");

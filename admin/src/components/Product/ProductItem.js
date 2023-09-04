@@ -1,13 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import PopupModal from "../Modal/PopupModal";
 import formatPrice from "../../helper/formatPrice";
 import styles from "./ProrductItem.module.css";
+import { useDispatch } from "react-redux";
+import { loginActions } from "../../store/reduxstore";
 const ProductItem = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const logoutHandler = useOutletContext();
   const [showPopup, setShowPopup] = useState(false);
   const [showDeleteBtn, setshowDeleteBtn] = useState(true);
-  const [message, setMessage] = useState("Please confirm to delete this Room!");
+  const [message, setMessage] = useState(
+    "Please confirm to delete this Product!"
+  );
   const updateHandler = () => {
     navigate(`/products/form?mode=update&id=${props.product._id}`);
   };
@@ -20,7 +26,21 @@ const ProductItem = (props) => {
       }
     );
     if (response.ok) {
-      props.getListProducts();
+      setshowDeleteBtn(false);
+      const newMessage = await response.json();
+      setMessage(newMessage.message);
+    } else {
+      if (response.status === 400) {
+        setshowDeleteBtn(false);
+        const newMessage = await response.json();
+        setMessage(newMessage.message);
+      } else if (response.status === 401) {
+        dispatch(loginActions.ON_LOGOUT());
+        logoutHandler();
+        navigate("/login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
+      }
     }
   };
   //Function để show popup confirm delete
@@ -30,20 +50,20 @@ const ProductItem = (props) => {
   const closeHandler = () => {
     //Nếu như sau khi xóa xong(không hiện nút delete nửa) mà bấm close thì sẽ render lại list để lấy list Room sau khi xóa
     if (!showDeleteBtn) {
-      props.getListRoom();
+      props.getListProducts();
     }
-    setMessage("Please confirm to delete this Room!");
+    setMessage("Please confirm to delete this Product!");
     setshowDeleteBtn(true);
     setShowPopup(false);
   };
   return (
     <>
-      <tr>
+      <tr className={styles.rowContent}>
         <td>{props.product._id} </td>
         <td>{props.product.name} </td>
         <td>{formatPrice(props.product.price)} </td>
         <td>
-          <img src={props.product.img1} width={60} />
+          <img src={props.product.img1} />
         </td>
         <td>{props.product.category}</td>
         <td>

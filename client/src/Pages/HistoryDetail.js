@@ -26,7 +26,9 @@ const HistoryDetail = () => {
       setOrderInfor(data);
     } else {
       if (response.status === 401) {
-        navigate("http://localhost:3000/login?mode=login");
+        navigate("/login?mode=login");
+      } else if (response.status === 500) {
+        navigate("/servererror");
       }
     }
   };

@@ -1,5 +1,5 @@
 const cors = require("cors");
-
+//function để lưu connect socket và có thể sử dụng io ở những nơi khác sau khi connect
 let io;
 module.exports = {
   init: (httpServer) => {

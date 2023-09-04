@@ -14,6 +14,8 @@ const Product = () => {
       const data = await response.json();
       setListProducts(data);
       setListProdFilter(data);
+    } else if (response.status === 500) {
+      navigate("/servererror");
     }
   };
   useEffect(() => {

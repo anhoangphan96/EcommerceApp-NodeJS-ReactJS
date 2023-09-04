@@ -4,10 +4,12 @@ import styles from "./InforBoard.module.css";
 import formatPrice from "../../helper/formatPrice";
 import { loginActions } from "../../store/reduxstore";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 const InforBoard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const logoutHandler = useOutletContext();
   const [numofClient, setNumOfClient] = useState(0);
   const [numofOrder, setNumOfOrder] = useState(0);
   const [revPerMonth, setRevPerMonth] = useState(0);
@@ -22,6 +24,7 @@ const InforBoard = () => {
     } else {
       if (response.status === 401) {
         dispatch(loginActions.ON_LOGOUT());
+        logoutHandler();
         navigate("/login");
       } else if (response.status === 500) {
         navigate("/servererror");
@@ -40,6 +43,7 @@ const InforBoard = () => {
     } else {
       if (response.status === 401) {
         dispatch(loginActions.ON_LOGOUT());
+        logoutHandler();
         navigate("/login");
       } else if (response.status === 500) {
         navigate("/servererror");

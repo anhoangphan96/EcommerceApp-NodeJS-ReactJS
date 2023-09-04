@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+//Order schema gồm các field sau
 const orderSchema = new Schema(
   {
     userId: {

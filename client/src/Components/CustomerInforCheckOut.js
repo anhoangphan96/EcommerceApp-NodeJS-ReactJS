@@ -65,8 +65,10 @@ const CustomerInforCheckOut = () => {
       if (response.ok) {
         navigate("/history");
       } else {
+        //Nếu trả về lỗi 404 là do có 1 sản phẩm nào đó đã bị hết hàng trong quá trình user chần chừ chưa đặt hàng đã bị ng khác đặt, quay về trang cart để cập nhật
         if (response.status === 404) {
           navigate("/cart");
+          //Lỗi validate input thiếu hoặc không đúng định dạng
         } else if (response.status === 400) {
           const errors = await response.json();
           console.log(errors);
@@ -75,6 +77,10 @@ const CustomerInforCheckOut = () => {
             errorMsg[property] = errors[property].msg;
           }
           setErrorMessage(errorMsg);
+        } else if (response.status === 401) {
+          navigate("/login?mode=login");
+        } else if (response.status === 500) {
+          navigate("/servererror");
         }
       }
     }
