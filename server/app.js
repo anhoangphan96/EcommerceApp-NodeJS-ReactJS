@@ -47,7 +47,7 @@ app.use("/chat", chatRoute);
 //Connect MongoDB bằng moongose
 mongoose
   .connect(
-    `mongodb+srv://anphfx21936:Hoangan512@cluster0.3v63j0d.mongodb.net/ecommerceApp`
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.3v63j0d.mongodb.net/${process.env.DB_NAME}`
   )
   .then((result) => {
     console.log("Connected");
