@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const path = require("path");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -43,7 +44,6 @@ app.use("/user", userRoute);
 app.use("/product", productRoute);
 app.use("/order", orderRoute);
 app.use("/chat", chatRoute);
-
 //Connect MongoDB bằng moongose
 mongoose
   .connect(
