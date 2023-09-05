@@ -51,7 +51,7 @@ mongoose
   )
   .then((result) => {
     console.log("Connected");
-    const server = app.listen(process.env.BACKEND_URL || 5000);
+    const server = app.listen(process.env.PORT || 5000);
     //Kết nối socketio
     const io = require("./socket").init(server);
     io.on("connection", (socket) => {
