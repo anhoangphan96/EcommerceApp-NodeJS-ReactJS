@@ -17,7 +17,7 @@ const UserForm = () => {
   };
   const submitFormHandler = async (event) => {
     event.preventDefault();
-    const response = await fetch(`http://localhost:5000/user/adminlogin`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/adminlogin`, {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "application/json" },

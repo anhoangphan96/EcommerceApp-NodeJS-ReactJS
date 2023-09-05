@@ -22,11 +22,14 @@ function RootLayout() {
   };
 
   const checkLogin = async () => {
-    const response = await fetch(`http://localhost:5000/user/infor`, {
-      method: "GET",
-      mode: "cors",
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/infor`,
+      {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+      }
+    );
     if (response.ok) {
       const dataUser = await response.json();
       console.log(dataUser);

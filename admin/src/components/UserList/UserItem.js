@@ -7,13 +7,16 @@ const UserItem = (props) => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const postSetAdmin = async (role) => {
-    const response = await fetch(`http://localhost:5000/user/setrole`, {
-      method: "PUT",
-      mode: "cors",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: props.user._id, setToRole: role }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/setrole`,
+      {
+        method: "PUT",
+        mode: "cors",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: props.user._id, setToRole: role }),
+      }
+    );
     if (response.ok) {
       const messageRes = await response.json();
       setMessage(messageRes.message);

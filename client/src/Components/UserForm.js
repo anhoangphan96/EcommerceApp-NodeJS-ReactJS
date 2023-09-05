@@ -72,7 +72,7 @@ const UserForm = () => {
   // Khi submit form ở chế độ login thì sẽ xóa passWord
   const submitFormHandler = (event) => {
     event.preventDefault();
-    const urlToFetch = `http://localhost:5000/user/${
+    const urlToFetch = `${process.env.REACT_APP_BACKEND_URL}/user/${
       isLogin ? "login" : "signup"
     }`;
     //function để post data đến backend đăng nhập hoặc đăng ký

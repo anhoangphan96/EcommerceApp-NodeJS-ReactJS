@@ -8,7 +8,13 @@ const OrderItem = (props) => {
     <tr className="cartRow">
       <td className={styles.idProduct}>{props.item.productId._id}</td>
       <td className={styles.imgProduct}>
-        <img src={props.item.productId.img1}></img>
+        <img
+          src={
+            props.item.productId.img1.includes("https://firebasestorage")
+              ? props.item.productId.img1
+              : process.env.REACT_APP_BACKEND_URL + props.item.productId.img1
+          }
+        ></img>
       </td>
       <td className={styles.nameProduct}>{props.item.productId.name}</td>
       <td className={styles.priceProduct}>{price} VND</td>

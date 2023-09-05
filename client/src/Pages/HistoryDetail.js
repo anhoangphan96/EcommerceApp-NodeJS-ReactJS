@@ -16,7 +16,7 @@ const HistoryDetail = () => {
   const price = useFormatPrice(orderInfor.totalPrice);
   const getOrderDetail = async () => {
     const response = await fetch(
-      `http://localhost:5000/order/detail/${orderId}`,
+      `${process.env.REACT_APP_BACKEND_URL}/order/detail/${orderId}`,
       {
         credentials: "include",
       }

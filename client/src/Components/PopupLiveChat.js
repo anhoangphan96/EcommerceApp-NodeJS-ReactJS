@@ -22,7 +22,7 @@ function PopupLiveChat() {
   });
   const getListMessage = async () => {
     const response = await fetch(
-      `http://localhost:5000/chat/getmessages/${userId}`,
+      `${process.env.REACT_APP_BACKEND_URL}/chat/getmessages/${userId}`,
       {
         credentials: "include",
       }
@@ -82,7 +82,9 @@ function PopupLiveChat() {
       setCurRoomId(listRoomId.find((room) => room.clientId === userId)?.roomId);
       getListMessage();
       if (isConnectRoom) {
-        const socketconnect = openSocket("http://localhost:5000");
+        const socketconnect = openSocket(
+          `${process.env.REACT_APP_BACKEND_URL}`
+        );
         if (!curRoomId) {
           const newCurRoomId = uuid4();
           setCurRoomId(newCurRoomId);

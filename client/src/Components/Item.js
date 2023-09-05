@@ -8,7 +8,13 @@ const Item = (props) => {
   return (
     <ZoomOut>
       <div className={styles.itemContainer} id={props.product._id}>
-        <img src={props.product.img1}></img>
+        <img
+          src={
+            props.product.img1.includes("https://firebasestorage")
+              ? props.product.img1
+              : process.env.REACT_APP_BACKEND_URL + props.product.img1
+          }
+        ></img>
         <h3>{props.product.name}</h3>
         <h4>{price} VND</h4>
       </div>

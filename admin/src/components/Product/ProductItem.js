@@ -19,7 +19,7 @@ const ProductItem = (props) => {
   };
   const deleteHandler = async () => {
     const response = await fetch(
-      `http://localhost:5000/product/delete?id=${props.product._id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/product/delete?id=${props.product._id}`,
       {
         credentials: "include",
         method: "delete",
@@ -63,7 +63,13 @@ const ProductItem = (props) => {
         <td>{props.product.name} </td>
         <td>{formatPrice(props.product.price)} </td>
         <td>
-          <img src={props.product.img1} />
+          <img
+            src={
+              props.product.img1.includes("https://firebasestorage")
+                ? props.product.img1
+                : process.env.REACT_APP_BACKEND_URL + props.product.img1
+            }
+          />
         </td>
         <td>{props.product.category}</td>
         <td>

@@ -41,7 +41,7 @@ const DetailPage = function () {
   //Biến chứa list sản phẩm có trong cart hiện tại, localstorage và redux store đồng bộ
   const getProdDetail = async () => {
     const response = await fetch(
-      `http://localhost:5000/product/detail/${idProduct}`
+      `${process.env.REACT_APP_BACKEND_URL}/product/detail/${idProduct}`
     );
     if (response.ok) {
       const data = await response.json();
@@ -54,7 +54,7 @@ const DetailPage = function () {
   const getRelatedProds = async () => {
     setIsLoading((prev) => true);
     const response = await fetch(
-      `http://localhost:5000/product/relate?id=${idProduct}&category=${category}`
+      `${process.env.REACT_APP_BACKEND_URL}/product/relate?id=${idProduct}&category=${category}`
     );
     if (response.ok) {
       const data = await response.json();
@@ -115,16 +115,19 @@ const DetailPage = function () {
   //Function truyền data xuống backend để tiến hành thêm sản phẩm vào giỏ hàng
   const addToCartHandler = () => {
     const postAddCart = async () => {
-      const response = await fetch(`http://localhost:5000/user/addcart`, {
-        method: "POST",
-        mode: "cors",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: idProduct,
-          quantity: quantity,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/addcart`,
+        {
+          method: "POST",
+          mode: "cors",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            productId: idProduct,
+            quantity: quantity,
+          }),
+        }
+      );
       if (!response.ok) {
         if (response.status === 401) {
           navigate("/login?mode=login");
@@ -153,13 +156,53 @@ const DetailPage = function () {
               className={styles.productImages}
               onClick={selectPictureHanlder}
             >
-              {productDetail.img1 && <img src={productDetail.img1}></img>}
-              {productDetail.img2 && <img src={productDetail.img2}></img>}
-              {productDetail.img3 && <img src={productDetail.img3}></img>}
-              {productDetail.img4 && <img src={productDetail.img4}></img>}
-              {productDetail.img5 && <img src={productDetail.img5}></img>}
+              {productDetail.img1 && (
+                <img
+                  src={
+                    productDetail.img1.includes("https://firebasestorage")
+                      ? productDetail.img1
+                      : process.env.REACT_APP_BACKEND_URL + productDetail.img1
+                  }
+                />
+              )}
+              {productDetail.img2 && (
+                <img
+                  src={
+                    productDetail.img2.includes("https://firebasestorage")
+                      ? productDetail.img2
+                      : process.env.REACT_APP_BACKEND_URL + productDetail.img2
+                  }
+                />
+              )}
+              {productDetail.img3 && (
+                <img
+                  src={
+                    productDetail.img3.includes("https://firebasestorage")
+                      ? productDetail.img3
+                      : process.env.REACT_APP_BACKEND_URL + productDetail.img3
+                  }
+                />
+              )}
+              {productDetail.img4 && (
+                <img
+                  src={
+                    productDetail.img4.includes("https://firebasestorage")
+                      ? productDetail.img4
+                      : process.env.REACT_APP_BACKEND_URL + productDetail.img4
+                  }
+                />
+              )}
+              {productDetail.img5 && (
+                <img
+                  src={
+                    productDetail.img5.includes("https://firebasestorage")
+                      ? productDetail.img5
+                      : process.env.REACT_APP_BACKEND_URL + productDetail.img5
+                  }
+                />
+              )}
             </div>
-            <img src={curImage} className={styles.pictureZoomOut}></img>
+            <img src={curImage} className={styles.pictureZoomOut} />
             <div className={styles.productDetail}>
               <h3>{productDetail.name}</h3>
               <h4>{price} VND</h4>

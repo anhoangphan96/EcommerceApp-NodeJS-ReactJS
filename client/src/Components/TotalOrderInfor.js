@@ -15,10 +15,13 @@ const TotalOrderInfor = () => {
   //Khai báo list cart được filter theo email của user đang đăng nhập
   const listCart = useSelector((state) => state.cart.listCart);
   const getListCart = async () => {
-    const response = await fetch(`http://localhost:5000/user/listcart`, {
-      method: "GET",
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/listcart`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
     if (response.ok) {
       const data = await response.json();
       dispatch(cartActions.UPDATECART(data.cart));

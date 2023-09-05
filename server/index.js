@@ -16,7 +16,7 @@ const chatRoute = require("./Routes/chat");
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [process.env.CLIENT_APP, process.env.ADMIN_APP],
     methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
   })
 );

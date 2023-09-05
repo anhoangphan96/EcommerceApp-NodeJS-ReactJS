@@ -6,7 +6,7 @@ const HistoryList = () => {
   const navigate = useNavigate();
   const [hisList, setHisList] = useState([]);
   const getHistList = async () => {
-    const response = await fetch(`http://localhost:5000/order/hislist`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/order/hislist`, {
       mode: "cors",
       credentials: "include",
     });

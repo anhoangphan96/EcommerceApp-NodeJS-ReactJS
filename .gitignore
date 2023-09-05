@@ -2,3 +2,6 @@ server/node_modules
 client/node_modules
 admin/node_modules
 jsonconfig.json
+server/.env
+client/.env
+admin/.env

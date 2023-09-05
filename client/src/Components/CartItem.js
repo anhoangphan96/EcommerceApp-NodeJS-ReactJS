@@ -19,13 +19,16 @@ const CartItem = (props) => {
   //Xây dựng function để fetch api  update cart ở database
   const postUpdateCart = async (action) => {
     const idUpdateCart = props.productCart.productId._id;
-    const response = await fetch(`http://localhost:5000/user/updatecart`, {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: action, productId: idUpdateCart }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/updatecart`,
+      {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: action, productId: idUpdateCart }),
+      }
+    );
     if (response.ok) {
       props.getListCart();
       const data = await response.json();
@@ -49,13 +52,16 @@ const CartItem = (props) => {
   //Xây dựng function để xóa sản phẩm, lọc listCart chỉ giữ lại những product có id khác với id sản phẩm bị click vào nút remove hoặc khác email đang đăng nhập
   const removeProductHandler = async () => {
     const idCartDelete = props.productCart.productId._id;
-    const response = await fetch(`http://localhost:5000/user/deletecart`, {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId: idCartDelete }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/deletecart`,
+      {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: idCartDelete }),
+      }
+    );
     if (response.ok) {
       props.getListCart();
     } else {
@@ -74,7 +80,14 @@ const CartItem = (props) => {
       className="cartRow"
     >
       <td className={styles.imageProduct}>
-        <img src={props.productCart.productId.img1}></img>
+        <img
+          src={
+            props.productCart.productId.img1.includes("https://firebasestorage")
+              ? props.productCart.productId.img1
+              : process.env.REACT_APP_BACKEND_URL +
+                props.productCart.productId.img1
+          }
+        ></img>
       </td>
       <td className={styles.nameProduct}>{props.productCart.productId.name}</td>
       <td className={styles.priceProduct}>

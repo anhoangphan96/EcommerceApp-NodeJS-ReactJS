@@ -46,7 +46,7 @@ const CustomerInforCheckOut = () => {
     event.preventDefault();
     //totalPrice phải >0 mới được đặt hàng
     if (totalPrice > 0) {
-      const response = await fetch(`http://localhost:5000/order/create`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/order/create`, {
         method: "POST",
         mode: "cors",
         credentials: "include",

@@ -1,5 +1,6 @@
 const Order = require("../Models/Order");
 const Product = require("../Models/Product");
+require("dotenv").config();
 const User = require("../Models/User");
 const nodemailer = require("nodemailer");
 const formatPrice = require("../helper/formatPrice");
@@ -73,7 +74,9 @@ exports.postCreateOrder = (req, res, next) => {
                 cartItem.productId.name
               }</td>
                 <td style="${styleTableElement} font-size:16px;"><img src="${
-                cartItem.productId.img1
+                cartItem.productId.img1.includes("https://firebasestorage")
+                  ? cartItem.productId.img1
+                  : process.env.REACT_APP_BACKEND_URL + cartItem.productId.img1
               }" width="80" /></td>
                 <td style="${styleTableElement} font-size:16px;">${formatPrice(
                 cartItem.productId.price

@@ -35,7 +35,7 @@ const MainNavigation = function (props) {
   // Function để thực hiện hành động logout khi click vào nut logout
   const logOutHandler = async () => {
     //Dispatch action logout, xóa currentUser khỏi localstorage và điều hướng về trang login
-    const response = await fetch(`http://localhost:5000/user/userlogout`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/userlogout`, {
       credentials: "include",
     });
     console.log(response);

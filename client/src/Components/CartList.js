@@ -11,7 +11,7 @@ const Cartlist = () => {
   const [message, setMessage] = useState("");
 
   const getListCart = async () => {
-    const response = await fetch(`http://localhost:5000/user/listcart`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/listcart`, {
       method: "GET",
       credentials: "include",
     });

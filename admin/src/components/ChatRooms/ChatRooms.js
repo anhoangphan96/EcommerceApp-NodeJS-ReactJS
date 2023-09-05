@@ -17,9 +17,12 @@ const ChatRooms = () => {
   const navigate = useNavigate();
   const logoutHandler = useOutletContext();
   const getListRooms = async () => {
-    const response = await fetch(`http://localhost:5000/chat/getlistroom`, {
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/chat/getlistroom`,
+      {
+        credentials: "include",
+      }
+    );
     if (response.ok) {
       const data = await response.json();
       setListRoom(data);
@@ -49,7 +52,7 @@ const ChatRooms = () => {
   };
   const getListMessage = async (clientId) => {
     const response = await fetch(
-      `http://localhost:5000/chat/getmessages/${clientId}`,
+      `${process.env.REACT_APP_BACKEND_URL}/chat/getmessages/${clientId}`,
       {
         credentials: "include",
       }
@@ -82,7 +85,7 @@ const ChatRooms = () => {
   }, [roomEndTemp]);
   useEffect(() => {
     getListRooms();
-    const socketconnect = openSocket("http://localhost:5000");
+    const socketconnect = openSocket(`${process.env.REACT_APP_BACKEND_URL}`);
     setSocket(socketconnect);
     socketconnect.on("haveNewRoom", (data) => {
       checkListRoom(data);

@@ -7,7 +7,7 @@ const Product = () => {
   const [listProducts, setListProducts] = useState([]);
   const [listProdFilter, setListProdFilter] = useState(listProducts);
   const getListProducts = async () => {
-    const response = await fetch(`http://localhost:5000/product/getall`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/getall`, {
       method: "GET",
     });
     if (response.ok) {

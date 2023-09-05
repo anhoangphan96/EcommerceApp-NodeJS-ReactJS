@@ -44,7 +44,13 @@ const Modal = (props) => {
     <Fade>
       {props.dataProduct && (
         <div className={styles.modalPopup}>
-          <img src={props.dataProduct.img1}></img>
+          <img
+            src={
+              props.dataProduct.img1.includes("https://firebasestorage")
+                ? props.dataProduct.img1
+                : process.env.REACT_APP_BACKEND_URL + props.dataProduct.img1
+            }
+          />
           <div className={styles.popupContent}>
             <h3>{props.dataProduct.name}</h3>
             <h4>{price} VND</h4>

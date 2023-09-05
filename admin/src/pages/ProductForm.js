@@ -87,7 +87,7 @@ const ProductForm = () => {
       return;
     } else if (mode === "update") {
       const response = await fetch(
-        `http://localhost:5000/product/formupdate/${searchParms.get("id")}`,
+        `${process.env.REACT_APP_BACKEND_URL}/product/formupdate/${searchParms.get("id")}`,
         {
           credentials: "include",
         }
@@ -130,7 +130,7 @@ const ProductForm = () => {
         formData.append("pictures", pictureFiles[i]);
       }
       console.log(formData);
-      const response = await fetch(`http://localhost:5000/product/create`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/create`, {
         method: "POST",
         body: formData,
         credentials: "include",
@@ -163,7 +163,7 @@ const ProductForm = () => {
       }
     } else if (mode === "update") {
       const response = await fetch(
-        `http://localhost:5000/product/formupdate/${searchParms.get("id")}`,
+        `${process.env.REACT_APP_BACKEND_URL}/product/formupdate/${searchParms.get("id")}`,
         {
           method: "POST",
           credentials: "include",

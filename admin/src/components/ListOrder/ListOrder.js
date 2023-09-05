@@ -10,7 +10,7 @@ const ListOrder = () => {
   const dispatch = useDispatch();
   const logoutHandler = useOutletContext();
   const path = useLocation().pathname;
-  let urlToFetch = `http://localhost:5000/order/${
+  let urlToFetch = `${process.env.REACT_APP_BACKEND_URL}/order/${
     path === "/" ? "lastest8" : "getall"
   }`;
   const getListOrder = async () => {

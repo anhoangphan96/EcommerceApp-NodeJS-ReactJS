@@ -11,7 +11,7 @@ const UserList = () => {
   const dispatch = useDispatch();
   const logoutHandler = useOutletContext();
   const getListUser = async () => {
-    const response = await fetch(`http://localhost:5000/user/listuser`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/listuser`, {
       method: "GET",
       mode: "cors",
       credentials: "include",

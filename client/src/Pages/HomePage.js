@@ -30,6 +30,8 @@ const HomePage = function () {
 export default HomePage;
 // xây dựng phần data cho loader để lấy data từ link api được đề bài cung cấp, sẽ được sử dụng trong nhiều route khác nhau
 export async function loader() {
-  const response = await fetch(`http://localhost:5000/product/getall`);
+  const response = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/product/getall`
+  );
   return response;
 }
