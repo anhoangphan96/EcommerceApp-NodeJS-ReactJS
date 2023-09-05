@@ -41,6 +41,7 @@ app.use(
     },
   })
 );
+
 //Khai báo các middleware để connect app đến các route tương ứng
 app.use("/user", userRoute);
 app.use("/product", productRoute);
