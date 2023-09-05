@@ -26,16 +26,16 @@ app.use(bodyParser.json());
 
 //middleware để các client-side có thể truy cập hình ảnh trong thư mục public của server
 app.use("/public/images", express.static(path.join("public", "images")));
-
+app.enable("trust proxy");
 //config session
 app.use(
   session({
     secret: "my-secret",
     resave: false,
     saveUninitialized: false,
+    name: "MyEcommerceApp",
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 30, // thời gian sống của cookie do session gửi trả client-side là 30 ngày
-      httpOnly: true,
       secure: true,
       sameSite: "none",
     },
