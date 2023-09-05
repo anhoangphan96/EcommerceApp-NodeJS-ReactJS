@@ -66,7 +66,7 @@ exports.createProduct = (req, res, next) => {
       //dùng method forEach để lập qua thêm các link url static chứa các picture
       pictures.forEach((pic, i) => {
         const picName = `img${i + 1}`;
-        dataProduct[picName] = pic.path.replace(/\\/g, "/");
+        dataProduct[picName] = "/" + pic.path.replace(/\\/g, "/");
       });
       const newProduct = new Product(dataProduct);
       newProduct

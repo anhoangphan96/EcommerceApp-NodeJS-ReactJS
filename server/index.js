@@ -11,7 +11,7 @@ const userRoute = require("./Routes/user");
 const productRoute = require("./Routes/product");
 const orderRoute = require("./Routes/order");
 const chatRoute = require("./Routes/chat");
-
+console.log(process.env.CLIENT_APP);
 //Config cors (port 3000 chạy client app, 3001 chạy admin app)
 app.use(
   cors({
