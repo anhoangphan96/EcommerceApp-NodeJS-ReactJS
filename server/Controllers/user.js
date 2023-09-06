@@ -104,22 +104,19 @@ exports.checkLogin = (req, res, next) => {
 };
 
 //Controller để thêm 1 sản phẩm vào giỏ hàng của user
-exports.postAddCart = (req, res, next) => {
-  //Lấy thông tin cart item từ req.body rồi tìm user và gọi method addToCart để update vào DB
-  const cartData = req.body;
-  User.findOne({ email: req.session.email })
-    .then((user) => {
-      if (user) {
-        return user.addToCart(cartData);
-      }
-    })
-    .then((result) => {
+exports.postAddCart = async (req, res, next) => {
+  try {
+    //Lấy thông tin cart item từ req.body rồi tìm user và gọi method addToCart để update vào DB
+    const cartData = req.body;
+    const user = await User.findOne({ email: req.session.email });
+    if (user) {
+      await user.addToCart(cartData);
       res.status(200).json({ message: "Add to cart successfully!" });
-    })
-    .catch((err) => {
-      const error = new Error(err);
-      res.status(500).json(error);
-    });
+    }
+  } catch (err) {
+    const error = new Error(err);
+    res.status(500).json(error);
+  }
 };
 
 //Controller để lấy danh sách list cart của user
