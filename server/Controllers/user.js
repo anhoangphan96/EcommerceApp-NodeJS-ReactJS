@@ -54,9 +54,7 @@ exports.userLogin = (req, res, next) => {
               req.session.email = result.email;
               req.session.isLoggedIn = true;
               req.session.role = result.role;
-              return req.session.save((err) => {
-                res.status(200).json(result);
-              });
+              return req.session.save();
             } else {
               //Nếu nhập sai data thì trả về status 401 và lỗi email hoặc password sai
               res
@@ -65,6 +63,9 @@ exports.userLogin = (req, res, next) => {
             }
           })
           //Nếu có các lỗi thì trả về status 500 cùng lỗi hệ thống
+          .then((result) => {
+            res.status(200).json(result);
+          })
           .catch((err) => {
             const error = new Error(err);
             res.status(500).json(error);
