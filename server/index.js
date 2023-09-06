@@ -16,7 +16,14 @@ console.log(process.env.CLIENT_APP);
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.CLIENT_APP, process.env.ADMIN_APP],
+    origin: [
+      process.env.CLIENT_APP_LOCAL,
+      process.env.CLIENT_APP_FIREBASE1,
+      process.env.CLIENT_APP_FIREBASE2,
+      process.env.ADMIN_APP_LOCAL,
+      process.env.ADMIN_APP_FIREBASE1,
+      process.env.ADMIN_APP_FIREBASE2,
+    ],
     methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
   })
 );

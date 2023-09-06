@@ -119,6 +119,7 @@ const DetailPage = function () {
   //Function truyền data xuống backend để tiến hành thêm sản phẩm vào giỏ hàng
   const addToCartHandler = () => {
     const postAddCart = async () => {
+      console.log(document.cookie);
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/user/addcart`,
         {
