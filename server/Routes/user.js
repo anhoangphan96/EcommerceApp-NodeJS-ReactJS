@@ -20,7 +20,7 @@ router.get("/infor", userControllers.checkLogin);
 //Các router cho trang client
 router.post(
   "/addcart", //Thêm sản phẩm vào cart
-  authorControllers.clientRoleAuthor,
+
   userControllers.postAddCart
 );
 router.get(

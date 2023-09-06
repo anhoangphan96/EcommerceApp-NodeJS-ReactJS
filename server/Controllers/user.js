@@ -107,16 +107,13 @@ exports.checkLogin = (req, res, next) => {
 exports.postAddCart = (req, res, next) => {
   //Lấy thông tin cart item từ req.body rồi tìm user và gọi method addToCart để update vào DB
   const cartData = req.body;
-  console.log(cartData);
-  User.findOneAndUpdate(
-    {
-      email: req.session.email,
-      "cart.productId": { $ne: cartData.productId },
-    },
-    { $push: { cart: cartData }, new: true }
-  )
+  User.findOne({ email: req.session.email })
+    .then((user) => {
+      if (user) {
+        return user.addToCart(cartData);
+      }
+    })
     .then((result) => {
-      console.log(result);
       res.status(200).json({ message: "Add to cart successfully!" });
     })
     .catch((err) => {
