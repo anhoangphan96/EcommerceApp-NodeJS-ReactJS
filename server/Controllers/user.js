@@ -107,6 +107,7 @@ exports.checkLogin = (req, res, next) => {
 exports.postAddCart = (req, res, next) => {
   //Lấy thông tin cart item từ req.body rồi tìm user và gọi method addToCart để update vào DB
   const cartData = req.body;
+  console.log(cartData);
   User.findOne({ email: req.session.email })
     .then((user) => {
       if (user) {
@@ -117,7 +118,6 @@ exports.postAddCart = (req, res, next) => {
         if (cartIndex === -1) {
           updatedCart.push(newCart);
           user.cart = updatedCart;
-          return user.save();
         } else {
           updatedCart[cartIndex].quantity += cartData.quantity;
           user.cart = updatedCart;
