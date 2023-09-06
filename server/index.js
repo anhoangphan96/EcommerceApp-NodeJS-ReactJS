@@ -25,7 +25,10 @@ app.use(
 app.use(bodyParser.json());
 
 //middleware để các client-side có thể truy cập hình ảnh trong thư mục public của server
-app.use("/public/images", express.static(path.join("public", "images")));
+app.use(
+  "/public/images",
+  express.static(path.join(__dirname, "public", "images"))
+);
 app.set("trust proxy", 1);
 //config session
 app.use(
