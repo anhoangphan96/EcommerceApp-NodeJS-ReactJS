@@ -11,7 +11,7 @@ const HistoryDetail = () => {
     totalPrice: 0,
     items: [],
   });
-  const userId = useSelector((state) => state.login.curUser.id);
+  const userId = useSelector((state) => state.login.curUser?.id);
 
   const price = useFormatPrice(orderInfor.totalPrice);
   const getOrderDetail = async () => {
