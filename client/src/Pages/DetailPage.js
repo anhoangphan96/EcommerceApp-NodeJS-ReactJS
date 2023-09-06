@@ -46,7 +46,11 @@ const DetailPage = function () {
     if (response.ok) {
       const data = await response.json();
       setProductDetail(data);
-      setCurImage(data.img1);
+      setCurImage(
+        data.img1.includes("https://firebasestorage")
+          ? data.img1
+          : process.env.REACT_APP_BACKEND_URL + data.img1
+      );
     } else if (response.status === 500) {
       navigate("/servererror");
     }
