@@ -39,12 +39,13 @@ userSchema.methods.addToCart = async function (newCart) {
     const cartIndex = this.cart.findIndex(
       (cartItem) => cartItem.productId.toString() === newCart.productId
     );
+    const updatedCart = [...this.cart];
     if (cartIndex === -1) {
-      this.cart.push(newCart);
+      updatedCart.push(newCart);
+      this.cart = updatedCart;
       await this.save();
       return this.cart;
     } else {
-      const updatedCart = [...this.cart];
       updatedCart[cartIndex].quantity += newCart.quantity;
       this.cart = updatedCart;
       await this.save();
