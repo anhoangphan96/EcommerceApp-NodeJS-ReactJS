@@ -13,6 +13,7 @@ module.exports = {
           process.env.ADMIN_APP_LOCAL,
           process.env.ADMIN_APP_FIREBASE1,
           process.env.ADMIN_APP_FIREBASE2,
+          process.env.CLIENT_APP_VERCEL,
         ],
       },
     });
