@@ -41,12 +41,14 @@ userSchema.methods.addToCart = async function (newCart) {
     );
     if (cartIndex === -1) {
       this.cart.push(newCart);
-      return await this.save();
+      await this.save();
+      return this.cart;
     } else {
       const updatedCart = [...this.cart];
       updatedCart[cartIndex].quantity += newCart.quantity;
       this.cart = updatedCart;
-      return await this.save();
+      await this.save();
+      return this.cart;
     }
   } catch (err) {
     throw err;
