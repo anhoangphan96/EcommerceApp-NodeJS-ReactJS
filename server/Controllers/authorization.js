@@ -1,5 +1,6 @@
 //Check author của client thì chỉ cần có role và đã đăng nhập là được truy cập (admin và counselor cũng được sử dụng tính năng ở clientapp)
 exports.clientRoleAuthor = (req, res, next) => {
+  console.log(req.session);
   if (
     req.session.isLoggedIn &&
     ["client", "counselor", "admin"].includes(req.session.role)

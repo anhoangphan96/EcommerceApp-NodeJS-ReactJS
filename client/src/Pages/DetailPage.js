@@ -131,9 +131,11 @@ const DetailPage = function () {
           }),
         }
       );
+      console.log(await response.json());
+      console.log(response);
       if (!response.ok) {
         if (response.status === 401) {
-          navigate("/login?mode=login");
+          // navigate("/login?mode=login");
         } else if (response.status === 500) {
           navigate("/servererror");
         }
