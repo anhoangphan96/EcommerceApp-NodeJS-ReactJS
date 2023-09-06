@@ -25,6 +25,7 @@ app.use(
       process.env.ADMIN_APP_FIREBASE2,
       process.env.CLIENT_APP_VERCEL,
     ],
+    allowedHeaders: ["Content-Type", "Authorization", "Origin", "Accept"],
     methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE"],
   })
 );
