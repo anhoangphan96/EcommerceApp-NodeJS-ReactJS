@@ -110,7 +110,21 @@ exports.postAddCart = (req, res, next) => {
   User.findOne({ email: req.session.email })
     .then((user) => {
       if (user) {
-        return user.addToCart(cartData);
+        const cartIndex = user.cart.findIndex(
+          (cartItem) => cartItem.productId.toString() === cartData.productId
+        );
+        const updatedCart = [...user.cart];
+        if (cartIndex === -1) {
+          updatedCart.push(newCart);
+          user.cart = updatedCart;
+          return user.save();
+        } else {
+          updatedCart[cartIndex].quantity += cartData.quantity;
+          this.cart = updatedCart;
+          user.cart = updatedCart;
+          return user.save();
+          // return user.addToCart(cartData);
+        }
       }
     })
     .then((result) => {
