@@ -108,7 +108,7 @@ exports.postAddCart = (req, res, next) => {
   //Lấy thông tin cart item từ req.body rồi tìm user và gọi method addToCart để update vào DB
   const cartData = req.body;
   console.log(cartData);
-  User.findOne(
+  User.findOneAndUpdate(
     {
       email: req.session.email,
       "cart.productId": { $ne: cartData.productId },
