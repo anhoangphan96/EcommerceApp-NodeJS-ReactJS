@@ -120,11 +120,11 @@ exports.postAddCart = (req, res, next) => {
           return user.save();
         } else {
           updatedCart[cartIndex].quantity += cartData.quantity;
-          this.cart = updatedCart;
           user.cart = updatedCart;
-          return user.save();
+
           // return user.addToCart(cartData);
         }
+        return user.save();
       }
     })
     .then((result) => {
