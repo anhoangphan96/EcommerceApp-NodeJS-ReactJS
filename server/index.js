@@ -50,6 +50,7 @@ app.use(
       secure: true,
       sameSite: "none",
       httpOnly: false,
+      domain: ".web.app",
     },
   })
 );
