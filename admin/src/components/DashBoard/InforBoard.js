@@ -15,9 +15,12 @@ const InforBoard = () => {
   const [revPerMonth, setRevPerMonth] = useState(0);
   //Lấy số client có trong hệ thống
   const getNumOfClient = async () => {
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/numofclient`, {
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/user/numofclient`,
+      {
+        credentials: "include",
+      }
+    );
     if (response.ok) {
       const data = await response.json();
       setNumOfClient(data.amount);
@@ -33,9 +36,13 @@ const InforBoard = () => {
   };
   //Lấy số order và doanh thu tháng hiện tại không lấy tổng doanh thu năm
   const getOrderRev = async () => {
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/order/revorder`, {
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/order/revorder`,
+      {
+        credentials: "include",
+        mode: "cors",
+      }
+    );
     if (response.ok) {
       const data = await response.json();
       setNumOfOrder(data.numOfOrder);

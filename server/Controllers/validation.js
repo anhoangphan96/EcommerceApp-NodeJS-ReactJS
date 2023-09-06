@@ -1,7 +1,10 @@
 const { body, query } = require("express-validator");
 const User = require("../Models/User");
+
+//Validate form signup
 exports.validateSignup = () => {
   return [
+    //check email xem có phải email không và custom check xem email tồn tại chưa trả lỗi với message
     body("email")
       .isEmail()
       .withMessage("This is not validated Email")
@@ -14,16 +17,21 @@ exports.validateSignup = () => {
         }
       })
       .trim(),
+    //Check password phải trên 8 ký tự
     body("password")
       .isLength({ min: 8 })
       .withMessage("Your password must be more than 8 characters")
       .trim(),
+    //Check phone phải là 10 số
     body("phone", "Your phone number must have 10 numeric digits")
       .isNumeric()
       .isLength({ min: 10, max: 10 }),
+    //name phải có điền là được
     body("name").notEmpty().withMessage("Please input your name"),
   ];
 };
+
+//Validate form login check email và password
 exports.validateLogin = () => {
   return [
     body("email").isEmail().withMessage("This is not validated Email").trim(),
@@ -34,6 +42,7 @@ exports.validateLogin = () => {
   ];
 };
 
+//Check orderform phải đủ thông tin và đúng định dạng
 exports.orderForm = () => {
   return [
     body("email").isEmail().withMessage("This is not validated Email").trim(),
@@ -45,6 +54,7 @@ exports.orderForm = () => {
   ];
 };
 
+//Check productForm phần input text phải đúng định dạng và không được bỏ trống
 exports.productForm = () => {
   return [
     body("name").notEmpty().withMessage("Please input name"),

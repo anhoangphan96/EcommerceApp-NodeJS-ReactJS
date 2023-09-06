@@ -35,46 +35,46 @@ exports.userSignup = (req, res, next) => {
 };
 
 //Controller user client login
-exports.userLogin = (req, res, next) => {
-  //Validate check xem có lỗi về input không
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(400).json(errors.mapped());
-  } else {
-    //Nếu không có lỗi về input thì sẽ kiểm tra người dùng
-    User.findOne({
-      email: req.body.email,
-    })
-      .then((result) => {
-        //Nếu nhập đúng password và email thì sẽ lưu thông tin session và trả thông tin người dùng cho frontend
-        bcrypt
-          .compare(req.body.password, result.password)
-          .then((matchpassword) => {
-            if (matchpassword) {
-              req.session.email = result.email;
-              req.session.isLoggedIn = true;
-              req.session.role = result.role;
-              return req.session.save();
-            } else {
-              //Nếu nhập sai data thì trả về status 401 và lỗi email hoặc password sai
-              res
-                .status(401)
-                .json({ message: "Your email or password is incorrect" });
-            }
-          })
-          //Nếu có các lỗi thì trả về status 500 cùng lỗi hệ thống
-          .then(() => {
-            res.status(200).json(result);
-          })
-          .catch((err) => {
-            const error = new Error(err);
-            res.status(500).json(error);
-          });
-      })
-      .catch((err) => {
-        const error = new Error(err);
-        res.status(500).json(error);
+exports.userLogin = async (req, res, next) => {
+  try {
+    //Validate check xem có lỗi về input không
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json(errors.mapped());
+    } else {
+      //Nếu không có lỗi về input thì sẽ kiểm tra người dùng
+      const user = await User.findOne({
+        email: req.body.email,
       });
+      if (user) {
+        //Nếu có email thì tiếp tục kiểm tra password
+        const matchpassword = await bcrypt.compare(
+          req.body.password,
+          user.password
+        );
+        //Nếu nhập đúng password và email thì sẽ lưu thông tin session và trả thông tin người dùng cho frontend
+        if (matchpassword) {
+          req.session.email = user.email;
+          req.session.isLoggedIn = true;
+          req.session.role = user.role;
+          await req.session.save();
+          res.status(200).json(user);
+        } else {
+          //Nếu nhập sai data thì trả về status 401 và lỗi email hoặc password sai
+          res
+            .status(401)
+            .json({ message: "Your email or password is incorrect" });
+        }
+      } else {
+        res
+          .status(401)
+          .json({ message: "Your email or password is incorrect" });
+      }
+    } //Nếu có lỗi thì bắt lỗi và trả status 500 để báo server đang lỗi cho frontend
+  } catch (err) {
+    console.log(err);
+    const error = new Error(err);
+    res.status(500).json(error);
   }
 };
 

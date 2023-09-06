@@ -10,7 +10,7 @@ const fileStorage = multer.diskStorage({
     cb(null, "public/images"); //Nơi lưu
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname); //Tên file sẽ lưu
+    cb(null, Date.now() + "_" + file.originalname); //Tên file sẽ lưu
   },
 });
 //Khai báo filefilter để lọc ra file có dạng hình ảnh

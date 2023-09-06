@@ -14,7 +14,6 @@ function PopupLiveChat() {
   const [isConnectRoom, setIsConnectRoom] = useState(false);
   const navigate = useNavigate();
   const userId = useSelector((state) => state.login.curUser)?._id;
-  const listRoomId = JSON.parse(localStorage.getItem("listRoom")) ?? [];
   const [curRoomId, setCurRoomId] = useState("");
   // state quản lý nội dung chat hiển thị mặc định
   const [state, setState] = useState({
@@ -27,18 +26,15 @@ function PopupLiveChat() {
         credentials: "include",
       }
     );
-    if (response.status === 200) {
-      const data = await response.json();
-      setListMessage(data.message);
-      if (listRoomId.findIndex((room) => room.roomId === data.roomId) === -1) {
+    if (response.ok) {
+      if (response.status === 200) {
+        const data = await response.json();
+        setListMessage(data.message);
         setCurRoomId(data.roomId);
-        localStorage.setItem(
-          "listRoom",
-          JSON.stringify([
-            ...listRoomId,
-            { roomId: data.roomId, clientId: userId },
-          ])
-        );
+      } else if (response.status === 204) {
+        setListMessage([]);
+        const newCurRoomId = uuid4();
+        setCurRoomId(newCurRoomId);
       }
     } else {
       if (response.status === 401) {
@@ -75,51 +71,35 @@ function PopupLiveChat() {
     setState((state) => ({
       isOpen: !state.isOpen,
     }));
+    //Để báo user đã mở chat room lần đầu kể từ đây chat room sẽ được connect tởi server (khác với state đóng mở popup)
     setIsConnectRoom(true);
   }
   useEffect(() => {
-    if (userId) {
-      setCurRoomId(listRoomId.find((room) => room.clientId === userId)?.roomId);
-      state.isOpen && getListMessage();
-      if (isConnectRoom) {
-        const socketconnect = openSocket(
-          `${process.env.REACT_APP_BACKEND_URL}`
-        );
-        if (!curRoomId) {
-          const newCurRoomId = uuid4();
-          setCurRoomId(newCurRoomId);
-          localStorage.setItem(
-            "listRoom",
-            JSON.stringify([
-              ...listRoomId,
-              { roomId: newCurRoomId, clientId: userId },
-            ])
-          );
-        } else {
-          socketconnect.emit("setRoom", {
-            roomId: curRoomId,
-            clientId: userId,
-          });
-          socketconnect.on("receiveMessage", (data) => {
-            setListMessage(data.message);
-          });
-          socketconnect.on("endRoom", (data) => {
-            setListMessage([]);
-            const updateListRoom = listRoomId.filter(
-              (room) => room.roomId !== curRoomId
-            );
-            localStorage.setItem("listRoom", JSON.stringify(updateListRoom));
-            setState({
-              isOpen: false,
-            });
-            setIsConnectRoom(false);
-          });
-          setSocket(socketconnect);
-        }
-      }
+    if (userId && isConnectRoom && curRoomId) {
+      const socketconnect = openSocket(`${process.env.REACT_APP_BACKEND_URL}`);
+      socketconnect.emit("setRoom", {
+        roomId: curRoomId,
+        clientId: userId,
+      });
+      socketconnect.on("receiveMessage", (data) => {
+        setListMessage(data.message);
+      });
+      socketconnect.on("endRoom", (data) => {
+        setListMessage([]);
+        setState({
+          isOpen: false,
+        });
+        setCurRoomId("");
+        setIsConnectRoom(false);
+      });
+      setSocket(socketconnect);
     }
   }, [userId, isConnectRoom, curRoomId]);
+  useEffect(() => {
+    state.isOpen && getListMessage(); //Mỗi lần đóng mở popup sẽ cập nhật lại list Message
+  }, [state.isOpen]);
   //JSX trả ra các thành phần trong liveChat theo đề bài, có 1 số dynamic Class để quản lý xem người gửi là them hay me, kích thước của popUp
+
   return (
     <div
       className={`${styles.popupChatContainer} ${
