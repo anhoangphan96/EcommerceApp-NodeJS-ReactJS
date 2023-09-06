@@ -63,7 +63,7 @@ exports.userLogin = (req, res, next) => {
             }
           })
           //Nếu có các lỗi thì trả về status 500 cùng lỗi hệ thống
-          .then((result) => {
+          .then(() => {
             res.status(200).json(result);
           })
           .catch((err) => {
