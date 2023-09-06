@@ -37,7 +37,7 @@ app.use(
   "/public/images",
   express.static(path.join(__dirname, "public", "images"))
 );
-app.set("trust proxy", true);
+// app.set("trust proxy", true);
 //config session
 app.use(
   session({
