@@ -40,6 +40,8 @@ userSchema.methods.addToCart = async function (newCart) {
       (cartItem) => cartItem.productId.toString() === newCart.productId
     );
     const updatedCart = [...this.cart];
+    console.log(updatedCart);
+    console.log(cartIndex);
     if (cartIndex === -1) {
       updatedCart.push(newCart);
       this.cart = updatedCart;
