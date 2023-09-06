@@ -33,11 +33,9 @@ app.use(
     secret: "my-secret",
     resave: false,
     saveUninitialized: false,
-    proxy: "true",
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 30, // thời gian sống của cookie do session gửi trả client-side là 30 ngày
-      secure: true,
-      sameSite: "none",
+      httpOnly: true,
     },
   })
 );

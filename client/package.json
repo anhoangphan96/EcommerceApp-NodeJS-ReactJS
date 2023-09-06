@@ -2,6 +2,7 @@
   "name": "rjs-asm03",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://ecommerce-app-node-js-react-js.vercel.app",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@reduxjs/toolkit": "^1.9.5",

@@ -80,7 +80,7 @@ function PopupLiveChat() {
   useEffect(() => {
     if (userId) {
       setCurRoomId(listRoomId.find((room) => room.clientId === userId)?.roomId);
-      getListMessage();
+      state.isOpen && getListMessage();
       if (isConnectRoom) {
         const socketconnect = openSocket(
           `${process.env.REACT_APP_BACKEND_URL}`

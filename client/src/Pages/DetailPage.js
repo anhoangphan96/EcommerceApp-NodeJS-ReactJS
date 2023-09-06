@@ -118,9 +118,8 @@ const DetailPage = function () {
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/user/addcart`,
         {
-          method: "POST",
-          mode: "cors",
           credentials: "include",
+          method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             productId: idProduct,
