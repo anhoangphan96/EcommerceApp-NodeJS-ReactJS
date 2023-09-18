@@ -1,12 +1,12 @@
 # E-Commerce Website (MERN Stack)
 
-##MongoDB - Express - React - Redux - NodeJS
+## MongoDB - Express - React - Redux - NodeJS
 MERN stack is intended to provide a starting point for building full-stack JavaScript applications, including dynamic web apps. The stack is made of MongoDB, Express, React, Redux, and NodeJS.
 
-##E-Commerce Website
+## E-Commerce Website
 An ecommerce website for selling mobile devices, full of features like quick-view, mange user-account, add to cart, check out, filter list product in Client Page. When it comes to Admin Page, you can observe a summary revenue dashboard, add/edit/delete product, manage the role of users. The demo apps was deployed on Render and Firebase.
 
-##Demo
+## Demo
 
 \*Note: Please open link back-end first.
 
@@ -18,9 +18,9 @@ An ecommerce website for selling mobile devices, full of features like quick-vie
 - Counselor-role Account: `email: lamanhduy456@gmail.com` , `password: asdasdasd`
 - Admin-role Account: `email: anhoangphan96@gmail.com` , `password: asdasdasd`
 
-##Project Breakdown
+## Project Breakdown
 
-###API Server
+### API Server
 
 - Directory: server
 - Features:
@@ -31,7 +31,7 @@ An ecommerce website for selling mobile devices, full of features like quick-vie
   - [x] User express-validator to validate login, sign up, checkout, create/edit products form.
   - [x] Socket.io to handle Room Chat on server-side
 
-###Client App
+### Client App
 
 - Directory: server
 - Features:
@@ -44,7 +44,7 @@ An ecommerce website for selling mobile devices, full of features like quick-vie
   - [x] Chat Box (socket.io on client-side)
   - [x] Send Email when order sucessfully!
 
-###Admin App
+### Admin App
 
 - Directory: server
 - Features:
@@ -55,8 +55,8 @@ An ecommerce website for selling mobile devices, full of features like quick-vie
   - [x] User Page - manage and set role for user
   - [x] Chat room to reply client' messages
 
-###Clone or download the `E-commerce App` Respository
-####Prerequisites
+### Clone or download the `E-commerce App` Respository
+#### Prerequisites
 
 - MongoDB
 - NodeJS
@@ -65,7 +65,7 @@ An ecommerce website for selling mobile devices, full of features like quick-vie
 \*Note:you need client, admin and server runs concurrently in different terminal session, in order to make them talk to each other and avoid comflict
 
 **Make sure you set all variable related to url to localhost on .env file **
-####Client-side usage(PORT: 3000)
+#### Client-side usage(PORT: 3000)
 url: http://localhost:3000
 change backend url to http://localhost:5000 in .env file
 
@@ -75,7 +75,7 @@ $ yarn # or npm i    // npm install packages
 $ npm start       // run it locally
 ```
 
-####Admin usage(PORT: 3001)
+#### Admin usage(PORT: 3001)
 url: http://localhost:3001
 change backend url to http://localhost:5000 in .env file
 
@@ -85,7 +85,7 @@ $ yarn # or npm i    // npm install packages
 $ npm start       // run it locally
 ```
 
-####Server-side usage(PORT: 5000)
+#### Server-side usage(PORT: 5000)
 url: http://localhost:5000
 adjust config of session in index.js follow the code below:
 
