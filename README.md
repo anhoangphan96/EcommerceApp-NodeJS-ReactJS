@@ -46,7 +46,7 @@ An ecommerce website for selling mobile devices, full of features like quick-vie
 
 ### Admin App
 
-- Directory: server
+- Directory: admin
 - Features:
   - [x] Login page - authenticate role admin, role counselor just allows to use Chat room to reply user
   - [x] Dash-board to summarize data.
@@ -80,7 +80,7 @@ url: http://localhost:3001
 change backend url to http://localhost:5000 in .env file
 
 ```
-$ cd api
+$ cd admin
 $ yarn # or npm i    // npm install packages
 $ npm start       // run it locally
 ```
@@ -105,7 +105,7 @@ app.use(
 Finally, run the server like the some steps below
 
 ```
-$ cd client   // go to server folder
+$ cd server   // go to server folder
 $ npm i       // npm install packages
 $ npm start // run it locally
 ```
