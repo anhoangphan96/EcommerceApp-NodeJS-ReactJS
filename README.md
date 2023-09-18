@@ -33,7 +33,7 @@ An ecommerce website for selling mobile devices, full of features like quick-vie
 
 ### Client App
 
-- Directory: server
+- Directory: client
 - Features:
 
   - [x] Developing Login/Sign up page
