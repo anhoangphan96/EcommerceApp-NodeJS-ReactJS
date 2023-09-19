@@ -88,7 +88,7 @@ $ npm start       // run it locally
 #### Server-side usage(PORT: 5000)
 url: http://localhost:5000
 adjust config of session in index.js follow the code below:
-
+add the .env and replace all the variable by your account, config, origin
 ```
 app.use(
   session({
@@ -96,7 +96,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 30, // thời gian sống của cookie do session gửi trả client-side là 30 ngày
+      maxAge: 1000 * 60 * 60 * 24 * 30, // the shelf-life of session is 30 days
     },
   })
 );
